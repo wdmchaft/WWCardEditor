@@ -27,6 +27,7 @@
 		[_textView setEditable:YES];
 		[_textView setDrawsBackground:NO];
 		[_textView setTextContainerInset:NSMakeSize(15,15)];
+		[_textView setSelectionGranularity:NSSelectByCharacter];
 		
 		// TODO autoresize
 		[self addSubview:_textView];
@@ -138,18 +139,13 @@
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
 	[self setNeedsDisplay:YES];
 	
-	// Check if the new char range would be in a real field
-	NSUInteger fieldIndex = [self _indexOfFieldForCharOffset:newSelectedCharRange.location];
-	if(fieldIndex == NSNotFound){
-		NSLog(@"REJECTED: No valid field");
-		return oldSelectedCharRange;
+	if (newSelectedCharRange.location == NSNotFound){
+		return newSelectedCharRange; // no selection, that's cool.
 	}
 	
-	// Check that the field is mutable
-	WWFlowField *field = [fields objectAtIndex:fieldIndex];
-	if([field isMemberOfClass:[WWImmutableStringFlowField class]]){
-		NSLog(@"REJECTED: Trying to edit mutable field");
-		return oldSelectedCharRange;
+	NSUInteger fieldIndex = [self _indexOfFieldForCharOffset:newSelectedCharRange.location];
+	if(fieldIndex == NSNotFound){
+		return newSelectedCharRange;
 	}
 	
 	
@@ -158,18 +154,20 @@
 	NSUInteger fieldEndChar = [self _charOffsetForEndOfFieldAtIndex:fieldIndex];
 	
 	if(fieldIndex != activeField){
+		WWFlowField *field = [fields objectAtIndex:fieldIndex];
 		// Okay, that's cool, you can change fields, but we're gonna have to select the whole field
 		activeField = fieldIndex;
-		NSLog(@"MODIFIED: Selecting entire field");
+		NSLog(@"MODIFIED AT CHANGE: Selecting entire field");
 		return NSMakeRange(fieldStartChar, field.value.length);
-	}else{
+	}/*else{
 		// Selecting text within the same field. Enforce the limits
 		NSUInteger proposedEndOffset = newSelectedCharRange.location + newSelectedCharRange.length;
 		if (proposedEndOffset > fieldEndChar){
 			NSLog(@"MODIFIED: Selecting 'till end of field");
 			return NSMakeRange(newSelectedCharRange.location, field.value.length);
 		}
-	}
+	}*/
+	
 	
 	return newSelectedCharRange;
 }
@@ -184,6 +182,7 @@
 	
 	//NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], <#NSUInteger len#>)
 	
+	return NO;
 	
 }
 
