@@ -1,0 +1,9 @@
+Notes
+
+This project aims to be a custom implementation of the card editor in the Mac OS X address book.
+
+I've planned out how it will handle the layout of a card with groups and stuff, but before I do that, I'm tackling the tricky problem of how to get multiple, separate text fields to sit in the same place and have each one wrap in response to  what's happening in other fields, like this:
+http://files.dangrover.com/addressbooklayout2.png
+http://files.dangrover.com/addressbooklayout3.png
+
+This will be one particular type of input that will be added as a subview to the card editor when it is done. I'm trying to work my way out from the innermost, toughest parts.
