@@ -19,4 +19,4 @@
 @end
 
 
-#define WWFlowFieldContainer_EditBoxPadding 2.5
+#define WWFlowFieldContainer_DefaultEditBoxPadding 1

@@ -14,14 +14,15 @@
 	NSTextView *_textView;
 	NSUInteger activeField;
 	NSArray *fields;
+	CGFloat editBoxPadding;
 }
 
 @property(retain) NSArray *fields;
 @property(assign) NSUInteger activeField;
 
-@end
+// Appearance
+@property(assign) CGFloat editBoxPadding;
 
-#pragma mark -
-#pragma mark Field Classes
+@end
 
 

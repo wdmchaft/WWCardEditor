@@ -54,11 +54,11 @@
 			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select behind across fields, only selecting from beginning of end field to end of proposed selection");
 			return NSMakeRange(endFieldStartChar, proposedSelRange.location + proposedSelRange.length - endFieldStartChar);
 		}
-		else{
+		/*else{
 			// Not cool at all
 			NSLog(@"REJECTED AT PROPOSED RANGE: Other cross-field situation");
 			return oldSelectedCharRange;
-		}
+		}*/
 	}
 
 	if(startFieldIndex != container.activeField){
@@ -87,14 +87,17 @@
 	NSUInteger rectCount = 0;
 	NSRectArray rects = [[self layoutManager] rectArrayForCharacterRange:activeFieldRange withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) inTextContainer:[self textContainer] rectCount:&rectCount];
 	
+	float padding = container.editBoxPadding;
+	
 	CGContextBeginPath(myContext);
 	for(unsigned i = 0; i < rectCount; i++){
 		NSRect nsRect = rects[i];
-		CGRect cgRect = CGRectMake(nsRect.origin.x - WWFlowFieldContainer_EditBoxPadding + containerOrigin.x - 1, 
-								   nsRect.origin.y - WWFlowFieldContainer_EditBoxPadding + containerOrigin.y - 1, 
-								   nsRect.size.width + WWFlowFieldContainer_EditBoxPadding*2 + 1, 
-								   nsRect.size.height + WWFlowFieldContainer_EditBoxPadding*2 + 1);
-		CGContextAddRect(myContext, cgRect);
+		CGRect cgRect = CGRectMake(floor(nsRect.origin.x - padding + containerOrigin.x), 
+								   floor(nsRect.origin.y - padding + containerOrigin.y), 
+								   floor(nsRect.size.width + padding*2),
+								   floor(nsRect.size.height + padding*2));
+		
+		CGContextAddRect(myContext, CGRectInset(cgRect, -1.5, -1.5));
 	}
 	CGContextClosePath(myContext);
 	

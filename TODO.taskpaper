@@ -7,6 +7,9 @@ Flow field: selection behavior:
 
 Flow field: drawing:
 - Placeholder support
+- Shadow should only draw if containing window has focus
+- Should use floor/ceil + 0.5 to avoid drawing on pixel cracks
 
 Flow field: editing:
 - Start on editing
+- Handle dragging and dropping across fields

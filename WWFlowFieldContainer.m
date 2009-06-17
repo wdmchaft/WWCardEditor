@@ -32,10 +32,22 @@
 		// TODO autoresize
 		[self addSubview:_textView];
 		
+		self.editBoxPadding = WWFlowFieldContainer_DefaultEditBoxPadding;
+		
     }
     return self;
 }
 
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow{
+	NSLog(@"Moved to window %@",newWindow);
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
+	
+}
+
+- (void)setNeedsDisplay{
+	[self setNeedsDisplay:YES];
+}
 
 - (void) dealloc{
 	// TODO release shit
@@ -55,6 +67,16 @@
 //	[_textView resignFirstResponder];
 	[[_textView textStorage] setAttributedString:[self _renderedText]];
 }
+
+- (CGFloat)editBoxPadding {
+    return editBoxPadding;
+}
+
+- (void)setEditBoxPadding:(CGFloat)anEditBoxPadding {
+    editBoxPadding = anEditBoxPadding;
+	[self setNeedsDisplay:YES];
+}
+
 
 #pragma mark -
 
@@ -267,17 +289,17 @@
 															  inTextContainer:[_textView textContainer] 
 																	rectCount:&rectCount];
 	
-	float padding = WWFlowFieldContainer_EditBoxPadding;
-	
 	CGMutablePathRef glyphPath = CGPathCreateMutable();
 	CGMutablePathRef outerGlyphPath = CGPathCreateMutable();
 	
 	for(unsigned i = 0; i < rectCount; i++){
 		NSRect nsRect = rects[i];
-		CGRect cgRect = CGRectMake(nsRect.origin.x - padding + containerOrigin.x, 
-								   nsRect.origin.y - padding + containerOrigin.y, 
-								   nsRect.size.width + padding*2, 
-								   nsRect.size.height + padding*2);
+		CGRect cgRect = CGRectMake(floor(nsRect.origin.x - editBoxPadding + containerOrigin.x), 
+								   floor(nsRect.origin.y - editBoxPadding + containerOrigin.y), 
+								   floor(nsRect.size.width + editBoxPadding*2), 
+								   floor(nsRect.size.height + editBoxPadding*2));
+		
+		cgRect = CGRectInset(cgRect, -0.5, -0.5); // avoid pixel cracks
 		
 		CGPathAddRect(glyphPath, nil, cgRect);
 		CGPathAddRect(outerGlyphPath, nil, CGRectInset(cgRect, -1, -1));
@@ -287,10 +309,14 @@
 	CGContextBeginPath(myContext);
 	CGContextAddPath(myContext, glyphPath);
 	CGContextClosePath(myContext);
-	CGContextSetShadowWithColor(myContext, CGSizeMake(2, -3), 5.0, [[NSColor colorWithDeviceWhite:0 alpha:0.9] asCGColor]);
+	if([[self window] isKeyWindow]){
+		NSLog(@"Redrawing...main window");
+		CGContextSetShadowWithColor(myContext, CGSizeMake(2, -3), 5.0, [[NSColor colorWithDeviceWhite:0 alpha:0.9] asCGColor]);
+	}
 
 	[[NSColor whiteColor] set];
 	CGContextFillPath(myContext);
+	
 	
 	CGContextSetShadowWithColor(myContext, CGSizeMake(0,0), 0, nil);
 	
