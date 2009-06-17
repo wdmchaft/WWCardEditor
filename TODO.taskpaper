@@ -1,19 +1,26 @@
 Flow field: selection behavior:
-- Get tabbing and reverse-tabbing to work
 - Need a way to select none (where active field changes to NSNotFound)
+- Fix right-arrow-at-end-of-field bug
 
+
+Key overrides:
+- Get tabbing and reverse-tabbing to work
+- Enter key should switch to next field (but pastes should still strip returns and newlines)
 
 Individual flow fields should support:
 - Placeholder text
 - Min length
 - Max length
 - Format string for validation
+
 Flow field: drawing:
 - Placeholder support
 - Shadow should only draw if containing window has focus @done
 - Should use floor/ceil + 0.5 to avoid drawing on pixel cracks @done
 - Need to tweak shadow/edit box to be more like address book
 - Optimize to redraw only the passed rect and not the entire view
+- Prospective selection should not have a special box around it
+- Need to test with multi-line fields
 
 Flow field: editing:
 - Start on editing

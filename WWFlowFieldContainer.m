@@ -27,7 +27,7 @@
 		[_textView setEditable:YES];
 		[_textView setDrawsBackground:NO];
 		[_textView setTextContainerInset:NSMakeSize(15,15)];
-		[_textView setSelectionGranularity:NSSelectByCharacter];
+		//[_textView setSelectionGranularity:NSSelectByCharacter];
 
 		// TODO autoresize
 		[self addSubview:_textView];
@@ -164,7 +164,9 @@
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
 	[self setNeedsDisplay:YES];
+	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
 	
+
 	if (newSelectedCharRange.location == NSNotFound){
 		return newSelectedCharRange; // no selection, that's cool.
 	}
@@ -174,17 +176,32 @@
 		return newSelectedCharRange;
 	}
 	
+	//WWFlowField *field = [WWFlowField
+	
 	
 	// Check that we don't cross fields
 	NSUInteger fieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:fieldIndex];
-	NSUInteger fieldEndChar = [self _charOffsetForEndOfFieldAtIndex:fieldIndex];
+	NSUInteger fieldEndChar   = [self _charOffsetForEndOfFieldAtIndex:fieldIndex];
 	
 	if(fieldIndex != activeField){
 		WWFlowField *field = [fields objectAtIndex:fieldIndex];
-		// Okay, that's cool, you can change fields, but we're gonna have to select the whole field
-		activeField = fieldIndex;
-		NSLog(@"MODIFIED AT CHANGE: Selecting entire field");
-		return NSMakeRange(fieldStartChar, field.value.length);
+		
+		// Figure out if they're just trying to type at the end of this field or fuck with the next one
+		if(fieldIndex == (activeField + 1) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
+			return newSelectedCharRange; // allow it. We interpret this scenario in -textView:shouldChangeTextInRange:replacementString:
+		}
+		
+		// Allow them to change to the new field, but not if it's immutable or nonexistent 
+		if(!field || [field isMemberOfClass:[WWImmutableStringFlowField class]]){
+			NSLog(@"REJECTED AT CHANGE: immutable field");
+			return oldSelectedCharRange;
+		}
+		else{
+			// Okay, that's cool, you can change fields, but we're gonna have to select the whole field
+			activeField = fieldIndex;
+			NSLog(@"MODIFIED AT CHANGE: Selecting entire field");
+			return NSMakeRange(fieldStartChar, field.value.length);
+		}
 	}
 	
 	
@@ -193,25 +210,27 @@
 
 
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
-	
-	// skip validation
+	NSLog(@"Changing text in range %@, new string = %@",NSStringFromRange(affectedCharRange), replacementString);
 	
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
-	
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
 	//NSUInteger startFieldEndChar = [self _charOffsetForEndOfFieldAtIndex:startFieldIndex];
 	
-	// translate affectedCharRange locally
-	NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length);
 	
-	WWFlowField *startField = [fields objectAtIndex:startFieldIndex];
+	// If we are in the middle of an editable field, just replace the equivilent range in the "field"'s .value property.
+	// If we're at the *end* of an editable field (but really just a 0-len selection at the start of the next), then append the text.
 	
-	
-	startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:replacementString];
-	
-	
-	//NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], <#NSUInteger len#>)
+	if((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1))){
+		NSUInteger realFieldIndex = activeField;
+		WWFlowField *field = [fields objectAtIndex:activeField];
+		field.value = [field.value stringByAppendingString:replacementString];
+	}else{
+		// translate affectedCharRange locally
+		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length);
+		WWFlowField *startField = [fields objectAtIndex:startFieldIndex];
+		startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:replacementString];
+	}
 	
 	[self setNeedsDisplay];
 	
@@ -291,7 +310,7 @@
 	NSRectFill([self bounds]);
 
 
-	NSRange activeFieldRange = [self _rangeForFieldAtIndex:[self _indexOfFieldForCharOffset:[_textView selectedRange].location]];
+	NSRange activeFieldRange = [self _rangeForFieldAtIndex:self.activeField];
 
 	NSUInteger rectCount = 0;
 	NSRectArray rects = [[_textView layoutManager] rectArrayForCharacterRange:activeFieldRange 

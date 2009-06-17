@@ -43,8 +43,6 @@
 	zip.value = @"94117";
 	
 	flowFieldContainer.fields = [NSArray arrayWithObjects:addressee,newline1,addyLine1,newline2,city,cityComma,state,zipSpace,zip,nil];
-	
-	
 }
 
 

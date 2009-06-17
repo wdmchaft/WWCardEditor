@@ -21,7 +21,7 @@
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity{
 	NSRange oldSelectedCharRange = [self selectedRange];
 	
-	NSLog(@"Proposing change from start=%d, len=%d to start=%d, len=%d",oldSelectedCharRange.location, oldSelectedCharRange.length, oldSelectedCharRange.location, oldSelectedCharRange.length);
+	//NSLog(@"Proposing change from start=%d, len=%d to start=%d, len=%d",oldSelectedCharRange.location, oldSelectedCharRange.length, oldSelectedCharRange.location, oldSelectedCharRange.length);
 	
 	NSUInteger startFieldIndex = [container _indexOfFieldForCharOffset:proposedSelRange.location];
 	NSUInteger endFieldIndex   = [container _indexOfFieldForCharOffset:proposedSelRange.location + proposedSelRange.length];
@@ -32,33 +32,33 @@
 	}
 	
 	WWFlowField *startField = [container.fields objectAtIndex:startFieldIndex];
+	WWFlowField *endField = (endFieldIndex < [container.fields count]) ? [container.fields objectAtIndex:endFieldIndex] : nil;
+	
 	if([startField isMemberOfClass:[WWImmutableStringFlowField class]]){
 		NSLog(@"REJECTED AT PROPOSED RANGE: Trying to edit immutable field");
 		return oldSelectedCharRange;
+	}else if(!endField || [endField isMemberOfClass:[WWImmutableStringFlowField class]]){
+		if(proposedSelRange.length > startField.value.length){ // Only block this if they're not just trying to get the last character of the active field
+			NSLog(@"REJECTED AT PROPOSED RANGE (End): Trying to edit immutable field");
+			return oldSelectedCharRange;
+		}
 	}
 	
 	// Check that we don't cross fields
 	NSUInteger startFieldStartChar = [container _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
 	NSUInteger startFieldEndChar = [container _charOffsetForEndOfFieldAtIndex:startFieldIndex];
 	
-	
-	
 	if(startFieldIndex != endFieldIndex){
 		if((startFieldIndex == container.activeField) && (endFieldIndex > startFieldIndex)){
 			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select ahead across fields, only selecting until end of current field.");
 			return NSMakeRange(proposedSelRange.location, startField.value.length - (proposedSelRange.location - startFieldStartChar));
-		}else if((startFieldIndex < container.activeField) && (endFieldIndex >= container.activeField)){
+		}
+		else if((startFieldIndex < container.activeField) && (endFieldIndex >= container.activeField)){
 			NSUInteger endFieldStartChar = [container _charOffsetForBeginningOfFieldAtIndex:endFieldIndex];
 			NSUInteger endFieldEndChar   = [container _charOffsetForEndOfFieldAtIndex:endFieldIndex];
-		
 			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select behind across fields, only selecting from beginning of end field to end of proposed selection");
 			return NSMakeRange(endFieldStartChar, proposedSelRange.location + proposedSelRange.length - endFieldStartChar);
 		}
-		/*else{
-			// Not cool at all
-			NSLog(@"REJECTED AT PROPOSED RANGE: Other cross-field situation");
-			return oldSelectedCharRange;
-		}*/
 	}
 
 	if(startFieldIndex != container.activeField){
@@ -83,7 +83,7 @@
 	NSPoint containerOrigin	 = [self textContainerOrigin];
 	
 	// Find where to draw the rects
-	NSRange activeFieldRange = [container _rangeForFieldAtIndex:[container _indexOfFieldForCharOffset:[self selectedRange].location]];
+	NSRange activeFieldRange =  [container _rangeForFieldAtIndex:container.activeField];
 	NSUInteger rectCount = 0;
 	NSRectArray rects = [[self layoutManager] rectArrayForCharacterRange:activeFieldRange withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) inTextContainer:[self textContainer] rectCount:&rectCount];
 	
@@ -97,7 +97,7 @@
 								   floor(nsRect.size.width + padding*2),
 								   floor(nsRect.size.height + padding*2));
 		
-		CGContextAddRect(myContext, CGRectInset(cgRect, -1.5, -1.5));
+		CGContextAddRect(myContext, CGRectInset(cgRect, -0.5, -0.5));
 	}
 	CGContextClosePath(myContext);
 	
