@@ -12,6 +12,10 @@
 
 @interface TestController : NSObject {
 	IBOutlet WWFlowFieldContainer *flowFieldContainer;
+	IBOutlet NSTextField *debugDisplay;
 }
+
+
+- (IBAction) refreshDebugDisplay:(id)sender;
 
 @end

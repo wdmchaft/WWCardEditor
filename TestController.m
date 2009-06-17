@@ -47,4 +47,10 @@
 	
 }
 
+
+- (IBAction) refreshDebugDisplay:(id)sender{
+	[debugDisplay setStringValue:[[flowFieldContainer fields] description]];
+	
+}
+
 @end

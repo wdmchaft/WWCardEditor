@@ -19,7 +19,7 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-       WWFlowFieldContainerTextView *view = [[[WWFlowFieldContainerTextView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height)] autorelease];
+		WWFlowFieldContainerTextView *view = [[[WWFlowFieldContainerTextView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height)] autorelease];
 		view.container = self;
 		self._textView = view;
 		[_textView setDelegate:self];
@@ -28,21 +28,23 @@
 		[_textView setDrawsBackground:NO];
 		[_textView setTextContainerInset:NSMakeSize(15,15)];
 		[_textView setSelectionGranularity:NSSelectByCharacter];
-		
+
 		// TODO autoresize
 		[self addSubview:_textView];
-		
+		// Default params
 		self.editBoxPadding = WWFlowFieldContainer_DefaultEditBoxPadding;
-		
     }
     return self;
 }
 
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow{
-	NSLog(@"Moved to window %@",newWindow);
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
+	// Register for notifications when the window becomes or resigns key, so that we can redraw the control
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
+	[nc removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
 	
+	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
+	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
 }
 
 - (void)setNeedsDisplay{
@@ -50,7 +52,9 @@
 }
 
 - (void) dealloc{
-	// TODO release shit
+	[_textView release];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
 	[super dealloc];
 }
 
@@ -181,14 +185,7 @@
 		activeField = fieldIndex;
 		NSLog(@"MODIFIED AT CHANGE: Selecting entire field");
 		return NSMakeRange(fieldStartChar, field.value.length);
-	}/*else{
-		// Selecting text within the same field. Enforce the limits
-		NSUInteger proposedEndOffset = newSelectedCharRange.location + newSelectedCharRange.length;
-		if (proposedEndOffset > fieldEndChar){
-			NSLog(@"MODIFIED: Selecting 'till end of field");
-			return NSMakeRange(newSelectedCharRange.location, field.value.length);
-		}
-	}*/
+	}
 	
 	
 	return newSelectedCharRange;
@@ -199,13 +196,26 @@
 	
 	// skip validation
 	
-	NSUInteger fieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
-	NSUInteger beginningOfFieldCharOffset = [self _charOffsetForBeginningOfFieldAtIndex:fieldIndex];
+	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
+	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
+	
+	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
+	//NSUInteger startFieldEndChar = [self _charOffsetForEndOfFieldAtIndex:startFieldIndex];
+	
+	// translate affectedCharRange locally
+	NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length);
+	
+	WWFlowField *startField = [fields objectAtIndex:startFieldIndex];
+	
+	
+	startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:replacementString];
+	
 	
 	//NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], <#NSUInteger len#>)
 	
-	return NO;
+	[self setNeedsDisplay];
 	
+	return YES;
 }
 
 
@@ -296,10 +306,10 @@
 		NSRect nsRect = rects[i];
 		CGRect cgRect = CGRectMake(floor(nsRect.origin.x - editBoxPadding + containerOrigin.x), 
 								   floor(nsRect.origin.y - editBoxPadding + containerOrigin.y), 
-								   floor(nsRect.size.width + editBoxPadding*2), 
-								   floor(nsRect.size.height + editBoxPadding*2));
+								   floor(nsRect.size.width + editBoxPadding * 2.0f), 
+								   floor(nsRect.size.height + editBoxPadding * 2.0f));
 		
-		cgRect = CGRectInset(cgRect, -0.5, -0.5); // avoid pixel cracks
+		cgRect = CGRectInset(cgRect, -0.5, -0.5); // avoid drawing on pixel cracks
 		
 		CGPathAddRect(glyphPath, nil, cgRect);
 		CGPathAddRect(outerGlyphPath, nil, CGRectInset(cgRect, -1, -1));
@@ -309,14 +319,14 @@
 	CGContextBeginPath(myContext);
 	CGContextAddPath(myContext, glyphPath);
 	CGContextClosePath(myContext);
+	
+	// Draw a fancy drop shadow if our window has focus
 	if([[self window] isKeyWindow]){
-		NSLog(@"Redrawing...main window");
 		CGContextSetShadowWithColor(myContext, CGSizeMake(2, -3), 5.0, [[NSColor colorWithDeviceWhite:0 alpha:0.9] asCGColor]);
 	}
 
 	[[NSColor whiteColor] set];
 	CGContextFillPath(myContext);
-	
 	
 	CGContextSetShadowWithColor(myContext, CGSizeMake(0,0), 0, nil);
 	

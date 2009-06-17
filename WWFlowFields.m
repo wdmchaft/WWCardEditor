@@ -21,6 +21,10 @@
 	return self;
 }
 
+- (NSString *) description{
+	return [NSString stringWithFormat:@"<WWFlowField: name = %@, value = %@>",name,value];
+}
+
 
 - (void) dealloc{
 	[name release];

@@ -12,11 +12,12 @@
 @interface WWFlowFieldContainer()
 @property(retain) NSTextView *_textView;
 
+- (NSAttributedString *) _renderedText;
+
 - (NSUInteger) _indexOfFieldForCharOffset:(NSUInteger)offsetDesired;
 - (NSUInteger) _charOffsetForBeginningOfFieldAtIndex:(NSUInteger)fieldIndex;
 - (NSUInteger) _charOffsetForEndOfFieldAtIndex:(NSUInteger)fieldIndex;
 - (NSRange) _rangeForFieldAtIndex:(NSUInteger)fieldIndex;
 @end
-
 
 #define WWFlowFieldContainer_DefaultEditBoxPadding 1
