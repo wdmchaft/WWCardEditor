@@ -1,0 +1,12 @@
+
+
+
+Flow field: selection behavior:
+- Get tabbing and reverse-tabbing to work
+- Need a way to select none (where active field changes to NSNotFound)
+
+Flow field: drawing:
+- Placeholder support
+
+Flow field: editing:
+- Start on editing

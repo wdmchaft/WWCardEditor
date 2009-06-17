@@ -109,9 +109,6 @@
 }
 
 
-
-
-
 // Overrides
 
 - (void)selectAll:(id)sender{
@@ -120,9 +117,5 @@
 	}
 	
 }
-
-
-
-
 
 @end
