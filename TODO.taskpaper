@@ -1,11 +1,12 @@
 Flow field: selection behavior:
 - Need a way to select none (where active field changes to NSNotFound)
-- Fix right-arrow-at-end-of-field bug
+- Fix right-arrow-at-end-of-field bug @done
 
 
 Key overrides:
 - Get tabbing and reverse-tabbing to work
 - Enter key should switch to next field (but pastes should still strip returns and newlines)
+- Arrow keys should switch between editable fields
 
 Individual flow fields should support:
 - Placeholder text
@@ -21,11 +22,6 @@ Flow field: drawing:
 - Optimize to redraw only the passed rect and not the entire view
 - Prospective selection should not have a special box around it
 - Need to test with multi-line fields
-
-Flow field: editing:
-- Start on editing
-- Handle dragging and dropping across fields
-
 
 Flow field: general:
 - Active field should be externally changable

@@ -176,8 +176,6 @@
 		return newSelectedCharRange;
 	}
 	
-	//WWFlowField *field = [WWFlowField
-	
 	
 	// Check that we don't cross fields
 	NSUInteger fieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:fieldIndex];
@@ -215,26 +213,45 @@
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
-	//NSUInteger startFieldEndChar = [self _charOffsetForEndOfFieldAtIndex:startFieldIndex];
 	
+	// Newlines are not allowed in these fields
+	// If someone enters or pastes one, we're going to strip it, and then handle the updating of the textView ourselves (by returning NO).
+	NSString *newlineScrubbedReplacementString = [[replacementString stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+	BOOL overrideHandling = ![newlineScrubbedReplacementString isEqual:replacementString]; 
 	
+	// Anyway...
 	// If we are in the middle of an editable field, just replace the equivilent range in the "field"'s .value property.
-	// If we're at the *end* of an editable field (but really just a 0-len selection at the start of the next), then append the text.
+	// If we're at the *end* of an editable field (but in reality just a 0-len selection at the start of the next), then append the text.
 	
 	if((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1))){
-		NSUInteger realFieldIndex = activeField;
 		WWFlowField *field = [fields objectAtIndex:activeField];
-		field.value = [field.value stringByAppendingString:replacementString];
+		field.value = [field.value stringByAppendingString:newlineScrubbedReplacementString];
 	}else{
 		// translate affectedCharRange locally
 		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length);
 		WWFlowField *startField = [fields objectAtIndex:startFieldIndex];
-		startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:replacementString];
+		startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:newlineScrubbedReplacementString];
 	}
-	
-	[self setNeedsDisplay];
-	
-	return YES;
+
+	if(overrideHandling){
+		// If this is reached, we're going to put the new text there on behalf of the textfield since it would have put the return-carriage-laden
+		// text in its place.
+		
+		NSRange oldSelectedRange = [_textView selectedRange]; // Remember the old selection range to give the appearance that the textField is handling this action, not us
+		
+		[[_textView textStorage] setAttributedString:[self _renderedText]];
+		
+		oldSelectedRange.location += newlineScrubbedReplacementString.length;
+		oldSelectedRange.length = 0;
+		
+		[_textView setSelectedRange:oldSelectedRange];
+		
+		[self setNeedsDisplay];
+		return NO;
+	}else{
+		[self setNeedsDisplay];
+		return YES;
+	}
 }
 
 
