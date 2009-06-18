@@ -58,6 +58,8 @@
 	[super dealloc];
 }
 
+#pragma mark -
+
 - (NSArray *)fields {
     return fields; 
 }
@@ -81,6 +83,15 @@
 	[self setNeedsDisplay:YES];
 }
 
+- (BOOL)editMode {
+    return editMode;
+}
+
+- (void)setEditMode:(BOOL)flag {
+    editMode = flag;
+	[_textView setEditable:flag];
+	[self setNeedsDisplay];
+}
 
 #pragma mark -
 
@@ -165,6 +176,10 @@
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
 	[self setNeedsDisplay:YES];
 	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
+	
+	if(!editMode){
+		return newSelectedCharRange; // If we're not in edit mode, they can select anything they want
+	}
 	
 
 	if (newSelectedCharRange.location == NSNotFound){
@@ -325,6 +340,8 @@
 	
 	[[NSColor whiteColor] set];
 	NSRectFill([self bounds]);
+
+	if(!editMode) return; // no special drawing
 
 
 	NSRange activeFieldRange = [self _rangeForFieldAtIndex:self.activeField];

@@ -38,6 +38,21 @@
 #pragma mark -
 
 @implementation WWEditableFlowField
+@synthesize placeholder;
+
+- (id) initWithName:(NSString *)theName{
+	if(self = [super initWithName:theName]){
+		self.placeholder = theName;
+	
+	}
+	
+	return self;
+}
+
+- (void) dealloc{
+	[placeholder release];
+	[super dealloc];
+}
 
 
 @end

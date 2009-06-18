@@ -25,8 +25,10 @@
 #pragma mark -
 
 @interface WWEditableFlowField : WWFlowField{
-	
+	NSString *placeholder;
 }
+
+@property(retain) NSString *placeholder;
 
 @end
 

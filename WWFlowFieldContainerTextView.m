@@ -19,10 +19,12 @@
 
 
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity{
+	if(!container.editMode){
+		return proposedSelRange; // If we're not in edit mode, they can select anything they want
+	}
+	
+	
 	NSRange oldSelectedCharRange = [self selectedRange];
-	
-	//NSLog(@"Proposing change from start=%d, len=%d to start=%d, len=%d",oldSelectedCharRange.location, oldSelectedCharRange.length, oldSelectedCharRange.location, oldSelectedCharRange.length);
-	
 	NSUInteger startFieldIndex = [container _indexOfFieldForCharOffset:proposedSelRange.location];
 	NSUInteger endFieldIndex   = [container _indexOfFieldForCharOffset:proposedSelRange.location + proposedSelRange.length];
 	
@@ -78,6 +80,10 @@
 // Draw white rectangles where the editing box should be and then redraw the text on top
 - (void) drawRect:(NSRect)rect{
 	[super drawRect:rect];
+	
+	if(!container.editMode){
+		return;
+	}
 	
 	CGContextRef myContext	 = [[NSGraphicsContext currentContext] graphicsPort];
 	NSPoint containerOrigin	 = [self textContainerOrigin];

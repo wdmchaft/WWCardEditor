@@ -13,9 +13,11 @@
 @interface TestController : NSObject {
 	IBOutlet WWFlowFieldContainer *flowFieldContainer;
 	IBOutlet NSTextField *debugDisplay;
+	IBOutlet NSButton *editModeCheckbox;
 }
 
 
 - (IBAction) refreshDebugDisplay:(id)sender;
+- (IBAction) toggleEditMode:(id)sender;
 
 @end
