@@ -31,6 +31,7 @@
 
 		// TODO autoresize
 		[self addSubview:_textView];
+		
 		// Default params
 		self.editBoxPadding = WWFlowFieldContainer_DefaultEditBoxPadding;
     }
@@ -83,15 +84,52 @@
 	[self setNeedsDisplay:YES];
 }
 
+- (NSUInteger)activeField {
+    return activeField;
+}
+
+- (void)setActiveField:(NSUInteger)anActiveField {
+	if((anActiveField >= [fields count]) && (anActiveField != NSNotFound)){
+		return;
+	}
+	
+	NSUInteger oldField = activeField;
+    activeField = anActiveField;
+	
+
+	if(activeField != oldField){
+		if(activeField == NSNotFound){ // If there's no field selected, then make no text selected
+			if([_textView selectedRange].location != NSNotFound){
+				[_textView setSelectedRange: NSMakeRange(0, 0)];
+			}
+		}else{ // Otherwise, select all text in the new active field
+			[_textView setSelectedRange:[self _rangeForFieldAtIndex:activeField]];
+		}
+	}
+	
+}
+
 - (BOOL)editMode {
     return editMode;
 }
 
 - (void)setEditMode:(BOOL)flag {
-    editMode = flag;
-	[_textView setEditable:flag];
-	[self setNeedsDisplay];
+	if(editMode != flag){
+		
+		if(editMode){ // coming out of edit mode
+			self.activeField = NSNotFound;
+		}else{ // going into edit mode
+			self.activeField = 0;
+		}
+		
+		editMode = flag;
+		[_textView setEditable:flag];
+		[self setNeedsDisplay];
+		
+	}
 }
+
+
 
 #pragma mark -
 
@@ -174,15 +212,17 @@
 // Delegate only.  If characters are changing, replacementString is what will replace the affectedCharRange.  If attributes only are changing, replacementString will be nil.  Will not be called if textView:shouldChangeTextInRanges:replacementStrings: is implemented.
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
-	[self setNeedsDisplay:YES];
-	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
 	
-	if(!editMode){
+	//NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
+	[self setNeedsDisplay:YES];
+	
+	
+	if(!editMode || (activeField == NSNotFound)){
 		return newSelectedCharRange; // If we're not in edit mode, they can select anything they want
 	}
 	
-
 	if (newSelectedCharRange.location == NSNotFound){
+		NSLog(@"Allowing no selection");
 		return newSelectedCharRange; // no selection, that's cool.
 	}
 	
@@ -190,7 +230,6 @@
 	if(fieldIndex == NSNotFound){
 		return newSelectedCharRange;
 	}
-	
 	
 	// Check that we don't cross fields
 	NSUInteger fieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:fieldIndex];
@@ -211,12 +250,10 @@
 		}
 		else{
 			// Okay, that's cool, you can change fields, but we're gonna have to select the whole field
-			activeField = fieldIndex;
-			NSLog(@"MODIFIED AT CHANGE: Selecting entire field");
+			self.activeField = fieldIndex;
 			return NSMakeRange(fieldStartChar, field.value.length);
 		}
 	}
-	
 	
 	return newSelectedCharRange;
 }
@@ -224,6 +261,10 @@
 
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
 	NSLog(@"Changing text in range %@, new string = %@",NSStringFromRange(affectedCharRange), replacementString);
+	
+	if(!editMode || (activeField == NSNotFound)){
+		return NO;
+	}
 	
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
@@ -269,70 +310,7 @@
 	}
 }
 
-
-/*
-- (BOOL)textView:(NSTextView *)textView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex;
-// Delegate only.
-
-- (void)textView:(NSTextView *)textView clickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex;
-// Delegate only.
-
-- (void)textView:(NSTextView *)textView doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)cellFrame atIndex:(NSUInteger)charIndex;
-// Delegate only.
-
-- (void)textView:(NSTextView *)view draggedCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect event:(NSEvent *)event atIndex:(NSUInteger)charIndex;
-// Delegate only.  Allows the delegate to take over attachment dragging altogether.
-
-- (NSArray *)textView:(NSTextView *)view writablePasteboardTypesForCell:(id <NSTextAttachmentCell>)cell atIndex:(NSUInteger)charIndex;
-// Delegate only.  If the previous method is not used, this method and the next allow the textview to take care of attachment dragging and pasting, with the delegate responsible only for writing the attachment to the pasteboard.  In this method, the delegate should return an array of types that it can write to the pasteboard for the given attachment.
-
-- (BOOL)textView:(NSTextView *)view writeCell:(id <NSTextAttachmentCell>)cell atIndex:(NSUInteger)charIndex toPasteboard:(NSPasteboard *)pboard type:(NSString *)type ;
-// Delegate only.  In this method, the delegate should attempt to write the given attachment to the pasteboard with the given type, and return success or failure.
-
-- (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange;
-// Delegate only.  Will not be called if textView:willChangeSelectionFromCharacterRanges:toCharacterRanges: is implemented.  Effectively prevents multiple selection.
-
-- (NSArray *)textView:(NSTextView *)textView willChangeSelectionFromCharacterRanges:(NSArray *)oldSelectedCharRanges toCharacterRanges:(NSArray *)newSelectedCharRanges;
-// Delegate only.  Supersedes textView:willChangeSelectionFromCharacterRange:toCharacterRange:.  Return value must be a non-nil, non-empty array of objects responding to rangeValue.
-
-- (BOOL)textView:(NSTextView *)textView shouldChangeTextInRanges:(NSArray *)affectedRanges replacementStrings:(NSArray *)replacementStrings;
-// Delegate only.  Supersedes textView:shouldChangeTextInRange:replacementString:.  The affectedRanges argument obeys the same restrictions as selectedRanges, and the replacementStrings argument will either be nil (for attribute-only changes) or have the same number of elements as affectedRanges.
-
-- (NSDictionary *)textView:(NSTextView *)textView shouldChangeTypingAttributes:(NSDictionary *)oldTypingAttributes toAttributes:(NSDictionary *)newTypingAttributes;
-// Delegate only.  The delegate should return newTypingAttributes to allow the change, oldTypingAttributes to prevent it, or some other dictionary to modify it.
-
-
-- (void)textViewDidChangeSelection:(NSNotification *)notification;
-
-- (void)textViewDidChangeTypingAttributes:(NSNotification *)notification;
-
-- (NSString *)textView:(NSTextView *)textView willDisplayToolTip:(NSString *)tooltip forCharacterAtIndex:(NSUInteger)characterIndex;
-// Delegate only.  Allows delegate to modify the tooltip that will be displayed from that specified by the NSToolTipAttributeName, or to suppress display of the tooltip (by returning nil).
-
-- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index;
-// Delegate only.  Allows delegate to modify the list of completions that will be presented for the partial word at the given range.  Returning nil or a zero-length array suppresses completion.  Optionally may specify the index of the initially selected completion; default is 0, and -1 indicates no selection.
-
-
-- (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString;
-// Delegate only.  If characters are changing, replacementString is what will replace the affectedCharRange.  If attributes only are changing, replacementString will be nil.  Will not be called if textView:shouldChangeTextInRanges:replacementStrings: is implemented.
-
-- (BOOL)textView:(NSTextView *)textView doCommandBySelector:(SEL)commandSelector;
-
-
-- (NSInteger)textView:(NSTextView *)textView shouldSetSpellingState:(NSInteger)value range:(NSRange)affectedCharRange;
-// Delegate only.  Allows delegate to control the setting of spelling and grammar indicators.  Values are those listed for NSSpellingStateAttributeName. 
-
-- (NSMenu *)textView:(NSTextView *)view menu:(NSMenu *)menu forEvent:(NSEvent *)event atIndex:(NSUInteger)charIndex;
-// Delegate only.  Allows delegate to control the context menu returned by menuForEvent:.  The menu parameter is the context menu NSTextView would otherwise return; charIndex is the index of the character that was right-clicked. 
-
-*/
-
-
-
-
-
 #pragma mark -
-
 
 - (void)drawRect:(NSRect)rect {
 	NSPoint containerOrigin	 = [_textView textContainerOrigin];
@@ -341,9 +319,8 @@
 	[[NSColor whiteColor] set];
 	NSRectFill([self bounds]);
 
-	if(!editMode) return; // no special drawing
-
-
+	if(!editMode || (activeField == NSNotFound)) return; // no special drawing
+	
 	NSRange activeFieldRange = [self _rangeForFieldAtIndex:self.activeField];
 
 	NSUInteger rectCount = 0;

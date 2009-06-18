@@ -23,6 +23,10 @@
 		return proposedSelRange; // If we're not in edit mode, they can select anything they want
 	}
 	
+	if (proposedSelRange.location == NSNotFound){
+		NSLog(@"Allowing proposed sel range %@",NSStringFromRange(proposedSelRange));
+		return proposedSelRange; // no selection, that's cool.
+	}
 	
 	NSRange oldSelectedCharRange = [self selectedRange];
 	NSUInteger startFieldIndex = [container _indexOfFieldForCharOffset:proposedSelRange.location];
@@ -81,7 +85,7 @@
 - (void) drawRect:(NSRect)rect{
 	[super drawRect:rect];
 	
-	if(!container.editMode){
+	if(!container.editMode || (container.activeField == NSNotFound)){
 		return;
 	}
 	

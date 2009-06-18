@@ -15,7 +15,7 @@
 - (void) awakeFromNib{
 	NSLog(@"Hi!");
 	
-	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:24];
+	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
 	WWEditableFlowField *firstName = [[[WWEditableFlowField alloc] initWithName:@"firstName"] autorelease];
 	firstName.value = @"Dan";
@@ -23,6 +23,7 @@
 	
 	WWImmutableStringFlowField *nameSpace = [[[WWImmutableStringFlowField alloc] initWithName:@"nameSpace"] autorelease];
 	nameSpace.value = @" ";
+	nameSpace.font = bigFont;
 	
 	WWEditableFlowField *lastName = [[[WWEditableFlowField alloc] initWithName:@"lastName"] autorelease];
 	lastName.value = @"Grover";

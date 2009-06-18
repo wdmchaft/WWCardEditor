@@ -1,5 +1,9 @@
 Flow field: selection behavior:
 - Need a way to select none (where active field changes to NSNotFound)
+- Active field should be externally changable @done
+- Edit mode refinements: @done
+	- When going INTO edit mode, set selected field to 0, UNLESS there are no fields, then set it to NSNotFound @done
+	- When coming OUT of edit mode, set the selection to none @done
 - Fix right-arrow-at-end-of-field bug @done
 
 
@@ -24,7 +28,6 @@ Flow field: drawing:
 - Need to test with multi-line fields
 
 Flow field: general:
-- Active field should be externally changable
 - Should be KVO-compliant for the declared keys in the fields
 - Edit box shadow should be dynamic
 - Should have delegate that it informs about various events occurring (changing fields, etc)
