@@ -239,10 +239,13 @@
 		WWFlowField *field = [fields objectAtIndex:fieldIndex];
 		
 		// Figure out if they're just trying to type at the end of this field or fuck with the next one
-		if(fieldIndex == (activeField + 1) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
+		if((fieldIndex == (activeField + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
 			return newSelectedCharRange; // allow it. We interpret this scenario in -textView:shouldChangeTextInRange:replacementString:
 		}
 		
+		// Another special case: The insertion point can be at the very end of the last good field.
+		//if([self _charOffsetForEndOfFieldAtIndex:[fields lastObject]]   [[fields lastObject] isMemberOfClass:[WWEditableFlowField class]] && 
+
 		// Allow them to change to the new field, but not if it's immutable or nonexistent 
 		if(!field || [field isMemberOfClass:[WWImmutableStringFlowField class]]){
 			NSLog(@"REJECTED AT CHANGE: immutable field");
@@ -279,7 +282,7 @@
 	// If we are in the middle of an editable field, just replace the equivilent range in the "field"'s .value property.
 	// If we're at the *end* of an editable field (but in reality just a 0-len selection at the start of the next), then append the text.
 	
-	if((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1))){
+	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1)))){
 		WWFlowField *field = [fields objectAtIndex:activeField];
 		field.value = [field.value stringByAppendingString:newlineScrubbedReplacementString];
 	}else{
