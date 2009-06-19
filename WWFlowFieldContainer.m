@@ -28,12 +28,15 @@
 		[_textView setDrawsBackground:NO];
 		[_textView setTextContainerInset:NSMakeSize(0,0)];
 		//[_textView setSelectionGranularity:NSSelectByCharacter];
+		[_textView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+		[self setAutoresizesSubviews:YES];
 
 		// TODO autoresize
 		[self addSubview:_textView];
 		
 		// Default params
 		self.editBoxPadding = WWFlowFieldContainer_DefaultEditBoxPadding;
+		[self setEditMode:YES];
     }
     return self;
 }
@@ -125,7 +128,6 @@
 		editMode = flag;
 		[_textView setEditable:flag];
 		[self setNeedsDisplay];
-		
 	}
 }
 
@@ -140,6 +142,8 @@
 		NSDictionary *attrs = [NSDictionary dictionaryWithObject:field.font forKey:NSFontAttributeName];
 		[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:field.value attributes:attrs] autorelease]];
 	}
+	
+	NSLog(@"Fields = %@, Rendered = %@",fields,soFar);
 	
 	return soFar;
 }
@@ -377,4 +381,11 @@
 }
 
 
+- (CGFloat) neededHeight{
+	NSRect boundingRect = [[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForTextContainer:[_textView textContainer]]
+															   inTextContainer:[_textView textContainer]];
+	
+	NSLog(@"Needed height for flow field contianer is %@",NSStringFromRect(boundingRect));
+	return 50;
+}
 @end

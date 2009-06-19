@@ -56,7 +56,39 @@
 	
 	flowFieldContainer.fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,newline1,addyLine1,newline2,city,cityComma,state,zipSpace,zip,nil];
 	[self toggleEditMode:nil];
-}
+	
+	
+	
+	
+
+	
+	WWFlowFieldContainer *flow2 = [[[WWFlowFieldContainer alloc] initWithFrame:NSZeroRect] autorelease];
+	
+	WWEditableFlowField *firstName2 = [[[WWEditableFlowField alloc] initWithName:@"firstName"] autorelease];
+	firstName2.value = @"Dan";
+	firstName2.font = bigFont;
+	
+	WWImmutableStringFlowField *nameSpace2 = [[[WWImmutableStringFlowField alloc] initWithName:@"nameSpace"] autorelease];
+	nameSpace2.value = @" ";
+	nameSpace2.font = bigFont;
+	
+	WWEditableFlowField *lastName2 = [[[WWEditableFlowField alloc] initWithName:@"lastName"] autorelease];
+	lastName2.value = @"Grover";
+	lastName2.font = bigFont;
+	
+	flow2.fields = [NSArray arrayWithObjects:firstName2,nameSpace2,lastName2,nil];
+	
+	//WWKeyValueRow *kv1 = [[[WWKeyValueRow alloc] init] autorelease];
+	//kv1.keyLabel = @"Name";
+	//kv1.valueRowView = flow2;
+	
+	
+	WWKeyValueRow *kv2 = [[[WWKeyValueRow alloc] init] autorelease];
+	kv2.keyLabel = @"Farts";
+	
+	[cardEditor addRow:flow2];
+	[cardEditor addRow:kv2];
+	[cardEditor setNeedsDisplay:YES];}
 
 
 - (IBAction) refreshDebugDisplay:(id)sender{

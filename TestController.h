@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "WWFlowFieldContainer.h"
 #import "WWCardEditor.h"
+#import "WWKeyValueRow.h"
 
 @interface TestController : NSObject {
 	IBOutlet WWFlowFieldContainer *flowFieldContainer;
