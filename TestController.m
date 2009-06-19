@@ -54,12 +54,12 @@
 	WWEditableFlowField *zip = [[[WWEditableFlowField alloc] initWithName:@"zip"] autorelease];
 	zip.value = @"94117";
 	
-	flowFieldContainer.fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,newline1,addyLine1,newline2,city,cityComma,state,zipSpace,zip,nil];
+	
+	NSArray *fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,newline1,addyLine1,newline2,city,cityComma,state,zipSpace,zip,nil];
+	NSLog(@"Setting fields = %@",fields);
+	flowFieldContainer.fields = fields;
+	
 	[self toggleEditMode:nil];
-	
-	
-	
-	
 
 	
 	WWFlowFieldContainer *flow2 = [[[WWFlowFieldContainer alloc] initWithFrame:NSZeroRect] autorelease];
@@ -88,7 +88,10 @@
 	
 	[cardEditor addRow:flow2];
 	[cardEditor addRow:kv2];
-	[cardEditor setNeedsDisplay:YES];}
+	[cardEditor setNeedsDisplay:YES];
+
+}
+
 
 
 - (IBAction) refreshDebugDisplay:(id)sender{

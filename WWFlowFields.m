@@ -22,7 +22,7 @@
 }
 
 - (NSString *) description{
-	return [NSString stringWithFormat:@"<WWFlowField: name = %@, value = %@>",name,value];
+	return [NSString stringWithFormat:@"<WWFlowField: name = %@, value = %@>",name, value];
 }
 
 - (NSAttributedString *) displayString{
@@ -52,7 +52,6 @@
 - (id) initWithName:(NSString *)theName{
 	if(self = [super initWithName:theName]){
 		self.placeholder = theName;
-	
 	}
 	
 	return self;
@@ -68,7 +67,7 @@
 		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 		[attrs setObject:font forKey:NSFontAttributeName];
 		[attrs setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
-		
+
 		return [[[NSAttributedString alloc] initWithString:self.value attributes:attrs] autorelease];
 	}else{
 		return [super displayString];
