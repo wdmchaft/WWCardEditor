@@ -84,7 +84,7 @@
 	
 	
 	WWKeyValueRow *kv2 = [[[WWKeyValueRow alloc] init] autorelease];
-	kv2.keyLabel = @"Farts";
+	kv2.keyLabel = @"home";
 	
 	[cardEditor addRow:flow2];
 	[cardEditor addRow:kv2];
