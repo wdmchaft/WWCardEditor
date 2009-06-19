@@ -208,9 +208,6 @@
 #pragma mark -
 #pragma mark Text View Delegate
 
-//- (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString;
-// Delegate only.  If characters are changing, replacementString is what will replace the affectedCharRange.  If attributes only are changing, replacementString will be nil.  Will not be called if textView:shouldChangeTextInRanges:replacementStrings: is implemented.
-
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
 	
 	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
@@ -231,9 +228,7 @@
 		// This could mean that they're changing the insertion point to the very end of the text, and the very end of the last mutable field.
 		// Or it could mean they're trying to change the selection to none (by clicking on an invalid field), so we just set the field to Not Found and let them have no active field selected.
 		
-		if((newSelectedCharRange.location == [[_textView string] length]) 
-		   && [[fields lastObject] isMemberOfClass:[WWEditableFlowSubfield class]])
-		{
+		if((newSelectedCharRange.location == [[_textView string] length]) && [[fields lastObject] editable]){
 			activeField = [fields count] - 1;
 		}else{
 			activeField = NSNotFound;
@@ -255,7 +250,7 @@
 		}
 
 		// Allow them to change to the new field, but not if it's immutable or nonexistent 
-		if(!field || [field isMemberOfClass:[WWImmutableStringFlowSubfield class]]){
+		if(!field || !field.editable){
 			NSLog(@"REJECTED AT CHANGE: immutable field");
 			return oldSelectedCharRange;
 		}

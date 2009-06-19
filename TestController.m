@@ -17,62 +17,46 @@
 	
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
-	WWEditableFlowSubfield *firstName = [[[WWEditableFlowSubfield alloc] initWithName:@"firstName"] autorelease];
-	firstName.value = @"Dan";
+	WWFlowSubfield *firstName = [WWFlowSubfield editableFieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
 	firstName.font = bigFont;
 	
-	WWImmutableStringFlowSubfield *nameSpace = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nameSpace"] autorelease];
-	nameSpace.value = @" ";
+	WWFlowSubfield *nameSpace = [WWFlowSubfield uneditableSpace];
 	nameSpace.font = bigFont;
 	
-	WWEditableFlowSubfield *lastName = [[[WWEditableFlowSubfield alloc] initWithName:@"lastName"] autorelease];
-	lastName.value = @"Grover";
+	WWFlowSubfield *lastName = [WWFlowSubfield editableFieldWithName:@"lastName" placeholder:@"Last" initialValue:@"Grover"];
 	lastName.font = bigFont;
 	
+
 	
-	WWImmutableStringFlowSubfield *newline1 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nl"] autorelease];
-	newline1.value = @"\n";
-	
-	WWEditableFlowSubfield *addyLine1 = [[[WWEditableFlowSubfield alloc] initWithName:@"addyLine1"] autorelease];
-	addyLine1.value = @"504 Page St";
-	
-	WWImmutableStringFlowSubfield *newline2 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nl2"] autorelease];
-	newline2.value = @"\n";
-	
-	WWEditableFlowSubfield *city = [[[WWEditableFlowSubfield alloc] initWithName:@"city"] autorelease];
-	city.value = @"San Francisco";
-	
-	WWImmutableStringFlowSubfield *cityComma = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"cityComma"] autorelease];
-	cityComma.value = @", ";
-	
-	WWEditableFlowSubfield *state = [[[WWEditableFlowSubfield alloc] initWithName:@"state"] autorelease];
-	state.value = @"CA";
-	
-	WWImmutableStringFlowSubfield *zipSpace = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"zipSpace"] autorelease];
-	zipSpace.value = @" ";
-	
-	WWEditableFlowSubfield *zip = [[[WWEditableFlowSubfield alloc] initWithName:@"zip"] autorelease];
-	zip.value = @"94117";
+	WWFlowSubfield *addyLine1 = [WWFlowSubfield editableFieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
+	WWFlowSubfield *city = [WWFlowSubfield editableFieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"];
+	WWFlowSubfield *cityComma = [WWFlowSubfield uneditableFieldWithName:@"cityComma" initialValue:@", "];
+	WWFlowSubfield *state = [WWFlowSubfield editableFieldWithName:@"state" placeholder:@"State" initialValue:@"CA"];
+	WWFlowSubfield *zipSpace = [WWFlowSubfield uneditableSpace];
+	WWFlowSubfield *zip = [WWFlowSubfield editableFieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
+
 	
 	
-	NSArray *fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,newline1,addyLine1,newline2,city,cityComma,state,zipSpace,zip,nil];
+	NSArray *fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,[WWFlowSubfield uneditableNewline],addyLine1,[WWFlowSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
 	NSLog(@"Setting fields = %@",fields);
 	flowFieldContainer.fields = fields;
 	
 	[self toggleEditMode:nil];
 
 	
+	
+	/*
 	WWFlowFieldRow *flow2 = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	
-	WWEditableFlowSubfield *firstName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"firstName"] autorelease];
+	WWFlowSubfield *firstName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"firstName"] autorelease];
 	firstName2.value = @"Dan";
 	firstName2.font = bigFont;
 	
-	WWImmutableStringFlowSubfield *nameSpace2 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nameSpace"] autorelease];
+	WWFlowSubfield *nameSpace2 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nameSpace"] autorelease];
 	nameSpace2.value = @" ";
 	nameSpace2.font = bigFont;
 	
-	WWEditableFlowSubfield *lastName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"lastName"] autorelease];
+	WWFlowSubfield *lastName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"lastName"] autorelease];
 	lastName2.value = @"Grover";
 	lastName2.font = bigFont;
 	
@@ -88,7 +72,7 @@
 	
 	[cardEditor addRow:flow2];
 	[cardEditor addRow:kv2];
-	[cardEditor setNeedsDisplay:YES];
+	[cardEditor setNeedsDisplay:YES];*/
 
 }
 
