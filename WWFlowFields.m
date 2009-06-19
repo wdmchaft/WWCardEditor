@@ -8,7 +8,7 @@
 
 #import "WWFlowFields.h"
 
-@implementation WWFlowField 
+@implementation WWFlowSubfield 
 @synthesize name, value, font;
 
 - (id) initWithName:(NSString *)theName{
@@ -46,7 +46,7 @@
 
 #pragma mark -
 
-@implementation WWEditableFlowField
+@implementation WWEditableFlowSubfield
 @synthesize placeholder;
 
 - (id) initWithName:(NSString *)theName{
@@ -83,7 +83,7 @@
 
 #pragma mark -
 
-@implementation WWImmutableStringFlowField
+@implementation WWImmutableStringFlowSubfield
 
 
 @end

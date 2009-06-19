@@ -6,12 +6,12 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "WWFlowFieldContainerTextView.h"
-#import "WWFlowFieldContainer.h"
+#import "WWFlowFieldRowTextView.h"
+#import "WWFlowFieldRow.h"
 
-#import "WWFlowFieldContainer_Internals.h"
+#import "WWFlowFieldRow_Internals.h"
 
-@implementation WWFlowFieldContainerTextView 
+@implementation WWFlowFieldRowTextView 
 @synthesize container;
 
 
@@ -37,15 +37,15 @@
 		return NSMakeRange(proposedSelRange.location, 0);
 	}
 	
-	WWFlowField *startField = [container.fields objectAtIndex:startFieldIndex];
-	WWFlowField *endField = (endFieldIndex < [container.fields count]) ? [container.fields objectAtIndex:endFieldIndex] : nil;
+	WWFlowSubfield *startField = [container.fields objectAtIndex:startFieldIndex];
+	WWFlowSubfield *endField = (endFieldIndex < [container.fields count]) ? [container.fields objectAtIndex:endFieldIndex] : nil;
 	
-	if([startField isMemberOfClass:[WWImmutableStringFlowField class]]){
+	if([startField isMemberOfClass:[WWImmutableStringFlowSubfield class]]){
 		// This is allowable if they're really trying to type at the end of a legal, mutable field
 		if (!proposedSelRange.length  && ([container _charOffsetForBeginningOfFieldAtIndex:startFieldIndex] == proposedSelRange.location)){
 			NSUInteger potentiallyLegalPreviousFieldIndex = startFieldIndex - 1;
 			if((potentiallyLegalPreviousFieldIndex >= 0) && (potentiallyLegalPreviousFieldIndex < [container.fields count]) 
-			   && (![[container.fields objectAtIndex:potentiallyLegalPreviousFieldIndex] isMemberOfClass:[WWImmutableStringFlowField class]]))
+			   && (![[container.fields objectAtIndex:potentiallyLegalPreviousFieldIndex] isMemberOfClass:[WWImmutableStringFlowSubfield class]]))
 			{
 				return proposedSelRange;
 			}
@@ -56,7 +56,7 @@
 		NSLog(@"REJECTED AT PROPOSED RANGE: Trying to edit immutable field");
 		return oldSelectedCharRange;
 	}
-	else if(!endField || [endField isMemberOfClass:[WWImmutableStringFlowField class]]){
+	else if(!endField || [endField isMemberOfClass:[WWImmutableStringFlowSubfield class]]){
 		if(proposedSelRange.length > startField.value.length){ // Only block this if they're not just trying to get the last character of the active field
 			NSLog(@"REJECTED AT PROPOSED RANGE (End): Trying to edit immutable field");
 			return oldSelectedCharRange;

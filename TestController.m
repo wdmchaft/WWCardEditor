@@ -17,41 +17,41 @@
 	
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
-	WWEditableFlowField *firstName = [[[WWEditableFlowField alloc] initWithName:@"firstName"] autorelease];
+	WWEditableFlowSubfield *firstName = [[[WWEditableFlowSubfield alloc] initWithName:@"firstName"] autorelease];
 	firstName.value = @"Dan";
 	firstName.font = bigFont;
 	
-	WWImmutableStringFlowField *nameSpace = [[[WWImmutableStringFlowField alloc] initWithName:@"nameSpace"] autorelease];
+	WWImmutableStringFlowSubfield *nameSpace = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nameSpace"] autorelease];
 	nameSpace.value = @" ";
 	nameSpace.font = bigFont;
 	
-	WWEditableFlowField *lastName = [[[WWEditableFlowField alloc] initWithName:@"lastName"] autorelease];
+	WWEditableFlowSubfield *lastName = [[[WWEditableFlowSubfield alloc] initWithName:@"lastName"] autorelease];
 	lastName.value = @"Grover";
 	lastName.font = bigFont;
 	
 	
-	WWImmutableStringFlowField *newline1 = [[[WWImmutableStringFlowField alloc] initWithName:@"nl"] autorelease];
+	WWImmutableStringFlowSubfield *newline1 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nl"] autorelease];
 	newline1.value = @"\n";
 	
-	WWEditableFlowField *addyLine1 = [[[WWEditableFlowField alloc] initWithName:@"addyLine1"] autorelease];
+	WWEditableFlowSubfield *addyLine1 = [[[WWEditableFlowSubfield alloc] initWithName:@"addyLine1"] autorelease];
 	addyLine1.value = @"504 Page St";
 	
-	WWImmutableStringFlowField *newline2 = [[[WWImmutableStringFlowField alloc] initWithName:@"nl2"] autorelease];
+	WWImmutableStringFlowSubfield *newline2 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nl2"] autorelease];
 	newline2.value = @"\n";
 	
-	WWEditableFlowField *city = [[[WWEditableFlowField alloc] initWithName:@"city"] autorelease];
+	WWEditableFlowSubfield *city = [[[WWEditableFlowSubfield alloc] initWithName:@"city"] autorelease];
 	city.value = @"San Francisco";
 	
-	WWImmutableStringFlowField *cityComma = [[[WWImmutableStringFlowField alloc] initWithName:@"cityComma"] autorelease];
+	WWImmutableStringFlowSubfield *cityComma = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"cityComma"] autorelease];
 	cityComma.value = @", ";
 	
-	WWEditableFlowField *state = [[[WWEditableFlowField alloc] initWithName:@"state"] autorelease];
+	WWEditableFlowSubfield *state = [[[WWEditableFlowSubfield alloc] initWithName:@"state"] autorelease];
 	state.value = @"CA";
 	
-	WWImmutableStringFlowField *zipSpace = [[[WWImmutableStringFlowField alloc] initWithName:@"zipSpace"] autorelease];
+	WWImmutableStringFlowSubfield *zipSpace = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"zipSpace"] autorelease];
 	zipSpace.value = @" ";
 	
-	WWEditableFlowField *zip = [[[WWEditableFlowField alloc] initWithName:@"zip"] autorelease];
+	WWEditableFlowSubfield *zip = [[[WWEditableFlowSubfield alloc] initWithName:@"zip"] autorelease];
 	zip.value = @"94117";
 	
 	
@@ -62,17 +62,17 @@
 	[self toggleEditMode:nil];
 
 	
-	WWFlowFieldContainer *flow2 = [[[WWFlowFieldContainer alloc] initWithFrame:NSZeroRect] autorelease];
+	WWFlowFieldRow *flow2 = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	
-	WWEditableFlowField *firstName2 = [[[WWEditableFlowField alloc] initWithName:@"firstName"] autorelease];
+	WWEditableFlowSubfield *firstName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"firstName"] autorelease];
 	firstName2.value = @"Dan";
 	firstName2.font = bigFont;
 	
-	WWImmutableStringFlowField *nameSpace2 = [[[WWImmutableStringFlowField alloc] initWithName:@"nameSpace"] autorelease];
+	WWImmutableStringFlowSubfield *nameSpace2 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nameSpace"] autorelease];
 	nameSpace2.value = @" ";
 	nameSpace2.font = bigFont;
 	
-	WWEditableFlowField *lastName2 = [[[WWEditableFlowField alloc] initWithName:@"lastName"] autorelease];
+	WWEditableFlowSubfield *lastName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"lastName"] autorelease];
 	lastName2.value = @"Grover";
 	lastName2.font = bigFont;
 	

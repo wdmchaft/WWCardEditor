@@ -14,10 +14,10 @@
 		CEAEE23C0FEC0E7F00950781 /* WWCardEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23B0FEC0E7F00950781 /* WWCardEditor.m */; };
 		CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */; };
 		CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */; };
-		CEFE66820FE8434D0093A2E9 /* WWFlowFieldContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldContainer.m */; };
+		CEFE66820FE8434D0093A2E9 /* WWFlowFieldRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */; };
 		CEFE66860FE844100093A2E9 /* WWFlowFields.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66850FE844100093A2E9 /* WWFlowFields.m */; };
 		CEFE66C60FE848840093A2E9 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66C50FE848840093A2E9 /* TestController.m */; };
-		CEFE67950FE858930093A2E9 /* WWFlowFieldContainerTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE67940FE858930093A2E9 /* WWFlowFieldContainerTextView.m */; };
+		CEFE67950FE858930093A2E9 /* WWFlowFieldRowTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */; };
 		CEFE68920FE867F30093A2E9 /* NSColor+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE68910FE867F30093A2E9 /* NSColor+Extras.m */; };
 /* End PBXBuildFile section */
 
@@ -38,17 +38,17 @@
 		CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWCardEditorRow.m; sourceTree = "<group>"; };
 		CEAEE2430FEC0F1500950781 /* WWKeyValueRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWKeyValueRow.h; sourceTree = "<group>"; };
 		CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWKeyValueRow.m; sourceTree = "<group>"; };
-		CEFE66800FE8434D0093A2E9 /* WWFlowFieldContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldContainer.h; sourceTree = "<group>"; };
-		CEFE66810FE8434D0093A2E9 /* WWFlowFieldContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFieldContainer.m; sourceTree = "<group>"; };
+		CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldRow.h; sourceTree = "<group>"; };
+		CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFieldRow.m; sourceTree = "<group>"; };
 		CEFE66840FE844100093A2E9 /* WWFlowFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFields.h; sourceTree = "<group>"; };
 		CEFE66850FE844100093A2E9 /* WWFlowFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFields.m; sourceTree = "<group>"; };
 		CEFE66C40FE848840093A2E9 /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestController.h; sourceTree = "<group>"; };
 		CEFE66C50FE848840093A2E9 /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestController.m; sourceTree = "<group>"; };
-		CEFE67930FE858930093A2E9 /* WWFlowFieldContainerTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldContainerTextView.h; sourceTree = "<group>"; };
-		CEFE67940FE858930093A2E9 /* WWFlowFieldContainerTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFieldContainerTextView.m; sourceTree = "<group>"; };
+		CEFE67930FE858930093A2E9 /* WWFlowFieldRowTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldRowTextView.h; sourceTree = "<group>"; };
+		CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFieldRowTextView.m; sourceTree = "<group>"; };
 		CEFE68900FE867F30093A2E9 /* NSColor+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSColor+Extras.h"; sourceTree = "<group>"; };
 		CEFE68910FE867F30093A2E9 /* NSColor+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSColor+Extras.m"; sourceTree = "<group>"; };
-		CEFE69340FE8700D0093A2E9 /* WWFlowFieldContainer_Internals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldContainer_Internals.h; sourceTree = "<group>"; };
+		CEFE69340FE8700D0093A2E9 /* WWFlowFieldRow_Internals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldRow_Internals.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,13 +166,13 @@
 		CEFE66830FE843530093A2E9 /* Flowing Field */ = {
 			isa = PBXGroup;
 			children = (
-				CEFE66800FE8434D0093A2E9 /* WWFlowFieldContainer.h */,
-				CEFE66810FE8434D0093A2E9 /* WWFlowFieldContainer.m */,
+				CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */,
+				CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */,
 				CEFE66840FE844100093A2E9 /* WWFlowFields.h */,
 				CEFE66850FE844100093A2E9 /* WWFlowFields.m */,
-				CEFE67930FE858930093A2E9 /* WWFlowFieldContainerTextView.h */,
-				CEFE67940FE858930093A2E9 /* WWFlowFieldContainerTextView.m */,
-				CEFE69340FE8700D0093A2E9 /* WWFlowFieldContainer_Internals.h */,
+				CEFE67930FE858930093A2E9 /* WWFlowFieldRowTextView.h */,
+				CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */,
+				CEFE69340FE8700D0093A2E9 /* WWFlowFieldRow_Internals.h */,
 			);
 			name = "Flowing Field";
 			sourceTree = "<group>";
@@ -233,10 +233,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
-				CEFE66820FE8434D0093A2E9 /* WWFlowFieldContainer.m in Sources */,
+				CEFE66820FE8434D0093A2E9 /* WWFlowFieldRow.m in Sources */,
 				CEFE66860FE844100093A2E9 /* WWFlowFields.m in Sources */,
 				CEFE66C60FE848840093A2E9 /* TestController.m in Sources */,
-				CEFE67950FE858930093A2E9 /* WWFlowFieldContainerTextView.m in Sources */,
+				CEFE67950FE858930093A2E9 /* WWFlowFieldRowTextView.m in Sources */,
 				CEFE68920FE867F30093A2E9 /* NSColor+Extras.m in Sources */,
 				CEAEE23C0FEC0E7F00950781 /* WWCardEditor.m in Sources */,
 				CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */,

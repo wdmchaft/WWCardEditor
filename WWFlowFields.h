@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface WWFlowField : NSObject{
+@interface WWFlowSubfield : NSObject{
 	NSString *name;
 	NSString *value;
 	NSFont *font;
@@ -26,7 +26,7 @@
 
 #pragma mark -
 
-@interface WWEditableFlowField : WWFlowField{
+@interface WWEditableFlowSubfield : WWFlowSubfield{
 	NSString *placeholder;
 }
 
@@ -36,7 +36,7 @@
 
 #pragma mark -
 
-@interface WWImmutableStringFlowField : WWFlowField{
+@interface WWImmutableStringFlowSubfield : WWFlowSubfield{
 	
 }
 

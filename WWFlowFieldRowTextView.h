@@ -8,13 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class WWFlowFieldContainer;
+@class WWFlowFieldRow;
 
-@interface WWFlowFieldContainerTextView : NSTextView{
-	WWFlowFieldContainer *container;
+@interface WWFlowFieldRowTextView : NSTextView{
+	WWFlowFieldRow *container;
 }
 
-@property(assign) WWFlowFieldContainer *container;
+@property(assign) WWFlowFieldRow *container;
 
 
 @end

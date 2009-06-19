@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface WWFlowFieldContainer()
+@interface WWFlowFieldRow()
 @property(retain) NSTextView *_textView;
 
 - (NSAttributedString *) _renderedText;
@@ -21,7 +21,7 @@
 @end
 
 
-@interface WWFlowField()
+@interface WWFlowSubfield()
 - (NSAttributedString *) _displayString;
 - (BOOL) _isDisplayedAsPlaceholder;
 @end

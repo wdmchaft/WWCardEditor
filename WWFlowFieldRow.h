@@ -11,7 +11,7 @@
 #import "NSColor+Extras.h"
 #import "WWCardEditorRow.h"
 
-@interface WWFlowFieldContainer : WWCardEditorRow {
+@interface WWFlowFieldRow : WWCardEditorRow {
 	NSTextView *_textView;
 	NSUInteger activeField;
 	NSArray *fields;

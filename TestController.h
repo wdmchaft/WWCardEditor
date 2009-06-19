@@ -7,12 +7,12 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "WWFlowFieldContainer.h"
+#import "WWFlowFieldRow.h"
 #import "WWCardEditor.h"
 #import "WWKeyValueRow.h"
 
 @interface TestController : NSObject {
-	IBOutlet WWFlowFieldContainer *flowFieldContainer;
+	IBOutlet WWFlowFieldRow *flowFieldContainer;
 	IBOutlet NSTextField *debugDisplay;
 	IBOutlet NSButton *editModeCheckbox;
 	IBOutlet WWCardEditor *cardEditor;

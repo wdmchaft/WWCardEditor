@@ -6,20 +6,20 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "WWFlowFieldContainer.h"
-#import "WWFlowFieldContainerTextView.h"
+#import "WWFlowFieldRow.h"
+#import "WWFlowFieldRowTextView.h"
 
-#import "WWFlowFieldContainer_Internals.h"
+#import "WWFlowFieldRow_Internals.h"
 
 #pragma mark -
 
-@implementation WWFlowFieldContainer
+@implementation WWFlowFieldRow
 @synthesize _textView, activeField;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		WWFlowFieldContainerTextView *view = [[[WWFlowFieldContainerTextView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height)] autorelease];
+		WWFlowFieldRowTextView *view = [[[WWFlowFieldRowTextView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height)] autorelease];
 		view.container = self;
 		self._textView = view;
 		[_textView setDelegate:self];
@@ -137,7 +137,7 @@
 - (NSAttributedString *) _renderedText{
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	
-	for(WWFlowField *field in fields){
+	for(WWFlowSubfield *field in fields){
 		[soFar appendAttributedString:[field displayString]];
 	}
 	
@@ -149,7 +149,7 @@
 	unsigned offsetReached = 0;
 	
 	for(NSUInteger i = 0; i < [fields count]; i++){
-		WWFlowField *field = [fields objectAtIndex:i];
+		WWFlowSubfield *field = [fields objectAtIndex:i];
 		unsigned len = [field.value length];
 		
 		if((offsetDesired >= offsetReached) && (offsetDesired < (offsetReached+len))){
@@ -173,7 +173,7 @@
 		if(i == fieldIndex){
 			return soFar;
 		}else{
-			WWFlowField *field = [fields objectAtIndex:i];
+			WWFlowSubfield *field = [fields objectAtIndex:i];
 			soFar += [field.value length];
 		}
 	}
@@ -191,7 +191,7 @@
 		return NSNotFound;
 	}
 	
-	return beginning + [((WWFlowField *)[fields objectAtIndex:fieldIndex]).value length];
+	return beginning + [((WWFlowSubfield *)[fields objectAtIndex:fieldIndex]).value length];
 }
 
 
@@ -201,7 +201,7 @@
 	}
 
 	return NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], 
-					   [((WWFlowField *)[fields objectAtIndex:fieldIndex]).value length]);
+					   [((WWFlowSubfield *)[fields objectAtIndex:fieldIndex]).value length]);
 }
 
 
@@ -236,7 +236,7 @@
 	NSUInteger fieldEndChar   = [self _charOffsetForEndOfFieldAtIndex:fieldIndex];
 	
 	if(fieldIndex != activeField){
-		WWFlowField *field = [fields objectAtIndex:fieldIndex];
+		WWFlowSubfield *field = [fields objectAtIndex:fieldIndex];
 		
 		// Figure out if they're just trying to type at the end of this field or fuck with the next one
 		if((fieldIndex == (activeField + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
@@ -247,7 +247,7 @@
 		//if([self _charOffsetForEndOfFieldAtIndex:[fields lastObject]]   [[fields lastObject] isMemberOfClass:[WWEditableFlowField class]] && 
 
 		// Allow them to change to the new field, but not if it's immutable or nonexistent 
-		if(!field || [field isMemberOfClass:[WWImmutableStringFlowField class]]){
+		if(!field || [field isMemberOfClass:[WWImmutableStringFlowSubfield class]]){
 			NSLog(@"REJECTED AT CHANGE: immutable field");
 			return oldSelectedCharRange;
 		}
@@ -283,12 +283,12 @@
 	// If we're at the *end* of an editable field (but in reality just a 0-len selection at the start of the next), then append the text.
 	
 	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1)))){
-		WWFlowField *field = [fields objectAtIndex:activeField];
+		WWFlowSubfield *field = [fields objectAtIndex:activeField];
 		field.value = [field.value stringByAppendingString:newlineScrubbedReplacementString];
 	}else{
 		// translate affectedCharRange locally
 		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length);
-		WWFlowField *startField = [fields objectAtIndex:startFieldIndex];
+		WWFlowSubfield *startField = [fields objectAtIndex:startFieldIndex];
 		startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:newlineScrubbedReplacementString];
 	}
 
