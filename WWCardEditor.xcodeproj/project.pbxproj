@@ -15,7 +15,7 @@
 		CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */; };
 		CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */; };
 		CEFE66820FE8434D0093A2E9 /* WWFlowFieldRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */; };
-		CEFE66860FE844100093A2E9 /* WWFlowFields.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66850FE844100093A2E9 /* WWFlowFields.m */; };
+		CEFE66860FE844100093A2E9 /* WWFlowSubfields.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66850FE844100093A2E9 /* WWFlowSubfields.m */; };
 		CEFE66C60FE848840093A2E9 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66C50FE848840093A2E9 /* TestController.m */; };
 		CEFE67950FE858930093A2E9 /* WWFlowFieldRowTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */; };
 		CEFE68920FE867F30093A2E9 /* NSColor+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE68910FE867F30093A2E9 /* NSColor+Extras.m */; };
@@ -40,8 +40,8 @@
 		CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWKeyValueRow.m; sourceTree = "<group>"; };
 		CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldRow.h; sourceTree = "<group>"; };
 		CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFieldRow.m; sourceTree = "<group>"; };
-		CEFE66840FE844100093A2E9 /* WWFlowFields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFields.h; sourceTree = "<group>"; };
-		CEFE66850FE844100093A2E9 /* WWFlowFields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFields.m; sourceTree = "<group>"; };
+		CEFE66840FE844100093A2E9 /* WWFlowSubfields.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowSubfields.h; sourceTree = "<group>"; };
+		CEFE66850FE844100093A2E9 /* WWFlowSubfields.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowSubfields.m; sourceTree = "<group>"; };
 		CEFE66C40FE848840093A2E9 /* TestController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TestController.h; sourceTree = "<group>"; };
 		CEFE66C50FE848840093A2E9 /* TestController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TestController.m; sourceTree = "<group>"; };
 		CEFE67930FE858930093A2E9 /* WWFlowFieldRowTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldRowTextView.h; sourceTree = "<group>"; };
@@ -168,8 +168,8 @@
 			children = (
 				CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */,
 				CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */,
-				CEFE66840FE844100093A2E9 /* WWFlowFields.h */,
-				CEFE66850FE844100093A2E9 /* WWFlowFields.m */,
+				CEFE66840FE844100093A2E9 /* WWFlowSubfields.h */,
+				CEFE66850FE844100093A2E9 /* WWFlowSubfields.m */,
 				CEFE67930FE858930093A2E9 /* WWFlowFieldRowTextView.h */,
 				CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */,
 				CEFE69340FE8700D0093A2E9 /* WWFlowFieldRow_Internals.h */,
@@ -234,7 +234,7 @@
 			files = (
 				8D11072D0486CEB800E47090 /* main.m in Sources */,
 				CEFE66820FE8434D0093A2E9 /* WWFlowFieldRow.m in Sources */,
-				CEFE66860FE844100093A2E9 /* WWFlowFields.m in Sources */,
+				CEFE66860FE844100093A2E9 /* WWFlowSubfields.m in Sources */,
 				CEFE66C60FE848840093A2E9 /* TestController.m in Sources */,
 				CEFE67950FE858930093A2E9 /* WWFlowFieldRowTextView.m in Sources */,
 				CEFE68920FE867F30093A2E9 /* NSColor+Extras.m in Sources */,
