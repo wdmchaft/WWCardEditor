@@ -9,8 +9,9 @@
 #import <Cocoa/Cocoa.h>
 #import "WWFlowFields.h"
 #import "NSColor+Extras.h"
+#import "WWCardEditorRow.h"
 
-@interface WWFlowFieldContainer : NSView {
+@interface WWFlowFieldContainer : WWCardEditorRow {
 	NSTextView *_textView;
 	NSUInteger activeField;
 	NSArray *fields;

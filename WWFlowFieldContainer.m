@@ -26,7 +26,7 @@
 		[_textView setContinuousSpellCheckingEnabled:NO];
 		[_textView setEditable:YES];
 		[_textView setDrawsBackground:NO];
-		[_textView setTextContainerInset:NSMakeSize(15,15)];
+		[_textView setTextContainerInset:NSMakeSize(0,0)];
 		//[_textView setSelectionGranularity:NSSelectByCharacter];
 
 		// TODO autoresize
