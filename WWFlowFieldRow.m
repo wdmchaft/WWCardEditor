@@ -138,7 +138,7 @@
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	
 	for(WWFlowSubfield *field in fields){
-		[soFar appendAttributedString:[field displayString]];
+		[soFar appendAttributedString:[field _displayString]];
 	}
 	
 	return soFar;
@@ -213,7 +213,7 @@
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
 	
-	//NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
+	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
 	[self setNeedsDisplay:YES];
 	
 	
@@ -228,6 +228,17 @@
 	
 	NSUInteger fieldIndex = [self _indexOfFieldForCharOffset:newSelectedCharRange.location];
 	if(fieldIndex == NSNotFound){
+		// This could mean that they're changing the insertion point to the very end of the text, and the very end of the last mutable field.
+		// Or it could mean they're trying to change the selection to none (by clicking on an invalid field), so we just set the field to Not Found and let them have no active field selected.
+		
+		if((newSelectedCharRange.location == [[_textView string] length]) 
+		   && [[fields lastObject] isMemberOfClass:[WWEditableFlowSubfield class]])
+		{
+			activeField = [fields count] - 1;
+		}else{
+			activeField = NSNotFound;
+		}
+		
 		return newSelectedCharRange;
 	}
 	
@@ -242,9 +253,6 @@
 		if((fieldIndex == (activeField + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
 			return newSelectedCharRange; // allow it. We interpret this scenario in -textView:shouldChangeTextInRange:replacementString:
 		}
-		
-		// Another special case: The insertion point can be at the very end of the last good field.
-		//if([self _charOffsetForEndOfFieldAtIndex:[fields lastObject]]   [[fields lastObject] isMemberOfClass:[WWEditableFlowField class]] && 
 
 		// Allow them to change to the new field, but not if it's immutable or nonexistent 
 		if(!field || [field isMemberOfClass:[WWImmutableStringFlowSubfield class]]){

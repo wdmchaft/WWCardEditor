@@ -25,7 +25,7 @@
 	return [NSString stringWithFormat:@"<WWFlowField: name = %@, value = %@>",name, value];
 }
 
-- (NSAttributedString *) displayString{
+- (NSAttributedString *) _displayString{
 	return [[[NSAttributedString alloc] initWithString:self.value 
 											attributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]] autorelease];
 }
@@ -70,7 +70,7 @@
 
 		return [[[NSAttributedString alloc] initWithString:self.value attributes:attrs] autorelease];
 	}else{
-		return [super displayString];
+		return [super _displayString];
 	}
 }
 

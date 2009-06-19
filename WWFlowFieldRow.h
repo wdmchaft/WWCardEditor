@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "WWFlowFields.h"
+#import "WWFlowSubfields.h"
 #import "NSColor+Extras.h"
 #import "WWCardEditorRow.h"
 

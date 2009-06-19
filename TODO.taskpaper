@@ -9,6 +9,7 @@ Key overrides:
 - Get tabbing and reverse-tabbing to work
 - Enter key should switch to next field (but pastes should still strip returns and newlines)
 - Arrow keys should switch between editable fields
+- Need to strip formatting from pasted text
 Individual flow fields should support:
 - Placeholder text
 - Min length
