@@ -20,6 +20,8 @@
 @property(retain) NSFont *font;
 
 - (id) initWithName:(NSString *)theName;
+
+
 @end
 
 #pragma mark -

@@ -25,6 +25,15 @@
 	return [NSString stringWithFormat:@"<WWFlowField: name = %@, value = %@>",name,value];
 }
 
+- (NSAttributedString *) displayString{
+	return [[[NSAttributedString alloc] initWithString:self.value 
+											attributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]] autorelease];
+}
+
+- (BOOL) _isDisplayedAsPlaceholder{
+	return NO;
+}
+
 
 - (void) dealloc{
 	[name release];
@@ -52,6 +61,22 @@
 - (void) dealloc{
 	[placeholder release];
 	[super dealloc];
+}
+	
+- (NSAttributedString *) _displayString{
+	if([self _isDisplayedAsPlaceholder]){
+		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+		[attrs setObject:font forKey:NSFontAttributeName];
+		[attrs setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+		
+		return [[[NSAttributedString alloc] initWithString:self.value attributes:attrs] autorelease];
+	}else{
+		return [super displayString];
+	}
+}
+
+- (BOOL) _isDisplayedAsPlaceholder{
+	return (!value || [value isEqual:@""]);
 }
 
 

@@ -132,18 +132,14 @@
 }
 
 
-
 #pragma mark -
 
 - (NSAttributedString *) _renderedText{
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	
 	for(WWFlowField *field in fields){
-		NSDictionary *attrs = [NSDictionary dictionaryWithObject:field.font forKey:NSFontAttributeName];
-		[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:field.value attributes:attrs] autorelease]];
+		[soFar appendAttributedString:[field displayString]];
 	}
-	
-	NSLog(@"Fields = %@, Rendered = %@",fields,soFar);
 	
 	return soFar;
 }

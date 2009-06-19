@@ -20,4 +20,10 @@
 - (NSRange) _rangeForFieldAtIndex:(NSUInteger)fieldIndex;
 @end
 
+
+@interface WWFlowField()
+- (NSAttributedString *) _displayString;
+- (BOOL) _isDisplayedAsPlaceholder;
+@end
+
 #define WWFlowFieldContainer_DefaultEditBoxPadding 1
