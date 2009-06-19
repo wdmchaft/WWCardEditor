@@ -17,21 +17,21 @@
 	
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
-	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableFieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
+	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
 	firstName.font = bigFont;
 	
 	WWFlowFieldSubfield *nameSpace = [WWFlowFieldSubfield uneditableSpace];
 	nameSpace.font = bigFont;
 	
-	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableFieldWithName:@"lastName" placeholder:@"Last" initialValue:@"Grover"];
+	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableSubfieldWithName:@"lastName" placeholder:@"Last" initialValue:@"Grover"];
 	lastName.font = bigFont;
 	
-	WWFlowFieldSubfield *addyLine1 = [WWFlowFieldSubfield editableFieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
-	WWFlowFieldSubfield *city = [WWFlowFieldSubfield editableFieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"];
-	WWFlowFieldSubfield *cityComma = [WWFlowFieldSubfield uneditableFieldWithName:@"cityComma" initialValue:@", "];
-	WWFlowFieldSubfield *state = [WWFlowFieldSubfield editableFieldWithName:@"state" placeholder:@"State" initialValue:@"CA"];
+	WWFlowFieldSubfield *addyLine1 = [WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
+	WWFlowFieldSubfield *city = [WWFlowFieldSubfield editableSubfieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"];
+	WWFlowFieldSubfield *cityComma = [WWFlowFieldSubfield uneditableSubfieldWithName:@"cityComma" initialValue:@", "];
+	WWFlowFieldSubfield *state = [WWFlowFieldSubfield editableSubfieldWithName:@"state" placeholder:@"State" initialValue:@"CA"];
 	WWFlowFieldSubfield *zipSpace = [WWFlowFieldSubfield uneditableSpace];
-	WWFlowFieldSubfield *zip = [WWFlowFieldSubfield editableFieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
+	WWFlowFieldSubfield *zip = [WWFlowFieldSubfield editableSubfieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
 
 	
 	

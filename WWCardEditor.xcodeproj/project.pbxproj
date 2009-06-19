@@ -161,14 +161,22 @@
 		CEAEE2410FEC0EBA00950781 /* Row Views */ = {
 			isa = PBXGroup;
 			children = (
-				CEFE66830FE843530093A2E9 /* Flowing Field */,
-				CEAEE2430FEC0F1500950781 /* WWKeyValueRow.h */,
-				CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */,
+				CEAEE6390FEC50C800950781 /* Key-Value Row */,
+				CEFE66830FE843530093A2E9 /* Flow Field Row */,
 			);
 			name = "Row Views";
 			sourceTree = "<group>";
 		};
-		CEFE66830FE843530093A2E9 /* Flowing Field */ = {
+		CEAEE6390FEC50C800950781 /* Key-Value Row */ = {
+			isa = PBXGroup;
+			children = (
+				CEAEE2430FEC0F1500950781 /* WWKeyValueRow.h */,
+				CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */,
+			);
+			name = "Key-Value Row";
+			sourceTree = "<group>";
+		};
+		CEFE66830FE843530093A2E9 /* Flow Field Row */ = {
 			isa = PBXGroup;
 			children = (
 				CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */,
@@ -179,7 +187,7 @@
 				CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */,
 				CEFE69340FE8700D0093A2E9 /* WWFlowFieldRow_Internals.h */,
 			);
-			name = "Flowing Field";
+			name = "Flow Field Row";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

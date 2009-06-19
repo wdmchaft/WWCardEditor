@@ -32,7 +32,7 @@
 }
 
 
-+ (WWFlowFieldSubfield *) editableFieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue{
++ (WWFlowFieldSubfield *) editableSubfieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue{
 	WWFlowFieldSubfield *field = [[WWFlowFieldSubfield alloc] initWithName:fieldName];
 	field.editable = YES;
 	field.placeholder = placeholderString;
@@ -41,7 +41,7 @@
 }
 
 
-+ (WWFlowFieldSubfield *) uneditableFieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue{
++ (WWFlowFieldSubfield *) uneditableSubfieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue{
 	WWFlowFieldSubfield *field = [[WWFlowFieldSubfield alloc] initWithName:fieldName];
 	field.editable = NO;
 	field.value = initialValue;
@@ -49,11 +49,11 @@
 }
 
 + (WWFlowFieldSubfield *) uneditableSpace{
-	return [WWFlowFieldSubfield uneditableFieldWithName:@"" initialValue:@" "];
+	return [WWFlowFieldSubfield uneditableSubfieldWithName:@"" initialValue:@" "];
 }
 
 + (WWFlowFieldSubfield *) uneditableNewline{
-	return [WWFlowFieldSubfield uneditableFieldWithName:@"" initialValue:@"\n"];
+	return [WWFlowFieldSubfield uneditableSubfieldWithName:@"" initialValue:@"\n"];
 }
 
 

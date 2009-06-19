@@ -19,8 +19,8 @@
 
 // Initializers
 - (id) initWithName:(NSString *)theName;
-+ (WWFlowFieldSubfield *) editableFieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue;
-+ (WWFlowFieldSubfield *) uneditableFieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue;
++ (WWFlowFieldSubfield *) editableSubfieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue;
++ (WWFlowFieldSubfield *) uneditableSubfieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue;
 + (WWFlowFieldSubfield *) uneditableSpace;
 + (WWFlowFieldSubfield *) uneditableNewline;
 
