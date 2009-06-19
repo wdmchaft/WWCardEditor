@@ -17,27 +17,25 @@
 	
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
-	WWFlowSubfield *firstName = [WWFlowSubfield editableFieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
+	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableFieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
 	firstName.font = bigFont;
 	
-	WWFlowSubfield *nameSpace = [WWFlowSubfield uneditableSpace];
+	WWFlowFieldSubfield *nameSpace = [WWFlowFieldSubfield uneditableSpace];
 	nameSpace.font = bigFont;
 	
-	WWFlowSubfield *lastName = [WWFlowSubfield editableFieldWithName:@"lastName" placeholder:@"Last" initialValue:@"Grover"];
+	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableFieldWithName:@"lastName" placeholder:@"Last" initialValue:@"Grover"];
 	lastName.font = bigFont;
 	
+	WWFlowFieldSubfield *addyLine1 = [WWFlowFieldSubfield editableFieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
+	WWFlowFieldSubfield *city = [WWFlowFieldSubfield editableFieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"];
+	WWFlowFieldSubfield *cityComma = [WWFlowFieldSubfield uneditableFieldWithName:@"cityComma" initialValue:@", "];
+	WWFlowFieldSubfield *state = [WWFlowFieldSubfield editableFieldWithName:@"state" placeholder:@"State" initialValue:@"CA"];
+	WWFlowFieldSubfield *zipSpace = [WWFlowFieldSubfield uneditableSpace];
+	WWFlowFieldSubfield *zip = [WWFlowFieldSubfield editableFieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
 
 	
-	WWFlowSubfield *addyLine1 = [WWFlowSubfield editableFieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
-	WWFlowSubfield *city = [WWFlowSubfield editableFieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"];
-	WWFlowSubfield *cityComma = [WWFlowSubfield uneditableFieldWithName:@"cityComma" initialValue:@", "];
-	WWFlowSubfield *state = [WWFlowSubfield editableFieldWithName:@"state" placeholder:@"State" initialValue:@"CA"];
-	WWFlowSubfield *zipSpace = [WWFlowSubfield uneditableSpace];
-	WWFlowSubfield *zip = [WWFlowSubfield editableFieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
-
 	
-	
-	NSArray *fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,[WWFlowSubfield uneditableNewline],addyLine1,[WWFlowSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
+	NSArray *fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,[WWFlowFieldSubfield uneditableNewline],addyLine1,[WWFlowFieldSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
 	NSLog(@"Setting fields = %@",fields);
 	flowFieldContainer.fields = fields;
 	

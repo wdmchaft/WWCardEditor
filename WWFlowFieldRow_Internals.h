@@ -21,7 +21,7 @@
 @end
 
 
-@interface WWFlowSubfield()
+@interface WWFlowFieldSubfield()
 - (NSAttributedString *) _displayString;
 - (BOOL) _isDisplayedAsPlaceholder;
 @end

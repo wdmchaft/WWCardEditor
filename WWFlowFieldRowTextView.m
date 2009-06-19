@@ -37,8 +37,8 @@
 		return NSMakeRange(proposedSelRange.location, 0);
 	}
 	
-	WWFlowSubfield *startField = [container.fields objectAtIndex:startFieldIndex];
-	WWFlowSubfield *endField = (endFieldIndex < [container.fields count]) ? [container.fields objectAtIndex:endFieldIndex] : nil;
+	WWFlowFieldSubfield *startField = [container.fields objectAtIndex:startFieldIndex];
+	WWFlowFieldSubfield *endField = (endFieldIndex < [container.fields count]) ? [container.fields objectAtIndex:endFieldIndex] : nil;
 	
 	if(![startField editable]){
 		// This is allowable if they're really trying to type at the end of a legal, mutable field
@@ -52,7 +52,6 @@
 		}
 		
 		// Otherwise block it
-		
 		NSLog(@"REJECTED AT PROPOSED RANGE: Trying to edit immutable field");
 		return oldSelectedCharRange;
 	}

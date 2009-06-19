@@ -6,9 +6,9 @@
 //  Copyright 2009 __MyCompanyName__. All rights reserved.
 //
 
-#import "WWFlowSubfield.h"
+#import "WWFlowFieldSubfield.h"
 
-@implementation WWFlowSubfield 
+@implementation WWFlowFieldSubfield 
 @synthesize name, value, font, editable, placeholder;
 
 - (id) initWithName:(NSString *)theName{
@@ -32,8 +32,8 @@
 }
 
 
-+ (WWFlowSubfield *) editableFieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue{
-	WWFlowSubfield *field = [[WWFlowSubfield alloc] initWithName:fieldName];
++ (WWFlowFieldSubfield *) editableFieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue{
+	WWFlowFieldSubfield *field = [[WWFlowFieldSubfield alloc] initWithName:fieldName];
 	field.editable = YES;
 	field.placeholder = placeholderString;
 	field.value = initialValue;
@@ -41,19 +41,19 @@
 }
 
 
-+ (WWFlowSubfield *) uneditableFieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue{
-	WWFlowSubfield *field = [[WWFlowSubfield alloc] initWithName:fieldName];
++ (WWFlowFieldSubfield *) uneditableFieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue{
+	WWFlowFieldSubfield *field = [[WWFlowFieldSubfield alloc] initWithName:fieldName];
 	field.editable = NO;
 	field.value = initialValue;
 	return [field autorelease];
 }
 
-+ (WWFlowSubfield *) uneditableSpace{
-	return [WWFlowSubfield uneditableFieldWithName:@"space" initialValue:@" "];
++ (WWFlowFieldSubfield *) uneditableSpace{
+	return [WWFlowFieldSubfield uneditableFieldWithName:@"" initialValue:@" "];
 }
 
-+ (WWFlowSubfield *) uneditableNewline{
-	return [WWFlowSubfield uneditableFieldWithName:@"nl" initialValue:@"\n"];
++ (WWFlowFieldSubfield *) uneditableNewline{
+	return [WWFlowFieldSubfield uneditableFieldWithName:@"" initialValue:@"\n"];
 }
 
 
@@ -71,9 +71,6 @@
 }
 
 
-
-
-
 - (NSAttributedString *) _displayString{
 	if([self _isDisplayedAsPlaceholder]){
 		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
@@ -86,7 +83,5 @@
 												attributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]] autorelease];
 	}
 }
-
-
 
 @end

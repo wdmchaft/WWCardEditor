@@ -22,12 +22,12 @@
 		WWFlowFieldRowTextView *view = [[[WWFlowFieldRowTextView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height)] autorelease];
 		view.container = self;
 		self._textView = view;
+		
 		[_textView setDelegate:self];
 		[_textView setContinuousSpellCheckingEnabled:NO];
 		[_textView setEditable:YES];
 		[_textView setDrawsBackground:NO];
 		[_textView setTextContainerInset:NSMakeSize(0,0)];
-		//[_textView setSelectionGranularity:NSSelectByCharacter];
 		[_textView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 		[self setAutoresizesSubviews:YES];
 
@@ -137,7 +137,7 @@
 - (NSAttributedString *) _renderedText{
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	
-	for(WWFlowSubfield *field in fields){
+	for(WWFlowFieldSubfield *field in fields){
 		[soFar appendAttributedString:[field _displayString]];
 	}
 	
@@ -149,7 +149,7 @@
 	unsigned offsetReached = 0;
 	
 	for(NSUInteger i = 0; i < [fields count]; i++){
-		WWFlowSubfield *field = [fields objectAtIndex:i];
+		WWFlowFieldSubfield *field = [fields objectAtIndex:i];
 		unsigned len = [field.value length];
 		
 		if((offsetDesired >= offsetReached) && (offsetDesired < (offsetReached+len))){
@@ -173,7 +173,7 @@
 		if(i == fieldIndex){
 			return soFar;
 		}else{
-			WWFlowSubfield *field = [fields objectAtIndex:i];
+			WWFlowFieldSubfield *field = [fields objectAtIndex:i];
 			soFar += [field.value length];
 		}
 	}
@@ -191,7 +191,7 @@
 		return NSNotFound;
 	}
 	
-	return beginning + [((WWFlowSubfield *)[fields objectAtIndex:fieldIndex]).value length];
+	return beginning + [((WWFlowFieldSubfield *)[fields objectAtIndex:fieldIndex]).value length];
 }
 
 
@@ -201,7 +201,7 @@
 	}
 
 	return NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], 
-					   [((WWFlowSubfield *)[fields objectAtIndex:fieldIndex]).value length]);
+					   [((WWFlowFieldSubfield *)[fields objectAtIndex:fieldIndex]).value length]);
 }
 
 
@@ -242,7 +242,7 @@
 	NSUInteger fieldEndChar   = [self _charOffsetForEndOfFieldAtIndex:fieldIndex];
 	
 	if(fieldIndex != activeField){
-		WWFlowSubfield *field = [fields objectAtIndex:fieldIndex];
+		WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
 		
 		// Figure out if they're just trying to type at the end of this field or fuck with the next one
 		if((fieldIndex == (activeField + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
@@ -286,12 +286,12 @@
 	// If we're at the *end* of an editable field (but in reality just a 0-len selection at the start of the next), then append the text.
 	
 	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1)))){
-		WWFlowSubfield *field = [fields objectAtIndex:activeField];
+		WWFlowFieldSubfield *field = [fields objectAtIndex:activeField];
 		field.value = [field.value stringByAppendingString:newlineScrubbedReplacementString];
 	}else{
 		// translate affectedCharRange locally
 		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length);
-		WWFlowSubfield *startField = [fields objectAtIndex:startFieldIndex];
+		WWFlowFieldSubfield *startField = [fields objectAtIndex:startFieldIndex];
 		startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:newlineScrubbedReplacementString];
 	}
 

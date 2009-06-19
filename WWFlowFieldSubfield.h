@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 
-@interface WWFlowSubfield : NSObject{
+@interface WWFlowFieldSubfield : NSObject{
 	NSString *name;
 	NSString *value;
 	NSFont *font;
@@ -19,10 +19,10 @@
 
 // Initializers
 - (id) initWithName:(NSString *)theName;
-+ (WWFlowSubfield *) editableFieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue;
-+ (WWFlowSubfield *) uneditableFieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue;
-+ (WWFlowSubfield *) uneditableSpace;
-+ (WWFlowSubfield *) uneditableNewline;
++ (WWFlowFieldSubfield *) editableFieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue;
++ (WWFlowFieldSubfield *) uneditableFieldWithName:(NSString *)fieldName initialValue:(NSString *)initialValue;
++ (WWFlowFieldSubfield *) uneditableSpace;
++ (WWFlowFieldSubfield *) uneditableNewline;
 
 // Properties
 @property(retain) NSString *name;
