@@ -56,7 +56,7 @@
 		return oldSelectedCharRange;
 	}
 	else if(!endField || !endField.editable){
-		if(proposedSelRange.length > startField.value.length){ // Only block this if they're not just trying to get the last character of the active field
+		if(proposedSelRange.length > [[container _displayedStringForField:startField] length]){ // Only block this if they're not just trying to get the last character of the active field
 			NSLog(@"REJECTED AT PROPOSED RANGE (End): Trying to edit immutable field");
 			return oldSelectedCharRange;
 		}
@@ -69,11 +69,10 @@
 	if(startFieldIndex != endFieldIndex){
 		if((startFieldIndex == container.activeField) && (endFieldIndex > startFieldIndex)){
 			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select ahead across fields, only selecting until end of current field.");
-			return NSMakeRange(proposedSelRange.location, startField.value.length - (proposedSelRange.location - startFieldStartChar));
+			return NSMakeRange(proposedSelRange.location, [[container _displayedStringForField:startField] length] - (proposedSelRange.location - startFieldStartChar));
 		}
 		else if((startFieldIndex < container.activeField) && (endFieldIndex >= container.activeField)){
 			NSUInteger endFieldStartChar = [container _charOffsetForBeginningOfFieldAtIndex:endFieldIndex];
-			NSUInteger endFieldEndChar   = [container _charOffsetForEndOfFieldAtIndex:endFieldIndex];
 			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select behind across fields, only selecting from beginning of end field to end of proposed selection");
 			return NSMakeRange(endFieldStartChar, proposedSelRange.location + proposedSelRange.length - endFieldStartChar);
 		}
@@ -87,6 +86,13 @@
 			NSLog(@"REJECTED AT PROPOSED RANGE: Can't propose a non-zero-length selection in a non-active field");
 			return oldSelectedCharRange;
 		}
+	}
+	
+	
+	// If they're selecting inside a field, and that field is a placeholder, then forbid it and force them to select its entirety before typing
+	if((startFieldIndex == endFieldIndex) && [container _fieldShouldBeDisplayedAsPlaceholder:startField]){
+		NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select just part of a placeholder");
+		return [container _rangeForFieldAtIndex:startFieldIndex];
 	}
 	
 	return proposedSelRange;

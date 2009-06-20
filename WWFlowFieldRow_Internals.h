@@ -15,15 +15,13 @@
 - (NSAttributedString *) _renderedText;
 
 - (NSUInteger) _indexOfFieldForCharOffset:(NSUInteger)offsetDesired;
+
 - (NSUInteger) _charOffsetForBeginningOfFieldAtIndex:(NSUInteger)fieldIndex;
 - (NSUInteger) _charOffsetForEndOfFieldAtIndex:(NSUInteger)fieldIndex;
 - (NSRange) _rangeForFieldAtIndex:(NSUInteger)fieldIndex;
-@end
 
-
-@interface WWFlowFieldSubfield()
-- (NSAttributedString *) _displayString;
-- (BOOL) _isDisplayedAsPlaceholder;
+- (BOOL) _fieldShouldBeDisplayedAsPlaceholder:(WWFlowFieldSubfield *)field;
+- (NSString *) _displayedStringForField:(WWFlowFieldSubfield *)field;
 @end
 
 #define WWFlowFieldContainer_DefaultEditBoxPadding 1

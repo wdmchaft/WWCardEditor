@@ -28,5 +28,3 @@
 @property(assign) CGFloat editBoxPadding;
 
 @end
-
-

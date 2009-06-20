@@ -60,28 +60,6 @@
 - (NSString *) description{
 	return [NSString stringWithFormat:@"<WWFlowField: name = %@, editable = %d, value = %@>", name, editable, value];
 }
-/*
-- (NSAttributedString *) _displayString{
-	return [[[NSAttributedString alloc] initWithString:self.value 
-											attributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]] autorelease];
-}
-*/
-- (BOOL) _isDisplayedAsPlaceholder{
-	return NO;
-}
 
-
-- (NSAttributedString *) _displayString{
-	if([self _isDisplayedAsPlaceholder]){
-		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-		[attrs setObject:font forKey:NSFontAttributeName];
-		[attrs setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
-
-		return [[[NSAttributedString alloc] initWithString:self.value attributes:attrs] autorelease];
-	}else{
-		return [[[NSAttributedString alloc] initWithString:self.value 
-												attributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]] autorelease];
-	}
-}
 
 @end

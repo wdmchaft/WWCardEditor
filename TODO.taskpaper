@@ -11,7 +11,7 @@ Key overrides:
 - Arrow keys should switch between editable fields
 - Need to strip formatting from pasted text
 Individual flow fields should support:
-- Placeholder text
+- Placeholder text @done
 - Min length
 - Max length
 - Format string for validation

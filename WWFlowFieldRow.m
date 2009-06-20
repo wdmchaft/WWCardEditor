@@ -30,14 +30,13 @@
 		[_textView setTextContainerInset:NSMakeSize(0,0)];
 		[_textView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 		[self setAutoresizesSubviews:YES];
-
-		// TODO autoresize
 		[self addSubview:_textView];
 		
 		// Default params
 		self.editBoxPadding = WWFlowFieldContainer_DefaultEditBoxPadding;
 		[self setEditMode:YES];
     }
+	
     return self;
 }
 
@@ -138,7 +137,17 @@
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	
 	for(WWFlowFieldSubfield *field in fields){
-		[soFar appendAttributedString:[field _displayString]];
+		if([self _fieldShouldBeDisplayedAsPlaceholder:field]){
+			NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+			[attrs setObject:field.font forKey:NSFontAttributeName];
+			[attrs setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+
+			[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:field.placeholder attributes:attrs] autorelease]];
+		}
+		else{
+			[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:field.value 
+																		   attributes:[NSDictionary dictionaryWithObject:field.font forKey:NSFontAttributeName]] autorelease]];
+		}
 	}
 	
 	return soFar;
@@ -150,7 +159,7 @@
 	
 	for(NSUInteger i = 0; i < [fields count]; i++){
 		WWFlowFieldSubfield *field = [fields objectAtIndex:i];
-		unsigned len = [field.value length];
+		unsigned len = [[self _displayedStringForField:field] length];
 		
 		if((offsetDesired >= offsetReached) && (offsetDesired < (offsetReached+len))){
 			return i;
@@ -174,7 +183,7 @@
 			return soFar;
 		}else{
 			WWFlowFieldSubfield *field = [fields objectAtIndex:i];
-			soFar += [field.value length];
+			soFar += [[self _displayedStringForField:field] length];
 		}
 	}
 	
@@ -191,7 +200,8 @@
 		return NSNotFound;
 	}
 	
-	return beginning + [((WWFlowFieldSubfield *)[fields objectAtIndex:fieldIndex]).value length];
+	WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
+	return beginning + [[self _displayedStringForField:field] length];
 }
 
 
@@ -200,10 +210,18 @@
 		return NSMakeRange(NSNotFound, 0);
 	}
 
-	return NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], 
-					   [((WWFlowFieldSubfield *)[fields objectAtIndex:fieldIndex]).value length]);
+	WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
+	
+	return NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], [[self _displayedStringForField:field] length]);
 }
 
+- (BOOL) _fieldShouldBeDisplayedAsPlaceholder:(WWFlowFieldSubfield *)field{
+	return (editMode && field.placeholder && (!field.value || [field.value isEqual:@""]));
+}
+
+- (NSString *)_displayedStringForField:(WWFlowFieldSubfield *)field{
+	return [self _fieldShouldBeDisplayedAsPlaceholder:field] ? field.placeholder : field.value;
+}
 
 #pragma mark -
 #pragma mark Text View Delegate
@@ -229,9 +247,9 @@
 		// Or it could mean they're trying to change the selection to none (by clicking on an invalid field), so we just set the field to Not Found and let them have no active field selected.
 		
 		if((newSelectedCharRange.location == [[_textView string] length]) && [[fields lastObject] editable]){
-			activeField = [fields count] - 1;
+			self.activeField = [fields count] - 1;
 		}else{
-			activeField = NSNotFound;
+			self.activeField = NSNotFound;
 		}
 		
 		return newSelectedCharRange;
@@ -257,7 +275,7 @@
 		else{
 			// Okay, that's cool, you can change fields, but we're gonna have to select the whole field
 			self.activeField = fieldIndex;
-			return NSMakeRange(fieldStartChar, field.value.length);
+			return NSMakeRange(fieldStartChar, [[self _displayedStringForField:field] length]);
 		}
 	}
 	
@@ -281,32 +299,51 @@
 	NSString *newlineScrubbedReplacementString = [[replacementString stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
 	BOOL overrideHandling = ![newlineScrubbedReplacementString isEqual:replacementString]; 
 	
+	BOOL fieldWasAPlaceholderBefore = NO;
+	WWFlowFieldSubfield *relevantField = nil;
+	
 	// Anyway...
 	// If we are in the middle of an editable field, just replace the equivilent range in the "field"'s .value property.
 	// If we're at the *end* of an editable field (but in reality just a 0-len selection at the start of the next), then append the text.
 	
 	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1)))){
-		WWFlowFieldSubfield *field = [fields objectAtIndex:activeField];
-		field.value = [field.value stringByAppendingString:newlineScrubbedReplacementString];
+		relevantField = [fields objectAtIndex:activeField];
+		
+		fieldWasAPlaceholderBefore = [self _fieldShouldBeDisplayedAsPlaceholder:relevantField];
+		relevantField.value = [[self _displayedStringForField:relevantField] stringByAppendingString:newlineScrubbedReplacementString];
+
 	}else{
-		// translate affectedCharRange locally
-		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length);
-		WWFlowFieldSubfield *startField = [fields objectAtIndex:startFieldIndex];
-		startField.value = [startField.value stringByReplacingCharactersInRange:localRange withString:newlineScrubbedReplacementString];
+		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length); // translate affectedCharRange to be in terms of this string only
+		relevantField = [fields objectAtIndex:startFieldIndex];
+		
+		fieldWasAPlaceholderBefore = [self _fieldShouldBeDisplayedAsPlaceholder:relevantField];
+		relevantField.value = [[self _displayedStringForField:relevantField] stringByReplacingCharactersInRange:localRange withString:newlineScrubbedReplacementString];
 	}
 
+	
+	BOOL fieldWasAPlaceholderAfterwards = [self _fieldShouldBeDisplayedAsPlaceholder:relevantField];
+	
+	// If we changed between a placeholder and not one, then that is also a reason to override the nstextview's normal handling of this event
+	overrideHandling = overrideHandling || (fieldWasAPlaceholderBefore != fieldWasAPlaceholderAfterwards);
+	
 	if(overrideHandling){
 		// If this is reached, we're going to put the new text there on behalf of the textfield since it would have put the return-carriage-laden
 		// text in its place.
 		
 		NSRange oldSelectedRange = [_textView selectedRange]; // Remember the old selection range to give the appearance that the textField is handling this action, not us
+		NSRange newSelectedRange = oldSelectedRange;
 		
 		[[_textView textStorage] setAttributedString:[self _renderedText]];
 		
-		oldSelectedRange.location += newlineScrubbedReplacementString.length;
-		oldSelectedRange.length = 0;
+		if(!fieldWasAPlaceholderBefore && fieldWasAPlaceholderAfterwards){
+			newSelectedRange = [self _rangeForFieldAtIndex:[fields indexOfObject:relevantField]]; // TODO clean up
+			
+		}else{
+			newSelectedRange.location += newlineScrubbedReplacementString.length;
+			newSelectedRange.length = 0;
+		}
 		
-		[_textView setSelectedRange:oldSelectedRange];
+		[_textView setSelectedRange:newSelectedRange];
 		
 		[self setNeedsDisplay];
 		return NO;
