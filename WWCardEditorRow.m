@@ -7,7 +7,7 @@
 //
 
 #import "WWCardEditorRow.h"
-#import "WWCardEditorRow_Internals.h"
+#import "WWCardEditor_Internals.h"
 
 @implementation WWCardEditorRow
 @synthesize parentEditor, parentRow, editMode;

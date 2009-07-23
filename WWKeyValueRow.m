@@ -8,7 +8,7 @@
 
 #import "WWKeyValueRow.h"
 #import "WWCardEditor.h"
-#import "WWCardEditorRow_Internals.h"
+#import "WWCardEditor_Internals.h"
 
 
 @interface WWKeyValueRow()

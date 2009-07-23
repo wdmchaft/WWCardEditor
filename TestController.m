@@ -79,7 +79,7 @@
 	
 	WWKeyValueRow *kv2 = [[[WWKeyValueRow alloc] init] autorelease];
 	kv2.keyLabel = @"home";
-	
+	kv2.valueRowView = flow2;
 	
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
 	checkboxRow.label = @"lol";
@@ -90,7 +90,7 @@
 	checkboxKeyValue.valueRowView = checkboxRow;
 	
 	
-	[cardEditor addRow:flow2];
+	//[cardEditor addRow:flow2];
 	[cardEditor addRow:kv2];
 	[cardEditor addRow:checkboxKeyValue];
 	[cardEditor setRowSpacing:4];
@@ -107,6 +107,7 @@
 - (IBAction) toggleEditMode:(id)sender{
 	NSLog(@"New edit mode is %d",[editModeCheckbox intValue]);
 	[flowFieldContainer setEditMode:[editModeCheckbox intValue]];
+	[cardEditor setEditMode:[editModeCheckbox intValue]];
 }
 
 @end

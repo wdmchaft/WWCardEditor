@@ -11,6 +11,7 @@
 
 @interface WWCardEditor : NSView {
 	BOOL needsLayout;
+	BOOL editMode;
 	NSMutableArray *_rows;
 	
 	NSColor *keyLabelColor;
@@ -22,6 +23,8 @@
 
 
 @property(assign) BOOL needsLayout;
+
+@property(assign) BOOL editMode;
 
 
 // Row manipulation

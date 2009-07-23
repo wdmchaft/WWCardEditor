@@ -8,7 +8,7 @@
 
 #import "WWCardEditor.h"
 #import "WWCardEditorRow.h"
-#import "WWCardEditorRow_Internals.h"
+#import "WWCardEditor_Internals.h"
 
 @interface WWCardEditor()
 @property(retain) NSMutableArray *_rows;
@@ -100,7 +100,15 @@
 	[self setNeedsDisplay:YES];
 }
 
-
+- (BOOL)editMode {
+    return editMode;
+}
+- (void)setEditMode:(BOOL)flag {
+    editMode = flag;
+	for(WWCardEditorRow *row in _rows){
+		[row setEditMode:flag];
+	}
+}
 
 
 #pragma mark -

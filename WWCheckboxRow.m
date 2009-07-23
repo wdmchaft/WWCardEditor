@@ -7,7 +7,7 @@
 //
 
 #import "WWCheckboxRow.h"
-#import "WWCardEditorRow_Internals.h"
+#import "WWCardEditor_Internals.h"
 
 
 @interface WWCheckboxRow()

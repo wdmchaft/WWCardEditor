@@ -1,6 +1,10 @@
 General Card Editor Stuff:
-- Get flow field working inside of Key Value row type
-
+- Get flow field working inside of Key Value row type @done
+- Animated insertion/deletion of rows
+- Flow field should know its own height
+- What's the deal with that insertion point outside of edit mode?
+- Card editor as a whole should have edit mode @done
+- Fancy drop shadow boxes should be drawn in the card editor, not the flow field, and should also not look like ass
 
 Key handling:
 - Arrow keys should switch between editable fields (across entire card editor)
@@ -13,9 +17,7 @@ New field types:
 - Office-style/CSSedit-style dividers with disclosure rects
 - Editable image view
 - +/- buttons for deleting and adding stuff
-- Custom selectbox with arrows
-
-
+- NSPopupMenu with arrows (possibly abstract the checkbox row type into a general nsbutton row type)
 
 Flow field: selection behavior:
 - Need a way to select none (where active field changes to NSNotFound)

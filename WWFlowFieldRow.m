@@ -125,7 +125,6 @@
 		if(editMode != flag){
 			if(editMode){ // coming out of edit mode
 				self.activeField = NSNotFound;
-				[_textView setSelectedRange:NSMakeRange(NSNotFound,0)];
 			}else{ // going into edit mode
 				self.activeField = 0;
 			}

@@ -1,5 +1,5 @@
 //
-//  WWCardEditorRow_Internals.h
+//  WWCardEditor_Internals.h
 //  WWCardEditor
 //
 //  Created by Dan Grover on 7/23/09.
