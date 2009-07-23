@@ -56,6 +56,7 @@
         [valueRowView release];
         valueRowView = [aValueRowView retain];
 		[self addSubview:valueRowView];
+		[valueRowView setParentEditor:self.parentEditor];
     }
 	
 	needsLayout = YES;
@@ -70,6 +71,17 @@
 	needsLayout = YES;
 }
 
+- (void)setParentEditor:(WWCardEditor *)aParentEditor {
+    if (parentEditor != aParentEditor) {
+        [parentEditor release];
+        parentEditor = [aParentEditor retain];
+    }
+	
+	[valueRowView setParentEditor:aParentEditor];
+}
+
+#pragma mark -
+
 - (void) _layoutIfNeeded{
 	if(needsLayout){
 		[valueRowView setFrame:NSMakeRect(splitPosition, 0, [self frame].size.width - splitPosition, [valueRowView neededHeight])];
@@ -78,7 +90,7 @@
 }
 
 
-#pragma mark -
+
 
 - (CGFloat) neededHeight{
 	return MAX([valueRowView neededHeight],20);
@@ -99,5 +111,9 @@
 	[keyLabel drawInRect:NSMakeRect(0, 0, splitPosition - 10, 20) withAttributes:attrs];
 	[super drawRect:rect];
 }
+
+
+
+
 
 @end

@@ -10,6 +10,7 @@
 #import "WWFlowFieldRow.h"
 #import "WWCardEditor.h"
 #import "WWKeyValueRow.h"
+#import "WWCheckboxRow.h"
 
 @interface TestController : NSObject {
 	IBOutlet WWFlowFieldRow *flowFieldContainer;

@@ -79,8 +79,21 @@
 	WWKeyValueRow *kv2 = [[[WWKeyValueRow alloc] init] autorelease];
 	kv2.keyLabel = @"home";
 	
+	
+	
+	
+	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
+	checkboxRow.label = @"";
+	checkboxRow.isChecked = YES;
+	
+	WWKeyValueRow *checkboxKeyValue = [[[WWKeyValueRow alloc] init] autorelease];
+	checkboxKeyValue.keyLabel = @"awesome";
+	checkboxKeyValue.valueRowView = checkboxRow;
+	
+	
 	[cardEditor addRow:flow2];
 	[cardEditor addRow:kv2];
+	[cardEditor addRow:checkboxKeyValue];
 	[cardEditor setNeedsDisplay:YES];
 
 }

@@ -11,6 +11,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		CE2066C41017EF2E0078A5ED /* WWCheckboxRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CE2066C31017EF2E0078A5ED /* WWCheckboxRow.m */; };
 		CEAEE23C0FEC0E7F00950781 /* WWCardEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23B0FEC0E7F00950781 /* WWCardEditor.m */; };
 		CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */; };
 		CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */; };
@@ -33,6 +34,8 @@
 		32CA4F630368D1EE00C91783 /* WWCardEditor_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWCardEditor_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* WWCardEditor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WWCardEditor.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CE2066C21017EF2E0078A5ED /* WWCheckboxRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWCheckboxRow.h; sourceTree = "<group>"; };
+		CE2066C31017EF2E0078A5ED /* WWCheckboxRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWCheckboxRow.m; sourceTree = "<group>"; };
 		CEAEE23A0FEC0E7F00950781 /* WWCardEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWCardEditor.h; sourceTree = "<group>"; };
 		CEAEE23B0FEC0E7F00950781 /* WWCardEditor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWCardEditor.m; sourceTree = "<group>"; };
 		CEAEE23E0FEC0EB300950781 /* WWCardEditorRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWCardEditorRow.h; sourceTree = "<group>"; };
@@ -146,6 +149,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		CE2066C11017EF1C0078A5ED /* Checkbox Row */ = {
+			isa = PBXGroup;
+			children = (
+				CE2066C21017EF2E0078A5ED /* WWCheckboxRow.h */,
+				CE2066C31017EF2E0078A5ED /* WWCheckboxRow.m */,
+			);
+			name = "Checkbox Row";
+			sourceTree = "<group>";
+		};
 		CEAEE23D0FEC0E8B00950781 /* Card Editor */ = {
 			isa = PBXGroup;
 			children = (
@@ -161,6 +173,7 @@
 		CEAEE2410FEC0EBA00950781 /* Row Views */ = {
 			isa = PBXGroup;
 			children = (
+				CE2066C11017EF1C0078A5ED /* Checkbox Row */,
 				CEAEE6390FEC50C800950781 /* Key-Value Row */,
 				CEFE66830FE843530093A2E9 /* Flow Field Row */,
 			);
@@ -255,6 +268,7 @@
 				CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */,
 				CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */,
 				CEAEE5EC0FEC4D2200950781 /* NSString+GuidGeneration.m in Sources */,
+				CE2066C41017EF2E0078A5ED /* WWCheckboxRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
