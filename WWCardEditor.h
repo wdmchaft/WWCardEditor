@@ -16,6 +16,7 @@
 	NSColor *keyLabelColor;
 	NSFont *keyLabelFont;
 	CGSize padding;
+	CGFloat rowSpacing;
 	NSColor *backgroundColor;
 }
 
@@ -34,5 +35,6 @@
 @property(retain) NSFont *keyLabelFont;
 @property(retain) NSColor *backgroundColor;
 @property(assign) CGSize padding;
+@property(assign) CGFloat rowSpacing;
 
 @end

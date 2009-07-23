@@ -119,15 +119,21 @@
 - (void)setEditMode:(BOOL)flag {
 	if(editMode != flag){
 		
-		if(editMode){ // coming out of edit mode
-			self.activeField = NSNotFound;
-		}else{ // going into edit mode
-			self.activeField = 0;
+		[_textView setEditable:flag];
+		[[_textView textStorage] setAttributedString:[self _renderedText]];
+		
+		if(editMode != flag){
+			if(editMode){ // coming out of edit mode
+				self.activeField = NSNotFound;
+				[_textView setSelectedRange:NSMakeRange(NSNotFound,0)];
+			}else{ // going into edit mode
+				self.activeField = 0;
+			}
 		}
 		
 		editMode = flag;
-		[[_textView textStorage] setAttributedString:[self _renderedText]];
-		[_textView setEditable:flag];
+		
+		
 		[self setNeedsDisplay];
 	}
 }
@@ -313,6 +319,8 @@
 	
 	// TODO decide on if we should only conditionally override the textview's insertion of text or 
 	// do it ALL the time (could be performance reasons for doing it conditionally)
+	
+	// Could possible use the "marked text" stuff
 	
 	BOOL fieldWasAPlaceholderBefore = NO;
 	WWFlowFieldSubfield *relevantField = nil;

@@ -11,6 +11,7 @@
 
 @interface WWKeyValueRow()
 - (void) _layoutIfNeeded;
+- (NSMutableDictionary *)_labelAttributes;
 @end
 
 #pragma mark -
@@ -28,6 +29,13 @@
     [self setKeyLabel:nil];
 	
     [super dealloc];
+}
+
+- (NSMutableDictionary *)_labelAttributes{
+	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+	[attrs setObject:parentEditor.keyLabelFont forKey:NSFontAttributeName];
+	[attrs setObject:parentEditor.keyLabelColor forKey:NSForegroundColorAttributeName];
+	return attrs;
 }
 
 #pragma mark -
@@ -97,16 +105,13 @@
 }
 
 - (CGFloat) neededHeight{
-	return MAX([valueRowView neededHeight],20);
+	return MAX([valueRowView neededHeight], [keyLabel sizeWithAttributes:[self _labelAttributes]].height); 
 }
 
 - (void)drawRect:(NSRect)rect {
 	[self _layoutIfNeeded];
 	
-	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-	
-	[attrs setObject:parentEditor.keyLabelFont forKey:NSFontAttributeName];
-	[attrs setObject:parentEditor.keyLabelColor forKey:NSForegroundColorAttributeName];
+	NSMutableDictionary *attrs = [self _labelAttributes];
 	
 	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
 	[style setAlignment:NSRightTextAlignment];
@@ -116,8 +121,9 @@
 	[super drawRect:rect];
 }
 
-
-
-
-
+- (BOOL) isFlipped{
+	return YES;
+}
+	
+	
 @end

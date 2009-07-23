@@ -10,11 +10,12 @@
 #import "WWCardEditorRow.h"
 
 @interface WWCheckboxRow : WWCardEditorRow {
-	NSButton *checkbox;
+	NSButton *_checkbox;
 	BOOL needsLayout;
 }
 
 @property(assign) BOOL isChecked;
-@property(retain ) NSString *label;
+@property(retain) NSString *label;
+@property(retain) NSFont *font;
 
 @end

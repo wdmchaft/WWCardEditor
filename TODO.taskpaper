@@ -2,6 +2,21 @@ General Card Editor Stuff:
 - Get flow field working inside of Key Value row type
 
 
+Key handling:
+- Arrow keys should switch between editable fields (across entire card editor)
+- Enter key should switch to next field (but pastes should still strip returns and newlines)
+- Get tabbing and reverse-tabbing to work
+
+
+New field types:
+- Dictionary.app-style dividers with disclosure rects
+- Office-style/CSSedit-style dividers with disclosure rects
+- Editable image view
+- +/- buttons for deleting and adding stuff
+- Custom selectbox with arrows
+
+
+
 Flow field: selection behavior:
 - Need a way to select none (where active field changes to NSNotFound)
 - Active field should be externally changable @done
@@ -9,11 +24,6 @@ Flow field: selection behavior:
 	- When going INTO edit mode, set selected field to 0, UNLESS there are no fields, then set it to NSNotFound @done
 	- When coming OUT of edit mode, set the selection to none @done
 - Fix right-arrow-at-end-of-field bug @done
-Key overrides:
-- Get tabbing and reverse-tabbing to work
-- Enter key should switch to next field (but pastes should still strip returns and newlines)
-- Arrow keys should switch between editable fields
-- Need to strip formatting from pasted text
 Individual flow fields should support:
 - Placeholder text @done
 - Min length

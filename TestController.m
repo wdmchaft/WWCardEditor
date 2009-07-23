@@ -17,7 +17,7 @@
 	
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
-	/*WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
+	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
 	firstName.font = bigFont;
 	
 	WWFlowFieldSubfield *nameSpace = [WWFlowFieldSubfield uneditableSpace];
@@ -34,8 +34,9 @@
 	WWFlowFieldSubfield *zip = [WWFlowFieldSubfield editableSubfieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
 
 	NSArray *fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,[WWFlowFieldSubfield uneditableNewline],addyLine1,[WWFlowFieldSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
-	*/
 	
+	 // simpler example for easier debugging:
+	/*
 	NSArray *fields = [NSArray arrayWithObjects:[WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First Name" initialValue:@"Daniel"],
 					   [WWFlowFieldSubfield uneditableSpace],
 												[WWFlowFieldSubfield editableSubfieldWithName:@"middleName" placeholder:@"Middle Name" initialValue:@"Ethan"],
@@ -43,7 +44,7 @@
 					   [WWFlowFieldSubfield editableSubfieldWithName:@"lastName" placeholder:@"Last Name" initialValue:@"Grover"], 
 					   
 					   
-					   nil];
+					   nil];*/
 	
 	
 	
@@ -78,8 +79,6 @@
 	
 	WWKeyValueRow *kv2 = [[[WWKeyValueRow alloc] init] autorelease];
 	kv2.keyLabel = @"home";
-	
-	
 	
 	
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];

@@ -24,6 +24,7 @@
 		self.keyLabelColor = [NSColor darkGrayColor];
 		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:12];
 		self.padding = CGSizeMake(10, 10);
+		self.rowSpacing = 0;
 		self.backgroundColor = [NSColor whiteColor];
     }
     return self;
@@ -31,8 +32,9 @@
 
 
 - (void) dealloc{
-	[self setKeyLabelColor:nil];
-	[self setKeyLabelFont:nil];
+	self.keyLabelColor = nil;
+	self.keyLabelFont = nil;
+	self.backgroundColor = nil;
 	[super dealloc];
 }
 
@@ -76,7 +78,31 @@
     }
 }
 
+- (CGSize)padding {
+    return padding;
+}
+
+- (void)setPadding:(CGSize)aPadding {
+    padding = aPadding;
+	needsLayout = YES;
+	[self setNeedsDisplay:YES];
+}
+
+- (CGFloat)rowSpacing {
+    return rowSpacing;
+}
+
+- (void)setRowSpacing:(CGFloat)aRowSpacing {
+    rowSpacing = aRowSpacing;
+	needsLayout = YES;
+	[self setNeedsDisplay:YES];
+}
+
+
+
+
 #pragma mark -
+#pragma mark Row Manipulation 
 
 - (void) addRow:(WWCardEditorRow *)row{
 	[self addRow:row atIndex:[_rows count]];
@@ -99,6 +125,9 @@
 	return _rows;
 }
 
+
+#pragma mark -
+
 - (void) layoutIfNeeded{
 	if(needsLayout){
 		CGFloat yCursor = padding.height;
@@ -106,7 +135,7 @@
 		for(WWCardEditorRow *row in _rows){
 			CGFloat neededHeight = [row neededHeight];
 			[row setFrame:NSMakeRect(padding.width, yCursor,[self frame].size.width, neededHeight)];
-			yCursor += neededHeight;
+			yCursor += neededHeight + rowSpacing;
 		}
 		
 		needsLayout = NO;	
@@ -124,20 +153,8 @@
 	[super drawRect:rect];
 }
 
-- (CGSize)padding {
-    return padding;
-}
-
-- (void)setPadding:(CGSize)aPadding {
-    padding = aPadding;
-	needsLayout = YES;
-	[self setNeedsDisplay:YES];
-}
-
-
-
-
 - (BOOL) isFlipped{
 	return YES;
 }
+
 @end
