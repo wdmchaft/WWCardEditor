@@ -10,6 +10,7 @@
 #import "WWFlowFieldRowTextView.h"
 
 #import "WWFlowFieldRow_Internals.h"
+#import "WWCardEditor_Internals.h"
 
 #pragma mark -
 
@@ -40,24 +41,15 @@
     return self;
 }
 
-- (void)viewWillMoveToWindow:(NSWindow *)newWindow{
-	// Register for notifications when the window becomes or resigns key, so that we can redraw the control
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
-	[nc removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
-	
-	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
-	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
-}
 
 - (void)setNeedsDisplay{
 	[self setNeedsDisplay:YES];
+	
 }
 
 - (void) dealloc{
 	[_textView release];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
+
 	[super dealloc];
 }
 
@@ -99,7 +91,6 @@
 	NSUInteger oldField = activeField;
     activeField = anActiveField;
 	
-
 	if(activeField != oldField){
 		if(activeField == NSNotFound){ // If there's no field selected, then make no text selected
 			if([_textView selectedRange].location != NSNotFound){
@@ -110,6 +101,7 @@
 		}
 	}
 	
+	[[self parentEditor] setNeedsDisplay:YES];
 }
 
 - (BOOL)editMode {
@@ -134,6 +126,7 @@
 		
 		
 		[self setNeedsDisplay];
+		[[self superview] setNeedsDisplay:YES];
 	}
 }
 
@@ -237,12 +230,13 @@
 #pragma mark Text View Delegate
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
+	[parentEditor setNeedsDisplay:YES];
+	
 	if(isRendering){
 		return newSelectedCharRange;
 	}
 	
 	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
-	[self setNeedsDisplay:YES];
 	
 	
 	if(!editMode || (activeField == NSNotFound)){
@@ -298,6 +292,8 @@
 
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
 	NSLog(@"Changing text in range %@, new string = %@",NSStringFromRange(affectedCharRange), replacementString);
+	[parentEditor setNeedsLayout:YES];
+	[parentEditor setNeedsDisplay:YES];
 	
 	if(!editMode || (activeField == NSNotFound)){
 		return NO;
@@ -378,71 +374,6 @@
 
 #pragma mark -
 
-- (void)drawRect:(NSRect)rect {
-	NSPoint containerOrigin	 = [_textView textContainerOrigin];
-	CGContextRef myContext = [[NSGraphicsContext currentContext] graphicsPort];
-	
-	//[[NSColor whiteColor] set];
-	//NSRectFill([self bounds]);
-
-	[super drawRect:rect];
-	
-	if(!editMode || (activeField == NSNotFound)) return; // no special drawing
-	
-	NSRange activeFieldRange = [self _rangeForFieldAtIndex:self.activeField];
-
-	NSUInteger rectCount = 0;
-	NSRectArray rects = [[_textView layoutManager] rectArrayForCharacterRange:activeFieldRange 
-												 withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) 
-															  inTextContainer:[_textView textContainer] 
-																	rectCount:&rectCount];
-	
-	CGMutablePathRef glyphPath = CGPathCreateMutable();
-	CGMutablePathRef outerGlyphPath = CGPathCreateMutable();
-	
-	for(unsigned i = 0; i < rectCount; i++){
-		NSRect nsRect = rects[i];
-		CGRect cgRect = CGRectMake(floor(nsRect.origin.x - editBoxPadding + containerOrigin.x), 
-								   floor(nsRect.origin.y - editBoxPadding + containerOrigin.y), 
-								   floor(nsRect.size.width + editBoxPadding * 2.0f), 
-								   floor(nsRect.size.height + editBoxPadding * 2.0f));
-		
-		cgRect = CGRectInset(cgRect, -0.5, -0.5); // avoid drawing on pixel cracks
-		
-		CGPathAddRect(glyphPath, nil, cgRect);
-		CGPathAddRect(outerGlyphPath, nil, CGRectInset(cgRect, -1, -1));
-	}
-	
-
-	CGContextBeginPath(myContext);
-	CGContextAddPath(myContext, glyphPath);
-	CGContextClosePath(myContext);
-	
-	// Draw a fancy drop shadow if our window has focus
-	if([[self window] isKeyWindow]){
-		CGContextSetShadowWithColor(myContext, CGSizeMake(2, -3), 5.0, [[NSColor colorWithDeviceWhite:0 alpha:0.9] asCGColor]);
-	}
-
-	[[NSColor whiteColor] set];
-	CGContextFillPath(myContext);
-	
-	CGContextSetShadowWithColor(myContext, CGSizeMake(0,0), 0, nil);
-	
-	CGContextBeginPath(myContext);
-	CGContextAddPath(myContext, outerGlyphPath);
-	CGContextClosePath(myContext);
-	
-	[[NSColor lightGrayColor] set];
-	CGContextStrokePath(myContext);
-
-}
-
-
-- (BOOL) isFlipped{
-	return YES;
-}
-
-
 - (CGFloat) neededHeight{
 	NSRect boundingRect = [[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForTextContainer:[_textView textContainer]]
 															   inTextContainer:[_textView textContainer]];
@@ -450,4 +381,22 @@
 	NSLog(@"Needed height for flow field contianer is %@",NSStringFromRect(boundingRect));
 	return 50;//boundingRect.size.height;
 }
+
+
+- (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
+	if(!editMode || (activeField == NSNotFound)){
+		return [super requestedFocusRectArrayAndCount:count];
+	}
+	
+	NSRange activeFieldRange = [self _rangeForFieldAtIndex:self.activeField];
+	NSUInteger rectCount = 0;
+	NSRectArray rects = [[_textView layoutManager] rectArrayForCharacterRange:activeFieldRange 
+												 withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) 
+															  inTextContainer:[_textView textContainer] 
+																	rectCount:&rectCount];
+	
+	*count = rectCount;
+	return rects;
+}
+
 @end

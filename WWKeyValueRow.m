@@ -33,6 +33,10 @@
     [super dealloc];
 }
 
+- (NSString *)description{
+	return [NSString stringWithFormat:@"<WWKeyValueRow: keyLabel = %@, valueRow = %@>",keyLabel, valueRowView];
+}
+
 - (NSMutableDictionary *)_labelAttributes{
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	[attrs setObject:parentEditor.keyLabelFont forKey:NSFontAttributeName];
@@ -119,6 +123,24 @@
 - (CGFloat) availableWidth{
 	return [super availableWidth] - splitPosition;
 }
+
+- (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
+	
+	NSUInteger localCount;
+	NSRectArray localRects = [valueRowView requestedFocusRectArrayAndCount:&localCount];
+	for(unsigned i = 0; i < localCount; i++){
+		//NSRect rect = localRects[i];
+		localRects[i] = [self convertRect:localRects[i] fromView:valueRowView];
+	}
+	*count = localCount;
+	return localRects;
+	
+	
+	
+	//*count = 0;
+	//return nil;
+}
+
 
 #pragma mark -
 #pragma mark Drawing

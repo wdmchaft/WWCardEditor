@@ -13,7 +13,6 @@
 #import "WWCheckboxRow.h"
 
 @interface TestController : NSObject {
-	IBOutlet WWFlowFieldRow *flowFieldContainer;
 	IBOutlet NSTextField *debugDisplay;
 	IBOutlet NSButton *editModeCheckbox;
 	IBOutlet WWCardEditor *cardEditor;

@@ -7,13 +7,21 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "WWCardEditor.h"
 
 @interface WWCardEditorRow()
 
 @property(assign) WWCardEditor *parentEditor; // weak references to parents
 @property(assign) WWCardEditorRow *parentRow; 
 
+
 - (CGFloat) neededHeight;
 - (CGFloat) availableWidth;
+- (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count;
+@end
 
+
+
+@interface WWCardEditor()
+@property(assign) BOOL needsLayout;
 @end

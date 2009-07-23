@@ -9,6 +9,7 @@
 #import "WWCardEditor.h"
 #import "WWCardEditorRow.h"
 #import "WWCardEditor_Internals.h"
+#import "WWKeyValueRow.h"
 
 @interface WWCardEditor()
 @property(retain) NSMutableArray *_rows;
@@ -28,15 +29,35 @@
 		self.padding = CGSizeMake(10, 10);
 		self.rowSpacing = 0;
 		self.backgroundColor = [NSColor whiteColor];
+		self.editBoxPadding = CGSizeMake(3, 3);
+		
+		NSImageView *dummyView = [[NSImageView
+								   alloc] initWithFrame:NSMakeRect(0,0,1000,1000)];
+		[self addSubview:dummyView];
     }
     return self;
 }
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow{
+	// Register for notifications when the window becomes or resigns key, so that we can redraw the control
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
+	[nc removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
+	
+	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
+	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
+}
+
 
 
 - (void) dealloc{
 	self.keyLabelColor = nil;
 	self.keyLabelFont = nil;
 	self.backgroundColor = nil;
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
+	
 	[super dealloc];
 }
 
@@ -107,7 +128,23 @@
     editMode = flag;
 	for(WWCardEditorRow *row in _rows){
 		[row setEditMode:flag];
+		[row setNeedsDisplay:YES];
 	}
+	[self setNeedsDisplay:YES];
+}
+
+
+- (CGSize)editBoxPadding {
+    return editBoxPadding;
+}
+
+- (void)setEditBoxPadding:(CGSize)anEditBoxPadding {
+    editBoxPadding = anEditBoxPadding;
+	[self setNeedsDisplay:YES];
+}
+
+- (void) setNeedsDisplay{
+	[self setNeedsDisplay:YES];
 }
 
 
@@ -152,15 +189,73 @@
 	}
 }
 
-- (void)drawRect:(NSRect)rect {
+- (void) viewWillDraw{
 	[self layoutIfNeeded];
+}
+
+- (void)drawRect:(NSRect)rect {
 	
 	if(backgroundColor){
 		[backgroundColor set];
-		NSRectFill(rect);
+		NSRectFill([self bounds]);
 	}
 	
 	[super drawRect:rect];
+	
+	CGContextRef myContext = [[NSGraphicsContext currentContext] graphicsPort];
+	
+	CGMutablePathRef glyphPath = CGPathCreateMutable();
+	NSUInteger totalRectCount = 0;
+	
+	for(WWCardEditorRow *row in _rows){
+		NSUInteger rectCount = 0;
+		NSRectArray rects = [row requestedFocusRectArrayAndCount:&rectCount];
+		totalRectCount += rectCount;
+		
+		for(NSUInteger i = 0; i < rectCount; i++){
+			NSRect nsRect = NSInsetRect([self convertRect:rects[i] fromView:row], 
+								 -1*editBoxPadding.width, 
+								 -1*editBoxPadding.height);
+			
+			CGRect cgRect = CGRectMake(floor(nsRect.origin.x), floor(nsRect.origin.y), floor(nsRect.size.width), floor(nsRect.size.height));
+			cgRect = CGRectInset(cgRect, -0.5, -0.5); // avoid drawing on pixel cracks
+			
+			CGPathAddRect(glyphPath, nil, cgRect);
+		}
+	}
+	
+	if(!totalRectCount){
+		return;
+	}
+	
+	// Draw the white rectangles
+	CGContextBeginPath(myContext);
+	CGContextAddPath(myContext, glyphPath);
+	CGContextClosePath(myContext);
+	[backgroundColor set];
+	CGContextFillPath(myContext);
+	
+	//Draw a fancy drop shadow if our window has focus
+	if([[self window] isKeyWindow]){
+		CGContextBeginPath(myContext);
+		CGContextAddPath(myContext, glyphPath);
+		CGContextClosePath(myContext);
+	
+		CGContextSetShadowWithColor(myContext, CGSizeMake(3.5, -3.5), 5.0, [[NSColor colorWithDeviceWhite:0 alpha:0.9] asCGColor]);
+		CGContextFillPath(myContext);
+		CGContextSetShadowWithColor(myContext, CGSizeMake(0,0), 0, nil);
+	}
+	
+	// Draw the borders
+	CGContextBeginPath(myContext);
+	CGContextAddPath(myContext, glyphPath);
+	CGContextClosePath(myContext);
+	
+	[[NSColor lightGrayColor] set];
+	CGContextStrokePath(myContext);
+	
+		
+	//[super drawRect:rect];
 }
 
 - (BOOL) isFlipped{

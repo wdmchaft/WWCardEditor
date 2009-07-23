@@ -10,6 +10,7 @@
 #import "WWFlowFieldRow.h"
 
 #import "WWFlowFieldRow_Internals.h"
+#import "WWCardEditor_Internals.h"
 
 @implementation WWFlowFieldRowTextView 
 @synthesize container;
@@ -19,6 +20,8 @@
 
 
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity{
+	[[container parentEditor] setNeedsDisplay:YES];
+	
 	if(!container.editMode){
 		return proposedSelRange; // If we're not in edit mode, they can select anything they want
 	}
@@ -98,46 +101,6 @@
 	return proposedSelRange;
 }
 
-
-// Draw white rectangles where the editing box should be and then redraw the text on top
-- (void) drawRect:(NSRect)rect{
-	[super drawRect:rect];
-	
-	if(!container.editMode || (container.activeField == NSNotFound)){
-		return;
-	}
-	
-	CGContextRef myContext	 = [[NSGraphicsContext currentContext] graphicsPort];
-	NSPoint containerOrigin	 = [self textContainerOrigin];
-	
-	// Find where to draw the rects
-	NSRange activeFieldRange =  [container _rangeForFieldAtIndex:container.activeField];
-	NSUInteger rectCount = 0;
-	NSRectArray rects = [[self layoutManager] rectArrayForCharacterRange:activeFieldRange withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) inTextContainer:[self textContainer] rectCount:&rectCount];
-	
-	float padding = container.editBoxPadding;
-	
-	CGContextBeginPath(myContext);
-	for(unsigned i = 0; i < rectCount; i++){
-		NSRect nsRect = rects[i];
-		CGRect cgRect = CGRectMake(floor(nsRect.origin.x - padding + containerOrigin.x), 
-								   floor(nsRect.origin.y - padding + containerOrigin.y), 
-								   floor(nsRect.size.width + padding*2),
-								   floor(nsRect.size.height + padding*2));
-		
-		CGContextAddRect(myContext, CGRectInset(cgRect, -0.5, -0.5));
-	}
-	CGContextClosePath(myContext);
-	
-	// Draw white rects
-	[[NSColor whiteColor] set];
-	CGContextFillPath(myContext);
-	
-	// Redraw the text over the white rects
-	NSRange fieldGlyphRange = [[self layoutManager] glyphRangeForCharacterRange:activeFieldRange actualCharacterRange:nil];
-	[[self layoutManager] drawBackgroundForGlyphRange:fieldGlyphRange atPoint:containerOrigin];
-	[[self layoutManager] drawGlyphsForGlyphRange:fieldGlyphRange atPoint:containerOrigin];
-}
 
 
 // Overrides

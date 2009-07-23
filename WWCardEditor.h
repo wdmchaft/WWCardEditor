@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WWCardEditorRow.h"
+#import "NSColor+Extras.h"
 
 @interface WWCardEditor : NSView {
 	BOOL needsLayout;
@@ -18,11 +19,9 @@
 	NSFont *keyLabelFont;
 	CGSize padding;
 	CGFloat rowSpacing;
+	CGSize editBoxPadding;
 	NSColor *backgroundColor;
 }
-
-
-@property(assign) BOOL needsLayout;
 
 @property(assign) BOOL editMode;
 
@@ -39,5 +38,6 @@
 @property(retain) NSColor *backgroundColor;
 @property(assign) CGSize padding;
 @property(assign) CGFloat rowSpacing;
+@property(assign) CGSize editBoxPadding;
 
 @end

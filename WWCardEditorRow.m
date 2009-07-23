@@ -28,7 +28,8 @@
 
 - (void)drawRect:(NSRect)rect{
 	[[NSColor redColor] set];
-	[NSBezierPath strokeRect:[self bounds]];
+	//[NSBezierPath strokeRect:[self bounds]];
+	[super drawRect:rect];
 }
 
 
@@ -38,6 +39,16 @@
 	}else{
 		return [parentEditor frame].size.width;
 	}
+}
+
+- (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
+	
+	*count = 0;
+	return nil;
+}
+
+- (BOOL) isFlipped{
+	return YES;
 }
 
 @end

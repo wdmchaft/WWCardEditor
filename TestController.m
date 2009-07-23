@@ -47,12 +47,9 @@
 					   nil];*/
 	
 	
+
 	
-	
-	NSLog(@"Setting fields = %@",fields);
-	flowFieldContainer.fields = fields;
-	
-	[self toggleEditMode:nil];
+
 
 	
 	
@@ -60,17 +57,13 @@
 	
 	WWFlowFieldSubfield *firstName2 = [[[WWFlowFieldSubfield alloc] initWithName:@"firstName"] autorelease];
 	firstName2.value = @"Dan";
-	firstName2.font = bigFont;
-	
-	WWFlowFieldSubfield *nameSpace2 = [[[WWFlowFieldSubfield alloc] initWithName:@"nameSpace"] autorelease];
-	nameSpace2.value = @" ";
-	nameSpace2.font = bigFont;
+//	firstName2.font = bigFont;
 	
 	WWFlowFieldSubfield *lastName2 = [[[WWFlowFieldSubfield alloc] initWithName:@"lastName"] autorelease];
 	lastName2.value = @"Grover";
-	lastName2.font = bigFont;
+	//lastName2.font = bigFont;
 	
-	flow2.fields = [NSArray arrayWithObjects:firstName2,nameSpace2,lastName2,nil];
+	flow2.fields = [NSArray arrayWithObjects:firstName2,[WWFlowFieldSubfield uneditableSpace],lastName2,nil];
 	
 	//WWKeyValueRow *kv1 = [[[WWKeyValueRow alloc] init] autorelease];
 	//kv1.keyLabel = @"Name";
@@ -78,7 +71,7 @@
 	
 	
 	WWKeyValueRow *kv2 = [[[WWKeyValueRow alloc] init] autorelease];
-	kv2.keyLabel = @"home";
+	kv2.keyLabel = @"name";
 	kv2.valueRowView = flow2;
 	
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
@@ -94,20 +87,22 @@
 	[cardEditor addRow:kv2];
 	[cardEditor addRow:checkboxKeyValue];
 	[cardEditor setRowSpacing:4];
+	
 	[cardEditor setNeedsDisplay:YES];
+		[self toggleEditMode:nil];
 
 }
 
 
 - (IBAction) refreshDebugDisplay:(id)sender{
-	[debugDisplay setStringValue:[[flowFieldContainer fields] description]];
+//	[debugDisplay setStringValue:[[flowFieldContainer fields] description]];
 	
 }
 
 - (IBAction) toggleEditMode:(id)sender{
 	NSLog(@"New edit mode is %d",[editModeCheckbox intValue]);
-	[flowFieldContainer setEditMode:[editModeCheckbox intValue]];
 	[cardEditor setEditMode:[editModeCheckbox intValue]];
+	[cardEditor setNeedsDisplay:YES];
 }
 
 @end
