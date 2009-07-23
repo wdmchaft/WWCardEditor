@@ -8,6 +8,8 @@
 
 #import "WWKeyValueRow.h"
 #import "WWCardEditor.h"
+#import "WWCardEditorRow_Internals.h"
+
 
 @interface WWKeyValueRow()
 - (void) _layoutIfNeeded;
@@ -87,6 +89,7 @@
     }
 	
 	[valueRowView setParentEditor:aParentEditor];
+	[valueRowView setParentRow:self];
 }
 
 - (void)setEditMode:(BOOL)flag {
@@ -94,8 +97,13 @@
 	[super setEditMode:flag];
 }
 
+- (void)setParentRow:(WWCardEditorRow *)aParentRow {
+    [valueRowView setParentRow:aParentRow];
+	[super setParentRow:aParentRow];
+}
 
 #pragma mark -
+#pragma mark Layout
 
 - (void) _layoutIfNeeded{
 	if(needsLayout){
@@ -107,6 +115,13 @@
 - (CGFloat) neededHeight{
 	return MAX([valueRowView neededHeight], [keyLabel sizeWithAttributes:[self _labelAttributes]].height); 
 }
+
+- (CGFloat) availableWidth{
+	return [super availableWidth] - splitPosition;
+}
+
+#pragma mark -
+#pragma mark Drawing
 
 - (void)drawRect:(NSRect)rect {
 	[self _layoutIfNeeded];

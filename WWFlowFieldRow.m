@@ -383,9 +383,11 @@
 	NSPoint containerOrigin	 = [_textView textContainerOrigin];
 	CGContextRef myContext = [[NSGraphicsContext currentContext] graphicsPort];
 	
-	[[NSColor whiteColor] set];
-	NSRectFill([self bounds]);
+	//[[NSColor whiteColor] set];
+	//NSRectFill([self bounds]);
 
+	[super drawRect:rect];
+	
 	if(!editMode || (activeField == NSNotFound)) return; // no special drawing
 	
 	NSRange activeFieldRange = [self _rangeForFieldAtIndex:self.activeField];
@@ -433,6 +435,7 @@
 	
 	[[NSColor lightGrayColor] set];
 	CGContextStrokePath(myContext);
+
 }
 
 
@@ -446,6 +449,6 @@
 															   inTextContainer:[_textView textContainer]];
 	
 	NSLog(@"Needed height for flow field contianer is %@",NSStringFromRect(boundingRect));
-	return 50;
+	return 50;//boundingRect.size.height;
 }
 @end

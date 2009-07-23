@@ -7,6 +7,8 @@
 //
 
 #import "WWCardEditor.h"
+#import "WWCardEditorRow.h"
+#import "WWCardEditorRow_Internals.h"
 
 @interface WWCardEditor()
 @property(retain) NSMutableArray *_rows;
@@ -134,7 +136,7 @@
 		
 		for(WWCardEditorRow *row in _rows){
 			CGFloat neededHeight = [row neededHeight];
-			[row setFrame:NSMakeRect(padding.width, yCursor,[self frame].size.width, neededHeight)];
+			[row setFrame:NSMakeRect(padding.width, yCursor,[self frame].size.width - (padding.width*2), neededHeight)];
 			yCursor += neededHeight + rowSpacing;
 		}
 		

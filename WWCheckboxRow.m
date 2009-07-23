@@ -7,6 +7,7 @@
 //
 
 #import "WWCheckboxRow.h"
+#import "WWCardEditorRow_Internals.h"
 
 
 @interface WWCheckboxRow()
@@ -42,7 +43,7 @@
 						 
 - (void) _layoutIfNeeded{
 	if(needsLayout){
-		[_checkbox setFrame:NSMakeRect(0,0,[[self superview] frame].size.width,[self neededHeight])];
+		[_checkbox setFrame:NSMakeRect(0, 0, [self availableWidth], [self neededHeight])];
 		needsLayout = NO;
 	}
 }

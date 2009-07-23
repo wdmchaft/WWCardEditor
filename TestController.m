@@ -93,10 +93,10 @@
 	[cardEditor addRow:flow2];
 	[cardEditor addRow:kv2];
 	[cardEditor addRow:checkboxKeyValue];
+	[cardEditor setRowSpacing:4];
 	[cardEditor setNeedsDisplay:YES];
 
 }
-
 
 
 - (IBAction) refreshDebugDisplay:(id)sender{

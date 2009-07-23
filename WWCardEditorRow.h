@@ -12,12 +12,10 @@
 
 @interface WWCardEditorRow : NSView {
 	WWCardEditor *parentEditor;
+	WWCardEditorRow *parentRow;
 	BOOL editMode;
 }
 
-@property(assign) WWCardEditor *parentEditor; // weak reference to parent
-
-- (CGFloat) neededHeight;
 
 @property(assign) BOOL editMode;
 

@@ -7,26 +7,40 @@
 //
 
 #import "WWCardEditorRow.h"
-
+#import "WWCardEditorRow_Internals.h"
 
 @implementation WWCardEditorRow
-@synthesize parentEditor, editMode;
+@synthesize parentEditor, parentRow, editMode;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        // Initialization code here.
+		
     }
     return self;
 }
 
+
 - (CGFloat) neededHeight{
-	@throw [NSException exceptionWithName:@"WWCardEditorRow" reason:@"WWCardEditorRow had neededHeight called on it -- this should not be used directly" userInfo:nil];
+	return 0;
+	//@throw [NSException exceptionWithName:@"WWCardEditorRow" reason:@"WWCardEditorRow had neededHeight called on it -- this should not be used directly" userInfo:nil];
 }
 
 - (void)drawRect:(NSRect)rect{
 	[[NSColor redColor] set];
 	[NSBezierPath strokeRect:[self bounds]];
+}
+
+- (CGFloat) usedWidth{
+	return 0;
+}
+
+- (CGFloat) availableWidth{
+	if(parentRow){
+		return [parentRow availableWidth];
+	}else{
+		return [parentEditor frame].size.width;
+	}
 }
 
 @end
