@@ -25,6 +25,7 @@
 		
 		[checkbox setButtonType:NSSwitchButton];
 		[checkbox setBezelStyle:NSRegularSquareBezelStyle];
+		[[checkbox cell] setControlSize:NSSmallControlSize];
 		[self addSubview:checkbox];
 		needsLayout = YES;
     }
@@ -40,14 +41,13 @@
 						 
 - (void) _layoutIfNeeded{
 	if(needsLayout){
-		NSLog(@"Laying out checkbox: %f",[parentEditor frame].size.width);
-		[checkbox setFrame:NSMakeRect(0,0,[parentEditor frame].size.width,20)];
+		[checkbox setFrame:NSMakeRect(0,0,[[self superview] frame].size.width,[self neededHeight])];
 		needsLayout = NO;
 	}
 }
 
 - (CGFloat) neededHeight{
-	return 20;
+	return 25;
 }
 						
 #pragma mark -

@@ -83,7 +83,7 @@
 	
 	
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
-	checkboxRow.label = @"";
+	checkboxRow.label = @"lol";
 	checkboxRow.isChecked = YES;
 	
 	WWKeyValueRow *checkboxKeyValue = [[[WWKeyValueRow alloc] init] autorelease];

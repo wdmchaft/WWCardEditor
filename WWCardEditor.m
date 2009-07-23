@@ -23,6 +23,7 @@
 		self._rows = [NSMutableArray array];
 		self.keyLabelColor = [NSColor darkGrayColor];
 		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:12];
+		self.padding = CGSizeMake(10, 10);
     }
     return self;
 }
@@ -88,11 +89,11 @@
 
 - (void) layoutIfNeeded{
 	if(needsLayout){
-		CGFloat yCursor = 0;
+		CGFloat yCursor = padding.height;
 		
 		for(WWCardEditorRow *row in _rows){
 			CGFloat neededHeight = [row neededHeight];
-			[row setFrame:NSMakeRect(0, yCursor,[self frame].size.width, neededHeight)];
+			[row setFrame:NSMakeRect(padding.width, yCursor,[self frame].size.width, neededHeight)];
 			yCursor += neededHeight;
 		}
 		
@@ -107,6 +108,19 @@
 	NSRectFill(rect);
 	[super drawRect:rect];
 }
+
+- (CGSize)padding {
+    return padding;
+}
+
+- (void)setPadding:(CGSize)aPadding {
+    padding = aPadding;
+	needsLayout = YES;
+	[self setNeedsDisplay:YES];
+}
+
+
+
 
 - (BOOL) isFlipped{
 	return YES;
