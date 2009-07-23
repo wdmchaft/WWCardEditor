@@ -15,8 +15,8 @@
 	
 	NSColor *keyLabelColor;
 	NSFont *keyLabelFont;
-	
 	CGSize padding;
+	NSColor *backgroundColor;
 }
 
 
@@ -32,6 +32,7 @@
 // Appearance
 @property(retain) NSColor *keyLabelColor;
 @property(retain) NSFont *keyLabelFont;
+@property(retain) NSColor *backgroundColor;
 @property(assign) CGSize padding;
 
 @end

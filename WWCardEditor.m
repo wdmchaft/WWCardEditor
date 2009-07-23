@@ -24,6 +24,7 @@
 		self.keyLabelColor = [NSColor darkGrayColor];
 		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:12];
 		self.padding = CGSizeMake(10, 10);
+		self.backgroundColor = [NSColor whiteColor];
     }
     return self;
 }
@@ -63,6 +64,17 @@
     }
 }
 
+- (NSColor *)backgroundColor {
+    return backgroundColor; 
+}
+
+- (void)setBackgroundColor:(NSColor *)aBackgroundColor {
+    if (backgroundColor != aBackgroundColor) {
+        [backgroundColor release];
+        backgroundColor = [aBackgroundColor retain];
+		[self setNeedsDisplay:YES];
+    }
+}
 
 #pragma mark -
 
@@ -102,10 +114,13 @@
 }
 
 - (void)drawRect:(NSRect)rect {
-    // Drawing code here.
 	[self layoutIfNeeded];
-	[[NSColor whiteColor] set];
-	NSRectFill(rect);
+	
+	if(backgroundColor){
+		[backgroundColor set];
+		NSRectFill(rect);
+	}
+	
 	[super drawRect:rect];
 }
 

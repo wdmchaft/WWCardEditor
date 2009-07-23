@@ -87,11 +87,11 @@
 	[self setNeedsDisplay:YES];
 }
 
-- (NSUInteger)activeField {
+- (NSInteger)activeField {
     return activeField;
 }
 
-- (void)setActiveField:(NSUInteger)anActiveField {
+- (void)setActiveField:(NSInteger)anActiveField {
 	if((anActiveField >= [fields count]) && (anActiveField != NSNotFound)){
 		return;
 	}
