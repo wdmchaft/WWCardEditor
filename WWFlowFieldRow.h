@@ -16,14 +16,11 @@
 	NSInteger activeField;
 	NSArray *fields;
 	CGFloat editBoxPadding;
-	BOOL editMode;
 	BOOL isRendering;
 }
 
 @property(retain) NSArray *fields;
 @property(assign) NSInteger activeField;
-
-@property(assign) BOOL editMode;
 
 // Appearance
 @property(assign) CGFloat editBoxPadding;

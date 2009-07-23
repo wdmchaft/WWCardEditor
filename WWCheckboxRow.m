@@ -27,6 +27,7 @@
 		[checkbox setBezelStyle:NSRegularSquareBezelStyle];
 		[[checkbox cell] setControlSize:NSSmallControlSize];
 		[self addSubview:checkbox];
+		[self setEditMode:[super editMode]];
 		needsLayout = YES;
     }
 	
@@ -67,6 +68,12 @@
 
 - (void)setLabel:(NSString *)aLabel {
 	[checkbox setTitle:aLabel];
+}
+
+
+- (void)setEditMode:(BOOL)flag {
+	[checkbox setEnabled:flag];
+	[super setEditMode:flag];
 }
 
 #pragma mark -

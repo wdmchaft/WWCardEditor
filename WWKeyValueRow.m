@@ -46,6 +46,7 @@
 	[self setNeedsDisplay:YES];
 }
 
+
 - (WWCardEditorRow *)valueRowView {
     return valueRowView; 
 }
@@ -80,6 +81,12 @@
 	[valueRowView setParentEditor:aParentEditor];
 }
 
+- (void)setEditMode:(BOOL)flag {
+	[valueRowView setEditMode:flag];
+	[super setEditMode:flag];
+}
+
+
 #pragma mark -
 
 - (void) _layoutIfNeeded{
@@ -88,9 +95,6 @@
 		needsLayout = NO;
 	}
 }
-
-
-
 
 - (CGFloat) neededHeight{
 	return MAX([valueRowView neededHeight],20);

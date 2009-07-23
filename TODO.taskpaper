@@ -1,3 +1,7 @@
+General Card Editor Stuff:
+- Get flow field working inside of Key Value row type
+
+
 Flow field: selection behavior:
 - Need a way to select none (where active field changes to NSNotFound)
 - Active field should be externally changable @done

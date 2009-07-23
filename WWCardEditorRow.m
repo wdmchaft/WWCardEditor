@@ -10,7 +10,7 @@
 
 
 @implementation WWCardEditorRow
-@synthesize parentEditor;
+@synthesize parentEditor, editMode;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
