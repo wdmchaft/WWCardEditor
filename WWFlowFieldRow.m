@@ -34,7 +34,7 @@
 		
 		// Default params
 		self.editBoxPadding = WWFlowFieldContainer_DefaultEditBoxPadding;
-		[self setEditMode:YES];
+		[self setEditMode:NO];
     }
 	
     return self;
@@ -75,6 +75,7 @@
 	
 //	[_textView resignFirstResponder];
 	[[_textView textStorage] setAttributedString:[self _renderedText]];
+	[self setActiveField:NSNotFound];
 }
 
 - (CGFloat)editBoxPadding {
@@ -125,6 +126,7 @@
 		}
 		
 		editMode = flag;
+		[[_textView textStorage] setAttributedString:[self _renderedText]];
 		[_textView setEditable:flag];
 		[self setNeedsDisplay];
 	}
@@ -137,20 +139,23 @@
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	
 	for(WWFlowFieldSubfield *field in fields){
-		if([self _fieldShouldBeDisplayedAsPlaceholder:field]){
-			NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-			[attrs setObject:field.font forKey:NSFontAttributeName];
-			[attrs setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
-
-			[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:field.placeholder attributes:attrs] autorelease]];
-		}
-		else{
-			[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:field.value 
-																		   attributes:[NSDictionary dictionaryWithObject:field.font forKey:NSFontAttributeName]] autorelease]];
-		}
+		[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:[self _fieldShouldBeDisplayedAsPlaceholder:field] ? field.placeholder : field.value
+																	   attributes:[self _attributesForSubfield:field]] autorelease]];
 	}
 	
 	return soFar;
+}
+
+
+- (NSDictionary *)_attributesForSubfield:(WWFlowFieldSubfield *)field{
+	if([self _fieldShouldBeDisplayedAsPlaceholder:field]){
+		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+		[attrs setObject:field.font forKey:NSFontAttributeName];
+		[attrs setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
+		return attrs;
+	}else{
+		return [NSDictionary dictionaryWithObject:field.font forKey:NSFontAttributeName];
+	}
 }
 
 - (NSUInteger) _indexOfFieldForCharOffset:(NSUInteger)offsetDesired{
@@ -227,6 +232,9 @@
 #pragma mark Text View Delegate
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
+	if(isRendering){
+		return newSelectedCharRange;
+	}
 	
 	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
 	[self setNeedsDisplay:YES];
@@ -247,7 +255,7 @@
 		// Or it could mean they're trying to change the selection to none (by clicking on an invalid field), so we just set the field to Not Found and let them have no active field selected.
 		
 		if((newSelectedCharRange.location == [[_textView string] length]) && [[fields lastObject] editable]){
-			self.activeField = [fields count] - 1;
+			self.activeField = [fields count] - 1; // this is where it changes it
 		}else{
 			self.activeField = NSNotFound;
 		}
@@ -294,10 +302,17 @@
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
 	
+//	[textView setSelectedTextAttributes:[self _attributesForSubfield:[fields objectAtIndex:startFieldIndex]]];
+	
 	// Newlines are not allowed in these fields
 	// If someone enters or pastes one, we're going to strip it, and then handle the updating of the textView ourselves (by returning NO).
 	NSString *newlineScrubbedReplacementString = [[replacementString stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-	BOOL overrideHandling = ![newlineScrubbedReplacementString isEqual:replacementString]; 
+	
+	// Override the textview's handling all the time for now
+	BOOL overrideHandling = YES;//![newlineScrubbedReplacementString isEqual:replacementString]; 
+	
+	// TODO decide on if we should only conditionally override the textview's insertion of text or 
+	// do it ALL the time (could be performance reasons for doing it conditionally)
 	
 	BOOL fieldWasAPlaceholderBefore = NO;
 	WWFlowFieldSubfield *relevantField = nil;
@@ -328,22 +343,23 @@
 	
 	if(overrideHandling){
 		// If this is reached, we're going to put the new text there on behalf of the textfield since it would have put the return-carriage-laden
-		// text in its place.
+		// text in its place (or for some other reason)
 		
 		NSRange oldSelectedRange = [_textView selectedRange]; // Remember the old selection range to give the appearance that the textField is handling this action, not us
 		NSRange newSelectedRange = oldSelectedRange;
 		
+		isRendering = YES;
 		[[_textView textStorage] setAttributedString:[self _renderedText]];
 		
 		if(!fieldWasAPlaceholderBefore && fieldWasAPlaceholderAfterwards){
 			newSelectedRange = [self _rangeForFieldAtIndex:[fields indexOfObject:relevantField]]; // TODO clean up
-			
 		}else{
 			newSelectedRange.location += newlineScrubbedReplacementString.length;
 			newSelectedRange.length = 0;
 		}
 		
 		[_textView setSelectedRange:newSelectedRange];
+		isRendering = NO;
 		
 		[self setNeedsDisplay];
 		return NO;

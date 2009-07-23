@@ -60,6 +60,4 @@
 - (NSString *) description{
 	return [NSString stringWithFormat:@"<WWFlowField: name = %@, editable = %d, value = %@>", name, editable, value];
 }
-
-
 @end

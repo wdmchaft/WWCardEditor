@@ -21,6 +21,8 @@
 - (NSRange) _rangeForFieldAtIndex:(NSUInteger)fieldIndex;
 
 - (BOOL) _fieldShouldBeDisplayedAsPlaceholder:(WWFlowFieldSubfield *)field;
+
+- (NSDictionary *)_attributesForSubfield:(WWFlowFieldSubfield *)field;
 - (NSString *) _displayedStringForField:(WWFlowFieldSubfield *)field;
 @end
 

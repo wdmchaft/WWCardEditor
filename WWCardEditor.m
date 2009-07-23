@@ -20,7 +20,6 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		NSLog(@"Init with frame");
 		self._rows = [NSMutableArray array];
 		self.keyLabelColor = [NSColor darkGrayColor];
 		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:12];
@@ -89,7 +88,6 @@
 
 - (void) layoutIfNeeded{
 	if(needsLayout){
-		NSLog(@"Laying out card editor, rows are %@",_rows);
 		CGFloat yCursor = 0;
 		
 		for(WWCardEditorRow *row in _rows){
@@ -98,7 +96,6 @@
 			yCursor += neededHeight;
 		}
 		
-		NSLog(@"cursor = %f",yCursor);
 		needsLayout = NO;	
 	}
 }

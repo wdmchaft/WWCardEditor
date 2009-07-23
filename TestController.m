@@ -17,7 +17,7 @@
 	
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
-	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
+	/*WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
 	firstName.font = bigFont;
 	
 	WWFlowFieldSubfield *nameSpace = [WWFlowFieldSubfield uneditableSpace];
@@ -33,9 +33,21 @@
 	WWFlowFieldSubfield *zipSpace = [WWFlowFieldSubfield uneditableSpace];
 	WWFlowFieldSubfield *zip = [WWFlowFieldSubfield editableSubfieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
 
-	
-	
 	NSArray *fields = [NSArray arrayWithObjects:firstName,nameSpace,lastName,[WWFlowFieldSubfield uneditableNewline],addyLine1,[WWFlowFieldSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
+	*/
+	
+	NSArray *fields = [NSArray arrayWithObjects:[WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First Name" initialValue:@"Daniel"],
+					   [WWFlowFieldSubfield uneditableSpace],
+												[WWFlowFieldSubfield editableSubfieldWithName:@"middleName" placeholder:@"Middle Name" initialValue:@"Ethan"],
+					   [WWFlowFieldSubfield uneditableSpace],
+					   [WWFlowFieldSubfield editableSubfieldWithName:@"lastName" placeholder:@"Last Name" initialValue:@"Grover"], 
+					   
+					   
+					   nil];
+	
+	
+	
+	
 	NSLog(@"Setting fields = %@",fields);
 	flowFieldContainer.fields = fields;
 	
@@ -43,18 +55,17 @@
 
 	
 	
-	/*
 	WWFlowFieldRow *flow2 = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	
-	WWFlowSubfield *firstName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"firstName"] autorelease];
+	WWFlowFieldSubfield *firstName2 = [[[WWFlowFieldSubfield alloc] initWithName:@"firstName"] autorelease];
 	firstName2.value = @"Dan";
 	firstName2.font = bigFont;
 	
-	WWFlowSubfield *nameSpace2 = [[[WWImmutableStringFlowSubfield alloc] initWithName:@"nameSpace"] autorelease];
+	WWFlowFieldSubfield *nameSpace2 = [[[WWFlowFieldSubfield alloc] initWithName:@"nameSpace"] autorelease];
 	nameSpace2.value = @" ";
 	nameSpace2.font = bigFont;
 	
-	WWFlowSubfield *lastName2 = [[[WWEditableFlowSubfield alloc] initWithName:@"lastName"] autorelease];
+	WWFlowFieldSubfield *lastName2 = [[[WWFlowFieldSubfield alloc] initWithName:@"lastName"] autorelease];
 	lastName2.value = @"Grover";
 	lastName2.font = bigFont;
 	
@@ -70,7 +81,7 @@
 	
 	[cardEditor addRow:flow2];
 	[cardEditor addRow:kv2];
-	[cardEditor setNeedsDisplay:YES];*/
+	[cardEditor setNeedsDisplay:YES];
 
 }
 
