@@ -19,8 +19,11 @@
 	NSFont *keyLabelFont;
 	CGSize padding;
 	CGFloat rowSpacing;
-	CGSize editBoxPadding;
+	CGSize focusRingPadding;
 	NSColor *backgroundColor;
+	
+	
+	NSColor *focusRingBorderColor;
 }
 
 @property(assign) BOOL editMode;
@@ -38,6 +41,9 @@
 @property(retain) NSColor *backgroundColor;
 @property(assign) CGSize padding;
 @property(assign) CGFloat rowSpacing;
-@property(assign) CGSize editBoxPadding;
+
+// Appearance: Focus Ring
+@property(assign) CGSize focusRingPadding;
+@property(retain) NSColor *focusRingBorderColor;
 
 @end

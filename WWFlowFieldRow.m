@@ -33,8 +33,6 @@
 		[self setAutoresizesSubviews:YES];
 		[self addSubview:_textView];
 		
-		// Default params
-		self.editBoxPadding = WWFlowFieldContainer_DefaultEditBoxPadding;
 		[self setEditMode:NO];
     }
 	
@@ -68,15 +66,6 @@
 //	[_textView resignFirstResponder];
 	[[_textView textStorage] setAttributedString:[self _renderedText]];
 	[self setActiveField:NSNotFound];
-}
-
-- (CGFloat)editBoxPadding {
-    return editBoxPadding;
-}
-
-- (void)setEditBoxPadding:(CGFloat)anEditBoxPadding {
-    editBoxPadding = anEditBoxPadding;
-	[self setNeedsDisplay:YES];
 }
 
 - (NSInteger)activeField {
@@ -384,7 +373,9 @@
 
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
-	if(!editMode || (activeField == NSNotFound)){
+
+	
+	if(!editMode || (activeField == NSNotFound) || ([[self window] firstResponder] != _textView)){
 		return [super requestedFocusRectArrayAndCount:count];
 	}
 	

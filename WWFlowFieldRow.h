@@ -15,14 +15,10 @@
 	NSTextView *_textView;
 	NSInteger activeField;
 	NSArray *fields;
-	CGFloat editBoxPadding;
 	BOOL isRendering;
 }
 
 @property(retain) NSArray *fields;
 @property(assign) NSInteger activeField;
-
-// Appearance
-@property(assign) CGFloat editBoxPadding;
 
 @end

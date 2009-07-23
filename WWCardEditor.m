@@ -26,14 +26,13 @@
 		self._rows = [NSMutableArray array];
 		self.keyLabelColor = [NSColor darkGrayColor];
 		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:12];
+		
 		self.padding = CGSizeMake(10, 10);
 		self.rowSpacing = 0;
 		self.backgroundColor = [NSColor whiteColor];
-		self.editBoxPadding = CGSizeMake(3, 3);
 		
-		NSImageView *dummyView = [[NSImageView
-								   alloc] initWithFrame:NSMakeRect(0,0,1000,1000)];
-		[self addSubview:dummyView];
+		self.focusRingBorderColor = [NSColor lightGrayColor];
+		self.focusRingPadding = CGSizeMake(3, 3);
     }
     return self;
 }
@@ -53,6 +52,7 @@
 - (void) dealloc{
 	self.keyLabelColor = nil;
 	self.keyLabelFont = nil;
+	self.focusRingBorderColor = nil;
 	self.backgroundColor = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
@@ -124,6 +124,7 @@
 - (BOOL)editMode {
     return editMode;
 }
+
 - (void)setEditMode:(BOOL)flag {
     editMode = flag;
 	for(WWCardEditorRow *row in _rows){
@@ -133,17 +134,25 @@
 	[self setNeedsDisplay:YES];
 }
 
-
-- (CGSize)editBoxPadding {
-    return editBoxPadding;
+- (CGSize)focusRingPadding {
+    return focusRingPadding;
 }
 
-- (void)setEditBoxPadding:(CGSize)anEditBoxPadding {
-    editBoxPadding = anEditBoxPadding;
+- (void)setFocusRingPadding:(CGSize)aFocusRingPadding {
+    focusRingPadding = aFocusRingPadding;
 	[self setNeedsDisplay:YES];
 }
 
-- (void) setNeedsDisplay{
+- (NSColor *)focusRingBorderColor {
+    return focusRingBorderColor; 
+}
+
+- (void)setFocusRingBorderColor:(NSColor *)aFocusRingBorderColor {
+    if (focusRingBorderColor != aFocusRingBorderColor) {
+        [focusRingBorderColor release];
+        focusRingBorderColor = [aFocusRingBorderColor retain];
+    }
+	
 	[self setNeedsDisplay:YES];
 }
 
@@ -214,8 +223,8 @@
 		
 		for(NSUInteger i = 0; i < rectCount; i++){
 			NSRect nsRect = NSInsetRect([self convertRect:rects[i] fromView:row], 
-								 -1*editBoxPadding.width, 
-								 -1*editBoxPadding.height);
+								 -1*focusRingPadding.width, 
+								 -1*focusRingPadding.height);
 			
 			CGRect cgRect = CGRectMake(floor(nsRect.origin.x), floor(nsRect.origin.y), floor(nsRect.size.width), floor(nsRect.size.height));
 			cgRect = CGRectInset(cgRect, -0.5, -0.5); // avoid drawing on pixel cracks
@@ -260,6 +269,10 @@
 
 - (BOOL) isFlipped{
 	return YES;
+}
+
+- (void) setNeedsDisplay{
+	[self setNeedsDisplay:YES];
 }
 
 @end
