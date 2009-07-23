@@ -31,9 +31,6 @@
 	[NSBezierPath strokeRect:[self bounds]];
 }
 
-- (CGFloat) usedWidth{
-	return 0;
-}
 
 - (CGFloat) availableWidth{
 	if(parentRow){
