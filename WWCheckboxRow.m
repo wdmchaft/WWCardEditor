@@ -43,13 +43,17 @@
 						 
 - (void) _layoutIfNeeded{
 	if(needsLayout){
-		[_checkbox setFrame:NSMakeRect(0, 0, [self availableWidth], [self neededHeight])];
+		[_checkbox setFrame:NSMakeRect(0, 0, [super availableWidth], [self neededHeight])];
 		needsLayout = NO;
 	}
 }
 
 - (CGFloat) neededHeight{
 	return MAX(16, [[_checkbox title] sizeWithAttributes:[NSDictionary dictionaryWithObject:[_checkbox font] forKey:NSFontAttributeName]].height);
+}
+
+- (CGFloat) availableWidth{
+	return [super availableWidth] - 16 - [[_checkbox title] sizeWithAttributes:[NSDictionary dictionaryWithObject:[_checkbox font] forKey:NSFontAttributeName]].width;
 }
 						
 #pragma mark -

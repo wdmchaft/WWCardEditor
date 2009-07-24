@@ -27,7 +27,7 @@
 }
 
 - (void)drawRect:(NSRect)rect{
-	[[NSColor redColor] set];
+	//[[NSColor redColor] set];
 	//[NSBezierPath strokeRect:[self bounds]];
 	[super drawRect:rect];
 }
@@ -37,7 +37,7 @@
 	if(parentRow){
 		return [parentRow availableWidth];
 	}else{
-		return [parentEditor frame].size.width;
+		return [parentEditor frame].size.width - [parentEditor padding].width*2;
 	}
 }
 

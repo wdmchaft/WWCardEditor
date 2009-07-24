@@ -23,6 +23,8 @@
 - (id)init{
     if (self = [super initWithFrame:NSZeroRect]){
 		splitPosition = 100;
+		[[self window] setAcceptsMouseMovedEvents:YES];
+		 [[self window] setIgnoresMouseEvents:NO];
     }
     return self;
 }
@@ -112,9 +114,37 @@
 - (void) _layoutIfNeeded{
 	if(needsLayout){
 		[valueRowView setFrame:NSMakeRect(splitPosition, 0, [self frame].size.width - splitPosition, [valueRowView neededHeight])];
+		
+		
 		needsLayout = NO;
 	}
 }
+
+-(void)resetCursorRects
+{
+    // remove the existing cursor rects
+    [self discardCursorRects];
+	
+    // add the draggable item's bounds as a cursor rect
+	
+    // clip the draggable item's bounds to the view's visible rect
+	NSSize labelSize = [keyLabel sizeWithAttributes:[self _labelAttributes]];
+	
+    NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], 
+												  NSMakeRect(splitPosition - 10 - labelSize.width,
+															 0,
+															 labelSize.width,
+															 labelSize.height));
+															 
+	
+    // if the clipped item bounds isn't empty then the item is at least partially
+    // in the visible rect. Register the clipped item bounds
+    if (!NSIsEmptyRect(clippedItemBounds)) {
+		[self addCursorRect:clippedItemBounds cursor:[NSCursor arrowCursor]];
+		[self addTrackingRect:clippedItemBounds owner:self userData:nil assumeInside:NO];
+    }
+}
+
 
 - (CGFloat) neededHeight{
 	return MAX([valueRowView neededHeight], [keyLabel sizeWithAttributes:[self _labelAttributes]].height); 
@@ -124,22 +154,6 @@
 	return [super availableWidth] - splitPosition;
 }
 
-- (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
-	
-	NSUInteger localCount;
-	NSRectArray localRects = [valueRowView requestedFocusRectArrayAndCount:&localCount];
-	for(unsigned i = 0; i < localCount; i++){
-		//NSRect rect = localRects[i];
-		localRects[i] = [self convertRect:localRects[i] fromView:valueRowView];
-	}
-	*count = localCount;
-	return localRects;
-	
-	
-	
-	//*count = 0;
-	//return nil;
-}
 
 
 #pragma mark -
@@ -149,18 +163,76 @@
 	[self _layoutIfNeeded];
 	
 	NSMutableDictionary *attrs = [self _labelAttributes];
-	
 	NSMutableParagraphStyle *style = [NSMutableParagraphStyle new];
 	[style setAlignment:NSRightTextAlignment];
 	[attrs setObject:[style autorelease] forKey:NSParagraphStyleAttributeName];
 	
-	[keyLabel drawInRect:NSMakeRect(0, 0, splitPosition - 10, 20) withAttributes:attrs];
+	NSAttributedString *styledLabel =  [[[NSAttributedString alloc] initWithString:keyLabel attributes:attrs] autorelease];
+	NSSize labelRect = [styledLabel size];
+	
+	if(hover && !editMode){
+		float capRadius = 7;
+		
+		[attrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+		
+		// Key side
+		NSPoint startPoint = NSMakePoint(splitPosition - labelRect.width - capRadius - 4, labelRect.height / 2 );
+		
+		NSBezierPath *highlightPath = [NSBezierPath bezierPath];
+		[highlightPath appendBezierPathWithArcWithCenter: startPoint radius: capRadius startAngle: 90.0f endAngle: 270.f clockwise: NO];
+		[highlightPath appendBezierPathWithRect:NSMakeRect(splitPosition - labelRect.width - 4 - capRadius, 0, labelRect.width + 10, labelRect.height)];
+		
+		[[NSColor colorWithCalibratedWhite:0.69 alpha:1] set];
+		[highlightPath fill];
+
+		
+		// Value side
+		highlightPath = [NSBezierPath bezierPath];
+		[[NSColor colorWithCalibratedWhite:0.89 alpha:1] set];
+	
+		CGFloat highlightWidth = [self availableWidth] - [valueRowView availableWidth] + 10;
+		
+		if([self neededHeight] > (labelRect.height + 3)){
+			[highlightPath appendBezierPathWithRoundedRect:NSMakeRect(splitPosition + 1, 0, highlightWidth, [self neededHeight]) xRadius:capRadius yRadius:capRadius];
+			[highlightPath appendBezierPathWithRect:NSMakeRect(splitPosition+1,0,capRadius,capRadius)];
+		}else{
+			[highlightPath appendBezierPathWithRoundedRect:NSMakeRect(splitPosition + 1, 0, highlightWidth, labelRect.height) xRadius:capRadius yRadius:capRadius];
+			[highlightPath appendBezierPathWithRect:NSMakeRect(splitPosition+1,0,capRadius,labelRect.height)];
+		}
+			
+		[highlightPath fill];
+	}
+	
+	// Draw key label
+	[keyLabel drawInRect:NSMakeRect(0, 0, splitPosition - 10, labelRect.height) withAttributes:attrs];
 	[super drawRect:rect];
 }
 
 - (BOOL) isFlipped{
 	return YES;
 }
+
+- (void)mouseEntered:(NSEvent *)theEvent{
+	hover = YES;
+	[self setNeedsDisplay:YES];
+}
+
+- (void)mouseExited:(NSEvent *)theEvent{
+	hover = NO;
+	[self setNeedsDisplay:YES];
+}
+
+- (void)mouseMoved:(NSEvent *)theEvent{
+	[self setNeedsDisplay:YES];
+}
+
+/*
+- (void)mouseDown:(NSEvent *)theEvent;
+- (void)mouseUp:(NSEvent *)theEvent;
+- (void)mouseEntered:(NSEvent *)theEvent;
+- (void)mouseExited:(NSEvent *)theEvent;
+- (void)mouseMoved:(NSEvent *)theEvent;*/
+
 	
 	
 @end

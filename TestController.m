@@ -46,7 +46,7 @@
 	[cardEditor addRow:addressKeyValueRow];
 		
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
-	checkboxRow.label = @"lol";
+	checkboxRow.label = @"Beam Me Up";
 	checkboxRow.isChecked = YES;
 	
 	WWKeyValueRow *checkboxKeyValue = [[[WWKeyValueRow alloc] init] autorelease];

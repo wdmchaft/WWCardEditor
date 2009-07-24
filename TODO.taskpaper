@@ -3,8 +3,9 @@ General Card Editor Stuff:
 - Animated insertion/deletion of rows
 - Flow field should know its own height
 - What's the deal with that insertion point outside of edit mode?
+- Non-active wwflowfields in edit mode should not show any highlighted text
 - Card editor as a whole should have edit mode @done
-- Fancy drop shadow boxes should be drawn in the card editor, not the flow field, and should also not look like ass
+- Fancy drop shadow boxes should be drawn in the card editor, not the flow field, and should also not look like ass @done
 
 Key handling:
 - Arrow keys should switch between editable fields (across entire card editor)

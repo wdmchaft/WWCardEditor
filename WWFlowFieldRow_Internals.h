@@ -11,6 +11,7 @@
 
 @interface WWFlowFieldRow()
 @property(retain) NSTextView *_textView;
+@property(assign) BOOL isRendering;
 
 - (NSAttributedString *) _renderedText;
 

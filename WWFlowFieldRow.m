@@ -15,7 +15,7 @@
 #pragma mark -
 
 @implementation WWFlowFieldRow
-@synthesize _textView, activeField;
+@synthesize _textView, activeField, isRendering;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -288,6 +288,8 @@
 		return NO;
 	}
 	
+	
+	
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
@@ -364,11 +366,46 @@
 #pragma mark -
 
 - (CGFloat) neededHeight{
-	NSRect boundingRect = [[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForTextContainer:[_textView textContainer]]
-															   inTextContainer:[_textView textContainer]];
+	/*
+	
+	NSUInteger rectCount = 0;
+	NSRectArray rects = [[_textView layoutManager] rectArrayForCharacterRange:NSMakeRange(0, [_textView string].length)
+												 withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) 
+															  inTextContainer:[_textView textContainer] 
+																	rectCount:&rectCount];
+	
+	if(!rectCount){
+		return 0;
+	}
+	
+	NSRect boundingRect = rects[0];
+	
+	for(unsigned i = 1; i < rectCount; i++){
+		boundingRect = NSUnionRect(boundingRect, rects[i]);
+	}
+	
+	
+	
+	
+	//NSRect boundingRect = [[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForCharacterRange:NSMakeRange(0, [[_textView textStorage] string].length) 
+																										//		 actualCharacterRange:0]
+														//	   inTextContainer:[_textView textContainer]];
+	
+	
+	//[[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForTextContainer:[_textView textContainer]]
+	//														   inTextContainer:[_textView textContainer]];
+	
+	
+	
+	
+	NSString *stringRef = [_textView string];
+	
+	NSArray *fieldsRef = fields;
 	
 	NSLog(@"Needed height for flow field contianer is %@",NSStringFromRect(boundingRect));
-	return 50;//boundingRect.size.height;
+	return boundingRect.size.height;*/
+	
+	return 50;
 }
 
 
@@ -388,6 +425,13 @@
 	
 	*count = rectCount;
 	return rects;
+}
+
+
+- (CGFloat) availableWidth{
+	NSLog(@"Getting avail width for flow field....-%d",[[self _renderedText] size].width);
+	
+	return [super availableWidth] - [[self _renderedText] size].width;
 }
 
 @end

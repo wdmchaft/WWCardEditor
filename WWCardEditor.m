@@ -209,7 +209,7 @@
 		NSRectFill([self bounds]);
 	}
 	
-	[super drawRect:rect];
+	//[super drawRect:rect];
 	
 	CGContextRef myContext = [[NSGraphicsContext currentContext] graphicsPort];
 	

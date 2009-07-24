@@ -14,6 +14,7 @@
 	WWCardEditorRow *valueRowView;
 	CGFloat splitPosition;
 	BOOL needsLayout;
+	BOOL hover;
 }
 
 @property(retain) NSString *keyLabel;
