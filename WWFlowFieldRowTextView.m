@@ -112,12 +112,19 @@
 	
 }
 
-/*
+
 - (BOOL)resignFirstResponder{
-	//container.isRendering = YES;
-	//container.activeField = NSNotFound;
-	//container.isRendering = NO;
-	return YES;
+	container.isRendering = YES;
+	container.activeField = NSNotFound;
+	container.isRendering = NO;
+	//[self setEditable:NO];
+	return [super resignFirstResponder];
 }
-*/
+
+- (BOOL)becomeFirstResponder{
+	//[self setEditable:YES];
+	return [super becomeFirstResponder];
+}
+
+
 @end

@@ -24,14 +24,14 @@
     if (self = [super initWithFrame:NSZeroRect]){
 		splitPosition = 100;
 		[[self window] setAcceptsMouseMovedEvents:YES];
-		 [[self window] setIgnoresMouseEvents:NO];
+		[[self window] setIgnoresMouseEvents:NO];
     }
     return self;
 }
 
 - (void)dealloc {
     [self setKeyLabel:nil];
-	
+	[self setValueRowView:nil];
     [super dealloc];
 }
 
@@ -120,25 +120,27 @@
 	}
 }
 
--(void)resetCursorRects
-{
-    // remove the existing cursor rects
+
+- (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
+	if (!valueRowView) return [super requestedFocusRectArrayAndCount:count];
+	
+	NSUInteger valueRowRectCount = 0;
+	NSRectArray valueRowRects = [valueRowView requestedFocusRectArrayAndCount:&valueRowRectCount];
+	for(NSUInteger i = 0; i < valueRowRectCount; i++){
+		valueRowRects[i] = [self convertRect:valueRowRects[i] fromView:valueRowView];
+	}
+	
+	*count = valueRowRectCount;
+	return valueRowRects;
+}
+
+-(void)resetCursorRects{
     [self discardCursorRects];
 	
-    // add the draggable item's bounds as a cursor rect
-	
-    // clip the draggable item's bounds to the view's visible rect
 	NSSize labelSize = [keyLabel sizeWithAttributes:[self _labelAttributes]];
 	
-    NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], 
-												  NSMakeRect(splitPosition - 10 - labelSize.width,
-															 0,
-															 labelSize.width,
-															 labelSize.height));
-															 
-	
-    // if the clipped item bounds isn't empty then the item is at least partially
-    // in the visible rect. Register the clipped item bounds
+    NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], NSMakeRect(splitPosition - 10 - labelSize.width,0,labelSize.width, labelSize.height));
+
     if (!NSIsEmptyRect(clippedItemBounds)) {
 		[self addCursorRect:clippedItemBounds cursor:[NSCursor arrowCursor]];
 		[self addTrackingRect:clippedItemBounds owner:self userData:nil assumeInside:NO];
@@ -212,6 +214,10 @@
 	return YES;
 }
 
+
+#pragma mark -
+#pragma mark Event Handling
+
 - (void)mouseEntered:(NSEvent *)theEvent{
 	hover = YES;
 	[self setNeedsDisplay:YES];
@@ -224,19 +230,6 @@
 
 - (void)mouseMoved:(NSEvent *)theEvent{
 	[self setNeedsDisplay:YES];
-}
-
-- (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
-	if (!valueRowView) return [super requestedFocusRectArrayAndCount:count];
-	
-	NSUInteger valueRowRectCount = 0;
-	NSRectArray valueRowRects = [valueRowView requestedFocusRectArrayAndCount:&valueRowRectCount];
-	for(NSUInteger i = 0; i < valueRowRectCount; i++){
-		valueRowRects[i] = [self convertRect:valueRowRects[i] fromView:valueRowView];
-	}
-	
-	*count = valueRowRectCount;
-	return valueRowRects;
 }
 
 

@@ -216,7 +216,7 @@
 						<key>_historyCapacity</key>
 						<integer>0</integer>
 						<key>bookmark</key>
-						<string>CE2073ED101A501D0078A5ED</string>
+						<string>CE207414101A53BC0078A5ED</string>
 						<key>history</key>
 						<array>
 							<string>CE20736B101A2A450078A5ED</string>
@@ -328,7 +328,7 @@
 								</array>
 							</array>
 							<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-							<string>{{0, 7}, {331, 732}}</string>
+							<string>{{0, 0}, {331, 732}}</string>
 						</dict>
 						<key>PBXTopSmartGroupGIDs</key>
 						<array/>
@@ -347,7 +347,7 @@
 							<real>331</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>54 102 1440 791 0 0 1680 1028 </string>
+						<string>347 232 1440 791 0 0 1680 1028 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -377,7 +377,7 @@
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>CE2073EC101A501D0078A5ED</string>
+										<string>CE207413101A53BC0078A5ED</string>
 										<key>history</key>
 										<array>
 											<string>CEFE66930FE8470E0093A2E9</string>
@@ -414,23 +414,23 @@
 											<string>CE206D8C10192C1B0078A5ED</string>
 											<string>CE206DD3101930DD0078A5ED</string>
 											<string>CE206E6A101947DB0078A5ED</string>
-											<string>CE206E6E101947DB0078A5ED</string>
 											<string>CE206E71101947DB0078A5ED</string>
-											<string>CE206F1F10195A840078A5ED</string>
 											<string>CE206FAA10196A560078A5ED</string>
 											<string>CE207357101A2A450078A5ED</string>
 											<string>CE207358101A2A450078A5ED</string>
-											<string>CE207359101A2A450078A5ED</string>
 											<string>CE20735D101A2A450078A5ED</string>
 											<string>CE20735E101A2A450078A5ED</string>
 											<string>CE20735F101A2A450078A5ED</string>
 											<string>CE2073AB101A49BE0078A5ED</string>
-											<string>CE2073B5101A4B110078A5ED</string>
 											<string>CE2073B6101A4B110078A5ED</string>
 											<string>CE2073B7101A4B110078A5ED</string>
-											<string>CE2073E5101A500C0078A5ED</string>
-											<string>CE2073E6101A500C0078A5ED</string>
-											<string>CE2073DD101A4C580078A5ED</string>
+											<string>CE2073F1101A535F0078A5ED</string>
+											<string>CE2073F2101A535F0078A5ED</string>
+											<string>CE2073F4101A535F0078A5ED</string>
+											<string>CE2073F5101A535F0078A5ED</string>
+											<string>CE2073F6101A535F0078A5ED</string>
+											<string>CE20740D101A53B50078A5ED</string>
+											<string>CE20740E101A53B50078A5ED</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -475,8 +475,19 @@
 											<string>CE2073BA101A4B110078A5ED</string>
 											<string>CE2073CB101A4B470078A5ED</string>
 											<string>CE2073E0101A4C580078A5ED</string>
-											<string>CE2073E7101A500C0078A5ED</string>
 											<string>CE2073E8101A500C0078A5ED</string>
+											<string>CE2073F8101A535F0078A5ED</string>
+											<string>CE2073F9101A535F0078A5ED</string>
+											<string>CE2073FA101A535F0078A5ED</string>
+											<string>CE2073FB101A535F0078A5ED</string>
+											<string>CE2073FC101A535F0078A5ED</string>
+											<string>CE2073FD101A535F0078A5ED</string>
+											<string>CE2073FE101A535F0078A5ED</string>
+											<string>CE2073FF101A535F0078A5ED</string>
+											<string>CE207400101A535F0078A5ED</string>
+											<string>CE207401101A535F0078A5ED</string>
+											<string>CE207402101A535F0078A5ED</string>
+											<string>CE20740F101A53B50078A5ED</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -490,7 +501,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1087, 745}}</string>
 								<key>RubberWindowFrame</key>
-								<string>54 102 1440 791 0 0 1680 1028 </string>
+								<string>347 232 1440 791 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -510,7 +521,7 @@
 								<key>Frame</key>
 								<string>{{0, 750}, {1087, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>54 102 1440 791 0 0 1680 1028 </string>
+								<string>347 232 1440 791 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -677,7 +688,7 @@
 		<string>/Users/dangrover2/Documents/Projects/People/WWCardEditor/WWCardEditor.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>54 102 1440 791 0 0 1680 1028 </string>
+	<string>347 232 1440 791 0 0 1680 1028 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>

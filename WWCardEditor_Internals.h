@@ -18,6 +18,7 @@
 - (CGFloat) neededHeight;
 - (CGFloat) availableWidth;
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count;
+- (NSResponder *)principalResponder;
 @end
 
 

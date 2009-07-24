@@ -51,4 +51,8 @@
 	return YES;
 }
 
+- (NSResponder *)principalResponder{
+	return nil;
+}
+
 @end
