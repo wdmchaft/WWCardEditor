@@ -51,6 +51,10 @@
 	[super dealloc];
 }
 
+- (NSString *)description{
+	return [NSString stringWithFormat:@"<WWFlowFieldRow: fields = %@",fields];
+}
+
 #pragma mark -
 
 - (NSArray *)fields {
@@ -366,6 +370,7 @@
 #pragma mark -
 
 - (CGFloat) neededHeight{
+	//NSLog(
 	/*
 	
 	NSUInteger rectCount = 0;
@@ -410,9 +415,9 @@
 
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
-
-	
+	NSLog(@"Getting focus rect array for %@",self);
 	if(!editMode || (activeField == NSNotFound) || ([[self window] firstResponder] != _textView)){
+		NSLog(@"None...editMode = %d, activeField = %d, firstResponder = %@",editMode, activeField,[[self window] firstResponder]);
 		return [super requestedFocusRectArrayAndCount:count];
 	}
 	
@@ -424,6 +429,7 @@
 																	rectCount:&rectCount];
 	
 	*count = rectCount;
+	NSLog(@"Got %d rects",rectCount);
 	return rects;
 }
 

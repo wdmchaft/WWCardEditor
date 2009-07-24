@@ -112,12 +112,12 @@
 	
 }
 
-
+/*
 - (BOOL)resignFirstResponder{
 	//container.isRendering = YES;
 	//container.activeField = NSNotFound;
 	//container.isRendering = NO;
 	return YES;
 }
-
+*/
 @end

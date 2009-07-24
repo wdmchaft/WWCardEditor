@@ -52,7 +52,7 @@
 	WWKeyValueRow *checkboxKeyValue = [[[WWKeyValueRow alloc] init] autorelease];
 	checkboxKeyValue.keyLabel = @"awesome";
 	checkboxKeyValue.valueRowView = checkboxRow;
-	
+	checkboxRow.font = [NSFont fontWithName:@"Helvetica" size:11];
 	[cardEditor addRow:checkboxKeyValue];
 	
 	
