@@ -222,12 +222,11 @@
 		totalRectCount += rectCount;
 		
 		for(NSUInteger i = 0; i < rectCount; i++){
-			NSRect nsRect = NSInsetRect([self convertRect:rects[i] fromView:row], 
-								 -1*focusRingPadding.width, 
-								 -1*focusRingPadding.height);
+			NSRect nsRect = NSInsetRect([self convertRect:rects[i] fromView:row],-1*focusRingPadding.width,-1*focusRingPadding.height);
 			
+			// avoid drawing on pixel cracks:
 			CGRect cgRect = CGRectMake(floor(nsRect.origin.x), floor(nsRect.origin.y), floor(nsRect.size.width), floor(nsRect.size.height));
-			cgRect = CGRectInset(cgRect, -0.5, -0.5); // avoid drawing on pixel cracks
+			cgRect = CGRectInset(cgRect, -0.5, -0.5); 
 			
 			CGPathAddRect(glyphPath, nil, cgRect);
 		}
@@ -262,9 +261,8 @@
 	
 	[[NSColor lightGrayColor] set];
 	CGContextStrokePath(myContext);
-	
-		
-	//[super drawRect:rect];
+			
+	[super drawRect:rect];
 }
 
 - (BOOL) isFlipped{

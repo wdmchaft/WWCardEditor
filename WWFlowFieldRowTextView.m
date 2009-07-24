@@ -10,6 +10,7 @@
 #import "WWFlowFieldRow.h"
 
 #import "WWFlowFieldRow_Internals.h"
+#import "WWCardEditor.h"
 #import "WWCardEditor_Internals.h"
 
 @implementation WWFlowFieldRowTextView 
@@ -124,6 +125,35 @@
 - (BOOL)becomeFirstResponder{
 	//[self setEditable:YES];
 	return [super becomeFirstResponder];
+}
+
+// The main drawing of focus rings is in WWCardEditor, but we have to do a little here too
+// do to the way NSTextViews are drawn
+- (void) drawRect:(NSRect)rect{
+	NSUInteger count = 0;
+	NSRectArray focusRingRects = [container requestedFocusRectArrayAndCount:&count];
+	
+	// Draw what we would normally draw, then white out the drawn area that intersects with
+	// the focus rectangle (then trace over the text inside of it)
+	[super drawRect:rect];
+	
+	[[[container parentEditor] backgroundColor] set];
+	CGSize focusRingPadding = container.parentEditor.focusRingPadding;
+
+	for(unsigned i = 0; i < count; i++){
+		NSRect fieldRect = [self convertRect:focusRingRects[i] fromView:container];
+		fieldRect = NSMakeRect(floor(fieldRect.origin.x), floor(fieldRect.origin.y), floor(fieldRect.size.width), floor(fieldRect.size.height));
+		NSRect fillRect = NSInsetRect(fieldRect, -1* focusRingPadding.width, -1* focusRingPadding.height);
+		
+		NSRectFill(fillRect);
+	}
+	
+	
+	// Re-trace the text over the background
+	NSPoint containerOrigin	 = [self textContainerOrigin];
+	NSRange fieldGlyphRange = [[self layoutManager] glyphRangeForCharacterRange:[container _rangeForFieldAtIndex:container.activeField] actualCharacterRange:nil];
+	[[self layoutManager] drawBackgroundForGlyphRange:fieldGlyphRange atPoint:containerOrigin];
+	[[self layoutManager] drawGlyphsForGlyphRange:fieldGlyphRange atPoint:containerOrigin];
 }
 
 
