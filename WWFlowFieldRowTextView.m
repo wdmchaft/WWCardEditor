@@ -132,12 +132,19 @@
 // The main drawing of focus rings is in WWCardEditor, but we have to do a little here too,
 // due to the way NSTextViews are drawn
 - (void) drawRect:(NSRect)rect{
-	NSUInteger count = 0;
-	NSRectArray focusRingRects = [container requestedFocusRectArrayAndCount:&count];
 	
 	// Draw what we would normally draw, then white out the drawn area that intersects with
 	// the focus rectangle (then trace over the text inside of it)
 	[super drawRect:rect];
+	
+	// But only if there should actually be a focus ring here.
+	if(([[self window] firstResponder] != self) || ![container inUse] || ![container editMode]){
+		return;
+	}
+	
+	
+	NSUInteger count = 0;
+	NSRectArray focusRingRects = [container requestedFocusRectArrayAndCount:&count];
 	
 	[[[container parentEditor] backgroundColor] set];
 	CGSize focusRingPadding = container.parentEditor.focusRingPadding;

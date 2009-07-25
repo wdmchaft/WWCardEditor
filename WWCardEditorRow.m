@@ -27,8 +27,8 @@
 }
 
 - (void)drawRect:(NSRect)rect{
-	//[[NSColor redColor] set];
-	//[NSBezierPath strokeRect:[self bounds]];
+	[[NSColor redColor] set];
+	[NSBezierPath strokeRect:[self bounds]];
 	[super drawRect:rect];
 }
 

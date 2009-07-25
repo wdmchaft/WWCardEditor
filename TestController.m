@@ -7,7 +7,7 @@
 //
 
 #import "TestController.h"
-
+#import "WWSpacerRow.h"
 
 @implementation TestController
 
@@ -29,6 +29,10 @@
 	WWFlowFieldRow *nameRow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	nameRow.fields = [NSArray arrayWithObjects:firstName, nameSpace, lastName, nil];
 	[cardEditor addRow:nameRow];
+	
+	WWSpacerRow *spacer = [[[WWSpacerRow alloc] init] autorelease];
+	spacer.height = 50;
+	[cardEditor addRow:spacer];
 	
 	WWFlowFieldSubfield *addyLine1 = [WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
 	WWFlowFieldSubfield *city = [WWFlowFieldSubfield editableSubfieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"];
