@@ -14,9 +14,11 @@
 	WWCardEditor *parentEditor;
 	WWCardEditorRow *parentRow;
 	BOOL editMode;
+	NSString *name;
 }
 
 
 @property(assign) BOOL editMode;
+@property(retain,readonly) NSString *name;
 
 @end

@@ -12,9 +12,8 @@
 @implementation WWCardEditorRow
 @synthesize parentEditor, parentRow, editMode;
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
+- (id)initWithName:(NSString *)theName {
+    if (self = [super initWithFrame:NSZeroRect]) {
 		
     }
     return self;
@@ -42,7 +41,6 @@
 }
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
-	
 	*count = 0;
 	return nil;
 }

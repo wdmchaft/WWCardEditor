@@ -188,13 +188,13 @@
 		[highlightPath appendBezierPathWithArcWithCenter: startPoint radius: capRadius startAngle: 90.0f endAngle: 270.f clockwise: NO];
 		[highlightPath appendBezierPathWithRect:NSMakeRect(splitPosition - labelRect.width - 4 - capRadius, 0, labelRect.width + 10, labelRect.height)];
 		
-		[[NSColor colorWithCalibratedWhite:0.69 alpha:1] set];
+		[[NSColor colorWithCalibratedWhite:0 alpha:1-0.69] set];
 		[highlightPath fill];
 
 		
 		// Value side
 		highlightPath = [NSBezierPath bezierPath];
-		[[NSColor colorWithCalibratedWhite:0.89 alpha:1] set];
+		[[NSColor colorWithCalibratedWhite:0 alpha:1-0.89] set];
 	
 		CGFloat highlightWidth = [self availableWidth] - [valueRowView availableWidth] + 10;
 		

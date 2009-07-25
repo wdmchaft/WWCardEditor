@@ -37,18 +37,6 @@
     return self;
 }
 
-- (void)viewWillMoveToWindow:(NSWindow *)newWindow{
-	// Register for notifications when the window becomes or resigns key, so that we can redraw the control
-	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
-	[nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
-	[nc removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
-	
-	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
-	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
-}
-
-
-
 - (void) dealloc{
 	self.keyLabelColor = nil;
 	self.keyLabelFont = nil;
@@ -59,6 +47,24 @@
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
 	
 	[super dealloc];
+}
+
+- (void)viewWillMoveToWindow:(NSWindow *)newWindow{
+	// Register for notifications when the window becomes or resigns key, so that we can redraw the control
+	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	[nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
+	[nc removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
+	
+	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
+	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
+}
+
++ (void) initialize{
+	[self exposeBinding:@"keyLabelColor"];
+	[self exposeBinding:@"backgroundColor"];
+	[self exposeBinding:@"padding"];
+	[self exposeBinding:@"rowSpacing"];
+	
 }
 
 #pragma mark -
@@ -72,7 +78,7 @@
     if (keyLabelColor != aKeyLabelColor) {
         [keyLabelColor release];
         keyLabelColor = [aKeyLabelColor retain];
-		needsLayout = YES;
+		[self setNeedsDisplay:YES];
     }
 }
 
@@ -259,7 +265,7 @@
 	CGContextAddPath(myContext, glyphPath);
 	CGContextClosePath(myContext);
 	
-	[[NSColor lightGrayColor] set];
+	[[self focusRingBorderColor] set];
 	CGContextStrokePath(myContext);
 			
 	[super drawRect:rect];

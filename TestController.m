@@ -14,6 +14,9 @@
 
 - (void) awakeFromNib{
 	NSLog(@"Hi!");
+	[cardEditor bind:@"backgroundColor" toObject:bgColorWell withKeyPath:@"color" options:nil];
+	//[bgColorWell bind:@"color" toObject:cardEditor withKeyPath:@"backgroundColor" options:nil];
+	[cardEditor bind:@"keyLabelColor" toObject:keyColorWell withKeyPath:@"color" options:nil];
 	
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 	
@@ -63,7 +66,6 @@
 	[cardEditor setRowSpacing:4];
 	[cardEditor setNeedsDisplay:YES];
 	[self toggleEditMode:nil];
-
 }
 
 

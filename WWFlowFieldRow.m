@@ -77,7 +77,7 @@
 }
 
 - (void)setActiveField:(NSInteger)anActiveField {
-	if((anActiveField >= [fields count]) && (anActiveField != NSNotFound)){
+	if(anActiveField >= [fields count]){
 		return;
 	}
 	
@@ -406,7 +406,7 @@
 
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
-	if(!editMode || (activeField == NSNotFound) || ([[self window] firstResponder] != _textView)){
+	if(!editMode || ([[self window] firstResponder] != _textView)){
 		return [super requestedFocusRectArrayAndCount:count];
 	}
 	

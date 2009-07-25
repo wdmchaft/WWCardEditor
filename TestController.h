@@ -16,6 +16,13 @@
 	IBOutlet NSTextField *debugDisplay;
 	IBOutlet NSButton *editModeCheckbox;
 	IBOutlet WWCardEditor *cardEditor;
+	
+	IBOutlet NSColorWell *bgColorWell;
+	IBOutlet NSColorWell *keyColorWell;
+	IBOutlet NSTextField *paddingWidthField;
+	IBOutlet NSTextField *paddingHeightField;
+	IBOutlet NSTextField *rowSpacingField;
+	
 }
 
 
