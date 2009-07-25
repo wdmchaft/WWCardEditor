@@ -8,15 +8,22 @@
 
 #import "WWCardEditorRow.h"
 #import "WWCardEditor_Internals.h"
+#import <objc/runtime.h>
+
+static BOOL debugMode;
 
 @implementation WWCardEditorRow
-@synthesize parentEditor, parentRow, editMode;
+@synthesize parentEditor, parentRow, editMode, name;
 
 - (id)initWithName:(NSString *)theName {
     if (self = [super initWithFrame:NSZeroRect]) {
 		
     }
     return self;
+}
+
++ (void) setDebugDrawMode:(BOOL)newVal{
+	debugMode = newVal;
 }
 
 
@@ -26,8 +33,21 @@
 }
 
 - (void)drawRect:(NSRect)rect{
-	//[[NSColor redColor] set];
-	//[NSBezierPath strokeRect:[self bounds]];
+	if(debugMode){
+		// Draw a rectangle of the bounds of this row
+		[[NSColor redColor] set];
+		[NSBezierPath strokeRect:[self bounds]];
+		
+		// Draw the class name in a little rect in the corner
+		NSString *className = [NSString stringWithCString:class_getName([self class])];
+		
+		NSMutableDictionary *drawAttrs = [NSMutableDictionary dictionaryWithObject:[NSFont systemFontOfSize:8] forKey:NSFontAttributeName];
+		[drawAttrs setObject:[NSColor whiteColor] forKey:NSForegroundColorAttributeName];
+		
+		NSSize textSize = [className sizeWithAttributes:drawAttrs];
+		NSRectFill(NSMakeRect(0, 0, textSize.width+2, textSize.height+2));
+		[className drawAtPoint:NSMakePoint(1,1) withAttributes:drawAttrs];
+	}
 	[super drawRect:rect];
 }
 

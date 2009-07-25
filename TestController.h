@@ -19,13 +19,13 @@
 	
 	IBOutlet NSColorWell *bgColorWell;
 	IBOutlet NSColorWell *keyColorWell;
-	IBOutlet NSTextField *paddingWidthField;
-	IBOutlet NSTextField *paddingHeightField;
-	IBOutlet NSTextField *rowSpacingField;
+	IBOutlet NSSlider *rowSpacingSlider;
+	
+	IBOutlet NSButton *debugModeCheckbox;
 	
 }
 
-
+- (IBAction) toggleDebugDrawMode:(id)sender;
 - (IBAction) refreshDebugDisplay:(id)sender;
 - (IBAction) toggleEditMode:(id)sender;
 - (IBAction) triggerLayout:(id)sender;

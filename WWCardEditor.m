@@ -122,6 +122,7 @@
 }
 
 - (void)setRowSpacing:(CGFloat)aRowSpacing {
+	NSLog(@"Row spacing");
     rowSpacing = aRowSpacing;
 	needsLayout = YES;
 	[self setNeedsDisplay:YES];

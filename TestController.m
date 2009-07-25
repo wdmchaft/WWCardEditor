@@ -13,17 +13,16 @@
 
 
 - (void) awakeFromNib{
-	NSLog(@"Hi!");
+	// Set up bindings
+	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
 	[cardEditor bind:@"backgroundColor" toObject:bgColorWell withKeyPath:@"color" options:nil];
-	//[bgColorWell bind:@"color" toObject:cardEditor withKeyPath:@"backgroundColor" options:nil];
 	[cardEditor bind:@"keyLabelColor" toObject:keyColorWell withKeyPath:@"color" options:nil];
+	[cardEditor bind:@"rowSpacing" toObject:rowSpacingSlider withKeyPath:@"floatValue" options:nil];
 	
+	
+	// Set up card editor
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
-	
-	
-	
-
-	
+		
 	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
 	WWFlowFieldSubfield *nameSpace = [WWFlowFieldSubfield uneditableSpace];
 	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableSubfieldWithName:@"lastName" placeholder:@"Last" initialValue:@"Grover"];
@@ -75,8 +74,12 @@
 }
 
 - (IBAction) toggleEditMode:(id)sender{
-	NSLog(@"New edit mode is %d",[editModeCheckbox intValue]);
 	[cardEditor setEditMode:[editModeCheckbox intValue]];
+	[cardEditor setNeedsDisplay:YES];
+}
+
+- (IBAction) toggleDebugDrawMode:(id)sender{
+	[WWCardEditorRow setDebugDrawMode:[debugModeCheckbox intValue]];
 	[cardEditor setNeedsDisplay:YES];
 }
 

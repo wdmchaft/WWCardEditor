@@ -20,6 +20,7 @@
 - (CGFloat) availableWidth;
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count;
 - (NSResponder *)principalResponder;
++ (void) setDebugDrawMode:(BOOL)newVal;
 @end
 
 
