@@ -74,4 +74,10 @@
 	[cardEditor setNeedsDisplay:YES];
 }
 
+
+- (IBAction) triggerLayout:(id)sender{
+	[cardEditor setNeedsLayout:YES];
+	[cardEditor setNeedsDisplay:YES];
+}
+
 @end

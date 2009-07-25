@@ -22,7 +22,7 @@
 
 - (id)init{
     if (self = [super initWithFrame:NSZeroRect]){
-		splitPosition = 100;
+		splitPosition = 80;
 		[[self window] setAcceptsMouseMovedEvents:YES];
 		[[self window] setIgnoresMouseEvents:NO];
     }
@@ -72,8 +72,12 @@
 		[valueRowView removeFromSuperview];
         [valueRowView release];
         valueRowView = [aValueRowView retain];
+		
+		
 		[self addSubview:valueRowView];
 		[valueRowView setParentEditor:self.parentEditor];
+		[valueRowView setAutoresizingMask:NSViewMaxXMargin | NSViewMaxYMargin | NSViewWidthSizable | NSViewHeightSizable];
+		[self setAutoresizesSubviews:YES];
     }
 	
 	needsLayout = YES;

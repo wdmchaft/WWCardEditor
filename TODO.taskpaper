@@ -1,7 +1,8 @@
 General Card Editor Stuff:
 - Flow field should know its own height
 - Non-active wwflowfields in edit mode should not show any highlighted text, and should not show insertion point
-- Need a way to select none (where active field changes to NSNotFound)
+- Need a way to select none (where active field changes to NSNotFound) @done
+- The focus rings seem to stop working after enough switching @done
 Key handling:
 - Arrow keys should switch between editable fields (across entire card editor)
 - Enter key should switch to next field (but pastes should still strip returns and newlines)

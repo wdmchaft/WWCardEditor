@@ -21,5 +21,6 @@
 
 - (IBAction) refreshDebugDisplay:(id)sender;
 - (IBAction) toggleEditMode:(id)sender;
+- (IBAction) triggerLayout:(id)sender;
 
 @end

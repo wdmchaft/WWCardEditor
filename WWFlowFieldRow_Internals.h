@@ -12,6 +12,7 @@
 @interface WWFlowFieldRow()
 @property(retain) NSTextView *_textView;
 @property(assign) BOOL isRendering;
+@property(assign) BOOL inUse;
 
 - (NSAttributedString *) _renderedText;
 
@@ -25,6 +26,7 @@
 
 - (NSDictionary *)_attributesForSubfield:(WWFlowFieldSubfield *)field;
 - (NSString *) _displayedStringForField:(WWFlowFieldSubfield *)field;
+- (BOOL) hasActiveField;
 @end
 
 #define WWFlowFieldContainer_DefaultEditBoxPadding 1

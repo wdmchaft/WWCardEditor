@@ -115,20 +115,22 @@
 
 
 - (BOOL)resignFirstResponder{
-	container.isRendering = YES;
-	container.activeField = NSNotFound;
-	container.isRendering = NO;
-	//[self setEditable:NO];
+	//container.isRendering = YES;
+	//container.activeField = NSNotFound;
+	//container.isRendering = NO;
+	[self setEditable:NO];
+	container.inUse = NO;
 	return [super resignFirstResponder];
 }
 
 - (BOOL)becomeFirstResponder{
-	//[self setEditable:YES];
+	[self setEditable:YES];
+	container.inUse = YES;
 	return [super becomeFirstResponder];
 }
 
-// The main drawing of focus rings is in WWCardEditor, but we have to do a little here too
-// do to the way NSTextViews are drawn
+// The main drawing of focus rings is in WWCardEditor, but we have to do a little here too,
+// due to the way NSTextViews are drawn
 - (void) drawRect:(NSRect)rect{
 	NSUInteger count = 0;
 	NSRectArray focusRingRects = [container requestedFocusRectArrayAndCount:&count];
@@ -147,7 +149,6 @@
 		
 		NSRectFill(fillRect);
 	}
-	
 	
 	// Re-trace the text over the background
 	NSPoint containerOrigin	 = [self textContainerOrigin];

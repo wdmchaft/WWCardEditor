@@ -15,7 +15,7 @@
 #pragma mark -
 
 @implementation WWFlowFieldRow
-@synthesize _textView, activeField, isRendering;
+@synthesize _textView, activeField, isRendering, inUse;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -69,7 +69,7 @@
 	
 //	[_textView resignFirstResponder];
 	[[_textView textStorage] setAttributedString:[self _renderedText]];
-	[self setActiveField:NSNotFound];
+	//[self setActiveField:NSNotFound];
 }
 
 - (NSInteger)activeField {
@@ -85,7 +85,7 @@
     activeField = anActiveField;
 	
 	if(activeField != oldField){
-		if(activeField == NSNotFound){ // If there's no field selected, then make no text selected
+		if(!inUse){ // If there's no field selected, then make no text selected
 			if([_textView selectedRange].location != NSNotFound){
 				[_textView setSelectedRange: NSMakeRange(0, 0)];
 			}
@@ -109,9 +109,9 @@
 		
 		if(editMode != flag){
 			if(editMode){ // coming out of edit mode
-				self.activeField = NSNotFound;
+				//self.activeField = NSNotFound;
 			}else{ // going into edit mode
-				self.activeField = 0;
+				//self.activeField = 0;
 			}
 		}
 		
@@ -232,7 +232,7 @@
 	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
 	
 	
-	if(!editMode || (activeField == NSNotFound)){
+	if(!editMode || !inUse){
 		return newSelectedCharRange; // If we're not in edit mode, they can select anything they want
 	}
 	
@@ -284,11 +284,11 @@
 
 
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
-	NSLog(@"Changing text in range %@, new string = %@",NSStringFromRange(affectedCharRange), replacementString);
+	NSLog(@"Changing text in range %@ (%@), new string = %@",NSStringFromRange(affectedCharRange), [[textView string] substringWithRange:affectedCharRange],  replacementString);
 	[parentEditor setNeedsLayout:YES];
 	[parentEditor setNeedsDisplay:YES];
 	
-	if(!editMode || (activeField == NSNotFound)){
+	if(!editMode || !inUse){
 		return NO;
 	}
 	
@@ -297,15 +297,31 @@
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
+	NSUInteger endFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:endFieldIndex];
 	
-//	[textView setSelectedTextAttributes:[self _attributesForSubfield:[fields objectAtIndex:startFieldIndex]]];
+	
+	// First thingss first: we want to block any edit that crosses subfields, that's a no-no.
+	// However, there are two cases where this is fine:
+	// - Pressing delete at the end of a field (which is technically the start of the next)
+	// - Doing the above, but where the "next" is NSNotFound (which is the case if we're pressing delete at the end of the last field)
+	
+	if((startFieldIndex != endFieldIndex)){
+		NSLog(@"ATTEMPTING TO CHANGE TEXT CROSS-FIELDS...startField = %d, endField = %d",startFieldIndex,endFieldIndex);
+		if(((affectedCharRange.location + affectedCharRange.length) == endFieldStartChar) || (endFieldIndex == NSNotFound)){
+			
+			NSLog(@"But that's cool...startField = %d, endField = %d",startFieldIndex,endFieldIndex);
+		}else{
+			NSLog(@"NO NO");
+			return NO;
+		}
+	}
 	
 	// Newlines are not allowed in these fields
 	// If someone enters or pastes one, we're going to strip it, and then handle the updating of the textView ourselves (by returning NO).
 	NSString *newlineScrubbedReplacementString = [[replacementString stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
 	
 	// Override the textview's handling all the time for now
-	BOOL overrideHandling = YES;//![newlineScrubbedReplacementString isEqual:replacementString]; 
+	BOOL overrideHandling = YES; //[newlineScrubbedReplacementString isEqual:replacementString]; 
 	
 	// TODO decide on if we should only conditionally override the textview's insertion of text or 
 	// do it ALL the time (could be performance reasons for doing it conditionally)
@@ -316,8 +332,8 @@
 	WWFlowFieldSubfield *relevantField = nil;
 	
 	// Anyway...
-	// If we are in the middle of an editable field, just replace the equivilent range in the "field"'s .value property.
-	// If we're at the *end* of an editable field (but in reality just a 0-len selection at the start of the next), then append the text.
+	// If we are in the middle of an editable subfield, just replace the equivilent range in the subfield's .value property.
+	// If we're at the *end* of an editable subfield (but in reality just a 0-len selection at the start of the next), then append the text.
 	
 	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1)))){
 		relevantField = [fields objectAtIndex:activeField];
@@ -351,8 +367,17 @@
 		
 		if(!fieldWasAPlaceholderBefore && fieldWasAPlaceholderAfterwards){
 			newSelectedRange = [self _rangeForFieldAtIndex:[fields indexOfObject:relevantField]]; // TODO clean up
-		}else{
-			newSelectedRange.location += newlineScrubbedReplacementString.length;
+		}
+		else{
+			
+			
+			if(!newlineScrubbedReplacementString.length){
+				NSLog(@"Delete key handling");
+				newSelectedRange.location -= 1;
+			}else{
+				newSelectedRange.location += newlineScrubbedReplacementString.length;
+			}
+			
 			newSelectedRange.length = 0;
 		}
 		
@@ -361,7 +386,8 @@
 		
 		[self setNeedsDisplay];
 		return NO;
-	}else{
+	}
+	else{
 		[self setNeedsDisplay];
 		return YES;
 	}
@@ -392,9 +418,7 @@
 	
 	
 	
-	//NSRect boundingRect = [[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForCharacterRange:NSMakeRange(0, [[_textView textStorage] string].length) 
-																										//		 actualCharacterRange:0]
-														//	   inTextContainer:[_textView textContainer]];
+
 	
 	
 	//[[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForTextContainer:[_textView textContainer]]
@@ -410,7 +434,23 @@
 	NSLog(@"Needed height for flow field contianer is %@",NSStringFromRect(boundingRect));
 	return boundingRect.size.height;*/
 	
-	return 50;
+	
+	/*NSRect boundingRect = [[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForCharacterRange:NSMakeRange(0, [[_textView textStorage] string].length) 
+						   		 actualCharacterRange:NULL]
+						   	   inTextContainer:[_textView textContainer]];
+	
+	*/
+	
+	
+	CGFloat available = parentRow ? [parentRow availableWidth] : ([parentEditor frame].size.width - [parentEditor padding].width*2);
+	
+	
+	NSLog(@"Getting bounding rect for %f",available);
+	
+	NSRect boundingRect = [[self _renderedText] boundingRectWithSize:NSMakeSize(available,INT_MAX) options:NSStringDrawingUsesLineFragmentOrigin];
+	NSLog(@"And it is %@",NSStringFromRect(boundingRect));
+	
+	return boundingRect.size.height;
 }
 
 
