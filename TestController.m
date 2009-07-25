@@ -31,7 +31,7 @@
 	[cardEditor addRow:nameRow];
 	
 	WWSpacerRow *spacer = [[[WWSpacerRow alloc] init] autorelease];
-	spacer.height = 50;
+	spacer.height = 20;
 	[cardEditor addRow:spacer];
 	
 	WWFlowFieldSubfield *addyLine1 = [WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];

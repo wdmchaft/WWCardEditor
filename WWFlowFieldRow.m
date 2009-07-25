@@ -396,59 +396,10 @@
 #pragma mark -
 
 - (CGFloat) neededHeight{
-	//NSLog(
-	/*
-	
-	NSUInteger rectCount = 0;
-	NSRectArray rects = [[_textView layoutManager] rectArrayForCharacterRange:NSMakeRange(0, [_textView string].length)
-												 withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) 
-															  inTextContainer:[_textView textContainer] 
-																	rectCount:&rectCount];
-	
-	if(!rectCount){
-		return 0;
-	}
-	
-	NSRect boundingRect = rects[0];
-	
-	for(unsigned i = 1; i < rectCount; i++){
-		boundingRect = NSUnionRect(boundingRect, rects[i]);
-	}
-	
-	
-	
-	
-
-	
-	
-	//[[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForTextContainer:[_textView textContainer]]
-	//														   inTextContainer:[_textView textContainer]];
-	
-	
-	
-	
-	NSString *stringRef = [_textView string];
-	
-	NSArray *fieldsRef = fields;
-	
-	NSLog(@"Needed height for flow field contianer is %@",NSStringFromRect(boundingRect));
-	return boundingRect.size.height;*/
-	
-	
-	/*NSRect boundingRect = [[_textView layoutManager] boundingRectForGlyphRange:[[_textView layoutManager] glyphRangeForCharacterRange:NSMakeRange(0, [[_textView textStorage] string].length) 
-						   		 actualCharacterRange:NULL]
-						   	   inTextContainer:[_textView textContainer]];
-	
-	*/
-	
-	
 	CGFloat available = parentRow ? [parentRow availableWidth] : ([parentEditor frame].size.width - [parentEditor padding].width*2);
 	
-	
-	NSLog(@"Getting bounding rect for %f",available);
-	
-	NSRect boundingRect = [[self _renderedText] boundingRectWithSize:NSMakeSize(available,INT_MAX) options:NSStringDrawingUsesLineFragmentOrigin];
-	NSLog(@"And it is %@",NSStringFromRect(boundingRect));
+	NSRect boundingRect = [[self _renderedText] boundingRectWithSize:NSMakeSize(available,INT_MAX) 
+															 options:NSStringDrawingUsesLineFragmentOrigin];
 	
 	return boundingRect.size.height;
 }
