@@ -8,9 +8,9 @@
 			8D1107260486CEB800E47090 /* WWCardEditor */,
 		);
 		breakpoints = (
-			CEAEE7000FEC659900950781 /* WWFlowFieldRow.m:85 */,
-			CE206D8710192C080078A5ED /* WWFlowFieldRow.m:397 */,
-			CE206DC210192E780078A5ED /* WWFlowFieldRow.m:397 */,
+			CEAEE7000FEC659900950781 /* WWFlowFieldRow.m:86 */,
+			CE206D8710192C080078A5ED /* WWFlowFieldRow.m:400 */,
+			CE206DC210192E780078A5ED /* WWFlowFieldRow.m:400 */,
 		);
 		codeSenseManager = CEFE66780FE834B00093A2E9 /* Code sense */;
 		executables = (
@@ -107,6 +107,14 @@
 			CE30D1E5102137BC009F1872 /* PBXTextBookmark */ = CE30D1E5102137BC009F1872 /* PBXTextBookmark */;
 			CE30D1E6102137BC009F1872 /* PBXTextBookmark */ = CE30D1E6102137BC009F1872 /* PBXTextBookmark */;
 			CE30D1E7102137D6009F1872 /* PBXTextBookmark */ = CE30D1E7102137D6009F1872 /* PBXTextBookmark */;
+			CE30D1E810213907009F1872 /* PBXTextBookmark */ = CE30D1E810213907009F1872 /* PBXTextBookmark */;
+			CE30D1E910213907009F1872 /* PBXTextBookmark */ = CE30D1E910213907009F1872 /* PBXTextBookmark */;
+			CE30D1EA10213907009F1872 /* PBXTextBookmark */ = CE30D1EA10213907009F1872 /* PBXTextBookmark */;
+			CE30D1EB10213907009F1872 /* PBXTextBookmark */ = CE30D1EB10213907009F1872 /* PBXTextBookmark */;
+			CE30D1EC10213907009F1872 /* PBXTextBookmark */ = CE30D1EC10213907009F1872 /* PBXTextBookmark */;
+			CE30D1ED10213907009F1872 /* PBXTextBookmark */ = CE30D1ED10213907009F1872 /* PBXTextBookmark */;
+			CE30D1EE10213907009F1872 /* PBXTextBookmark */ = CE30D1EE10213907009F1872 /* PBXTextBookmark */;
+			CE30D1EF1021391B009F1872 /* PBXTextBookmark */ = CE30D1EF1021391B009F1872 /* PBXTextBookmark */;
 			CE3E713B0FE97C040087440D = CE3E713B0FE97C040087440D /* PBXTextBookmark */;
 			CE3E71410FE97C040087440D = CE3E71410FE97C040087440D /* PBXTextBookmark */;
 			CE3E71BB0FE981550087440D = CE3E71BB0FE981550087440D /* PBXTextBookmark */;
@@ -212,13 +220,13 @@
 	CE2066C21017EF2E0078A5ED /* WWCheckboxRow.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1084, 688}}";
-			sepNavSelRange = "{330, 0}";
+			sepNavSelRange = "{386, 0}";
 			sepNavVisRange = "{0, 392}";
 		};
 	};
 	CE2066C31017EF2E0078A5ED /* WWCheckboxRow.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1026, 1456}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1084, 1330}}";
 			sepNavSelRange = "{789, 0}";
 			sepNavVisRange = "{0, 1023}";
 		};
@@ -300,7 +308,7 @@
 	CE2068FE1018EE600078A5ED /* WWCardEditor_Internals.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1084, 688}}";
-			sepNavSelRange = "{609, 0}";
+			sepNavSelRange = "{608, 0}";
 			sepNavVisRange = "{0, 676}";
 		};
 	};
@@ -375,7 +383,7 @@
 		path = /Developer/SDKs/MacOSX10.5.sdk/System/Library/Frameworks/AppKit.framework/Versions/C/Headers/NSStringDrawing.h;
 		sourceTree = "<absolute>";
 	};
-	CE206D8710192C080078A5ED /* WWFlowFieldRow.m:397 */ = {
+	CE206D8710192C080078A5ED /* WWFlowFieldRow.m:400 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -387,11 +395,11 @@
 		functionName = "-neededHeight";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 397;
+		lineNumber = 400;
 		modificationTime = 270537252.045471;
 		state = 1;
 	};
-	CE206DC210192E780078A5ED /* WWFlowFieldRow.m:397 */ = {
+	CE206DC210192E780078A5ED /* WWFlowFieldRow.m:400 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -403,7 +411,7 @@
 		functionName = "-neededHeight";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 397;
+		lineNumber = 400;
 		modificationTime = 270537252.045763;
 		state = 1;
 	};
@@ -509,7 +517,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 401";
 		rLen = 108;
-		rLoc = 13590;
+		rLoc = 13677;
 		rType = 0;
 		vrLen = 1372;
 		vrLoc = 13150;
@@ -529,7 +537,7 @@
 		fRef = CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */;
 		name = "WWFlowFieldSubfield.m: 44";
 		rLen = 0;
-		rLoc = 1040;
+		rLoc = 1186;
 		rType = 0;
 		vrLen = 1283;
 		vrLoc = 0;
@@ -539,7 +547,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 408";
 		rLen = 0;
-		rLoc = 13764;
+		rLoc = 13851;
 		rType = 0;
 		vrLen = 1376;
 		vrLoc = 13146;
@@ -549,7 +557,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 408";
 		rLen = 0;
-		rLoc = 13764;
+		rLoc = 13851;
 		rType = 0;
 		vrLen = 1372;
 		vrLoc = 13150;
@@ -579,7 +587,7 @@
 		fRef = CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */;
 		name = "WWFlowFieldSubfield.m: 44";
 		rLen = 0;
-		rLoc = 1040;
+		rLoc = 1186;
 		rType = 0;
 		vrLen = 1283;
 		vrLoc = 0;
@@ -599,7 +607,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 386";
 		rLen = 0;
-		rLoc = 13292;
+		rLoc = 13356;
 		rType = 0;
 		vrLen = 1372;
 		vrLoc = 13156;
@@ -629,7 +637,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 406";
 		rLen = 0;
-		rLoc = 13736;
+		rLoc = 13823;
 		rType = 0;
 		vrLen = 1486;
 		vrLoc = 12385;
@@ -699,7 +707,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 416";
 		rLen = 0;
-		rLoc = 14241;
+		rLoc = 14328;
 		rType = 0;
 		vrLen = 1344;
 		vrLoc = 13188;
@@ -729,7 +737,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 406";
 		rLen = 0;
-		rLoc = 13736;
+		rLoc = 13823;
 		rType = 0;
 		vrLen = 1486;
 		vrLoc = 12385;
@@ -803,6 +811,86 @@
 		rType = 0;
 		vrLen = 1283;
 		vrLoc = 4450;
+	};
+	CE30D1E810213907009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */;
+		name = "WWFlowFieldRowTextView.m: 121";
+		rLen = 0;
+		rLoc = 4954;
+		rType = 0;
+		vrLen = 1778;
+		vrLoc = 4835;
+	};
+	CE30D1E910213907009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CE2068FE1018EE600078A5ED /* WWCardEditor_Internals.h */;
+		name = "WWCardEditor_Internals.h: 22";
+		rLen = 36;
+		rLoc = 525;
+		rType = 0;
+		vrLen = 676;
+		vrLoc = 0;
+	};
+	CE30D1EA10213907009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
+		name = "WWFlowFieldRow.m: 409";
+		rLen = 0;
+		rLoc = 14012;
+		rType = 0;
+		vrLen = 1344;
+		vrLoc = 13188;
+	};
+	CE30D1EB10213907009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */;
+		name = "WWFlowFieldRowTextView.m: 121";
+		rLen = 0;
+		rLoc = 4954;
+		rType = 0;
+		vrLen = 1778;
+		vrLoc = 4835;
+	};
+	CE30D1EC10213907009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
+		name = "WWFlowFieldRow.m: 409";
+		rLen = 0;
+		rLoc = 14012;
+		rType = 0;
+		vrLen = 1344;
+		vrLoc = 13188;
+	};
+	CE30D1ED10213907009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CE2068FE1018EE600078A5ED /* WWCardEditor_Internals.h */;
+		name = "WWCardEditor_Internals.h: 22";
+		rLen = 36;
+		rLoc = 525;
+		rType = 0;
+		vrLen = 676;
+		vrLoc = 0;
+	};
+	CE30D1EE10213907009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
+		name = "WWFlowFieldRow.m: 434";
+		rLen = 0;
+		rLoc = 14671;
+		rType = 0;
+		vrLen = 1348;
+		vrLoc = 13288;
+	};
+	CE30D1EF1021391B009F1872 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
+		name = "WWFlowFieldRow.m: 433";
+		rLen = 0;
+		rLoc = 14669;
+		rType = 0;
+		vrLen = 1349;
+		vrLoc = 13308;
 	};
 	CE3E713B0FE97C040087440D /* PBXTextBookmark */ = {
 		isa = PBXTextBookmark;
@@ -1324,14 +1412,14 @@
 	CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1084, 1078}}";
-			sepNavSelRange = "{556, 0}";
-			sepNavVisRange = "{259, 1493}";
+			sepNavSelRange = "{1471, 0}";
+			sepNavVisRange = "{0, 1472}";
 		};
 	};
 	CEAEE2430FEC0F1500950781 /* WWKeyValueRow.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1084, 688}}";
-			sepNavSelRange = "{352, 0}";
+			sepNavSelRange = "{447, 0}";
 			sepNavVisRange = "{0, 447}";
 		};
 	};
@@ -1339,7 +1427,7 @@
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1084, 3360}}";
 			sepNavSelRange = "{379, 0}";
-			sepNavVisRange = "{5136, 1388}";
+			sepNavVisRange = "{0, 1122}";
 		};
 	};
 	CEAEE2700FEC222500950781 /* PBXTextBookmark */ = {
@@ -1478,7 +1566,7 @@
 			sepNavVisRange = "{0, 271}";
 		};
 	};
-	CEAEE7000FEC659900950781 /* WWFlowFieldRow.m:85 */ = {
+	CEAEE7000FEC659900950781 /* WWFlowFieldRow.m:86 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
 		);
@@ -1490,7 +1578,7 @@
 		functionName = "-setActiveField:";
 		hitCount = 0;
 		ignoreCount = 0;
-		lineNumber = 85;
+		lineNumber = 86;
 		location = WWCardEditor;
 		modificationTime = 270536988.315107;
 		state = 2;
@@ -1527,7 +1615,7 @@
 		fRef = CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */;
 		name = "WWFlowFieldSubfield.m: 33";
 		rLen = 0;
-		rLoc = 637;
+		rLoc = 783;
 		rType = 0;
 		vrLen = 1326;
 		vrLoc = 0;
@@ -1566,7 +1654,7 @@
 		isa = PBXTextBookmark;
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		rLen = 7;
-		rLoc = 13649;
+		rLoc = 13736;
 		rType = 0;
 	};
 	CEB473E410200458002AF8B3 /* PBXTextBookmark */ = {
@@ -1584,7 +1672,7 @@
 		fRef = CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */;
 		name = "WWFlowFieldSubfield.m: 33";
 		rLen = 0;
-		rLoc = 637;
+		rLoc = 783;
 		rType = 0;
 		vrLen = 1421;
 		vrLoc = 267;
@@ -1614,7 +1702,7 @@
 		fRef = CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */;
 		name = "WWFlowFieldSubfield.m: 33";
 		rLen = 0;
-		rLoc = 637;
+		rLoc = 783;
 		rType = 0;
 		vrLen = 1326;
 		vrLoc = 0;
@@ -1624,7 +1712,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 413";
 		rLen = 0;
-		rLoc = 13935;
+		rLoc = 14022;
 		rType = 0;
 		vrLen = 1376;
 		vrLoc = 13150;
@@ -1664,7 +1752,7 @@
 		fRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */;
 		name = "WWFlowFieldRow.m: 402";
 		rLen = 7;
-		rLoc = 13649;
+		rLoc = 13736;
 		rType = 0;
 		vrLen = 1376;
 		vrLoc = 13150;
@@ -1711,30 +1799,30 @@
 	CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1084, 688}}";
-			sepNavSelRange = "{439, 0}";
+			sepNavSelRange = "{390, 0}";
 			sepNavVisRange = "{0, 494}";
 		};
 	};
 	CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1134, 5726}}";
-			sepNavSelRange = "{13736, 0}";
-			sepNavVisRange = "{12385, 1486}";
+			sepNavIntBoundsRect = "{{0, 0}, {1134, 6004}}";
+			sepNavSelRange = "{14385, 0}";
+			sepNavVisRange = "{13370, 1307}";
 			sepNavWindowFrame = "{{38, 124}, {1431, 878}}";
 		};
 	};
 	CEFE66840FE844100093A2E9 /* WWFlowFieldSubfield.h */ = {
 		uiCtxt = {
 			sepNavIntBoundsRect = "{{0, 0}, {1084, 688}}";
-			sepNavSelRange = "{301, 0}";
+			sepNavSelRange = "{394, 0}";
 			sepNavVisRange = "{0, 916}";
 		};
 	};
 	CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1084, 882}}";
-			sepNavSelRange = "{499, 0}";
-			sepNavVisRange = "{0, 1283}";
+			sepNavIntBoundsRect = "{{0, 0}, {1084, 910}}";
+			sepNavSelRange = "{394, 0}";
+			sepNavVisRange = "{0, 1368}";
 		};
 	};
 	CEFE66930FE8470E0093A2E9 /* PlistBookmark */ = {
@@ -1857,9 +1945,9 @@
 	};
 	CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1134, 2520}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1134, 2436}}";
 			sepNavSelRange = "{4954, 0}";
-			sepNavVisRange = "{4450, 1283}";
+			sepNavVisRange = "{4835, 1778}";
 		};
 	};
 	CEFE679A0FE8590C0093A2E9 /* PBXTextBookmark */ = {

@@ -47,8 +47,8 @@
 }
 
 - (void) dealloc{
-	[_textView release];
-
+	self._textView = nil;
+	self.fields = nil;
 	[super dealloc];
 }
 
@@ -57,6 +57,7 @@
 }
 
 #pragma mark -
+#pragma mark Accessors
 
 - (NSArray *)fields {
     return fields; 
@@ -124,6 +125,7 @@
 
 
 #pragma mark -
+#pragma mark Helpers
 
 - (NSAttributedString *) _renderedText{
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
@@ -393,6 +395,7 @@
 }
 
 #pragma mark -
+#pragma mark Overrides
 
 - (CGFloat) neededHeight{
 	CGFloat available = parentRow ? [parentRow availableWidth] : ([parentEditor frame].size.width - [parentEditor padding].width*2);
@@ -420,11 +423,14 @@
 	return rects;
 }
 
-
 - (CGFloat) availableWidth{
 	NSLog(@"Getting avail width for flow field....-%d",[[self _renderedText] size].width);
 	
 	return [super availableWidth] - [[self _renderedText] size].width;
+}
+
+- (NSResponder *)principalResponder{
+	return _textView;
 }
 
 @end

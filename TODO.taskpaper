@@ -1,5 +1,5 @@
 General Card Editor Stuff:
-- Non-active wwflowfields in edit mode should not show any highlighted text, and should not show insertion point
+- Non-active wwflowfields in edit mode should not show any highlighted text
 - Active field seems to be lost coming in and out of edit mode
 - Height calculations for flow fields still seem a little off
 Key handling:
@@ -8,10 +8,12 @@ Key handling:
 - Get tabbing and reverse-tabbing to work
 Whipped cream and cherries:
 - Animated insertion/deletion of rows
-- Should be KVO-compliant for the declared keys in the fields
 - Key/Value rows should have an option for a menu
-- A flow field row should be able to be made from a format string and a dictionary of subfields/tokens
-- Individual flow fields should support:
+- API goodies:
+	- WWCardEditor and other rows should all be KVO-compliant and accessible programatically
+	- A flow field row should be able to be made from a format string and a dictionary of subfields/tokens
+	- A flow field row should have a convenience constructor for taking a single subfield
+- Individual flowing subfields should support:
 	- Min/max length
 	- Format string for validation
 - New field types
@@ -20,6 +22,7 @@ Whipped cream and cherries:
 	- Editable image view
 	- +/- buttons for deleting and adding stuff
 	- NSPopupMenu with arrows (possibly abstract the checkbox row type into a general nsbutton row type)
+	- Star rating a la iTunes
 Archive:
 - Flow field should know its own height @done @project(General Card Editor Stuff)
 - Need a way to select none (where active field changes to NSNotFound) @done @project(General Card Editor Stuff)

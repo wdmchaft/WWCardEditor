@@ -28,5 +28,3 @@
 - (NSString *) _displayedStringForField:(WWFlowFieldSubfield *)field;
 - (BOOL) hasActiveField;
 @end
-
-#define WWFlowFieldContainer_DefaultEditBoxPadding 1

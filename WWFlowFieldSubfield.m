@@ -31,6 +31,10 @@
 	[super dealloc];
 }
 
+- (NSString *) description{
+	return [NSString stringWithFormat:@"<WWFlowField: name = %@, editable = %d, value = %@>", name, editable, value];
+}
+
 
 + (WWFlowFieldSubfield *) editableSubfieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue{
 	WWFlowFieldSubfield *field = [[WWFlowFieldSubfield alloc] initWithName:fieldName];
@@ -57,7 +61,5 @@
 }
 
 
-- (NSString *) description{
-	return [NSString stringWithFormat:@"<WWFlowField: name = %@, editable = %d, value = %@>", name, editable, value];
-}
+
 @end
