@@ -113,6 +113,15 @@
 	
 }
 
+- (void)insertTab:(id)sender{
+	NSLog(@"Tab!");
+	[container _selectNextSubfieldOrRow];
+}
+
+- (void)insertBacktab:(id)sender{
+	NSLog(@"Backtab!");
+	[container _selectPreviousSubfieldOrRow];
+}
 
 - (BOOL)resignFirstResponder{
 	//container.isRendering = YES;
@@ -130,6 +139,7 @@
 	}
 	
 	[self setEditable:YES];
+	[container setActiveField:0];
 	container.inUse = YES;
 	return [super becomeFirstResponder];
 }

@@ -300,8 +300,7 @@
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
 	NSUInteger endFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:endFieldIndex];
 	
-	
-	// First thingss first: we want to block any edit that crosses subfields, that's a no-no.
+	// First things first: we want to block any edit that crosses subfields, that's a no-no.
 	// However, there are two cases where this is fine:
 	// - Pressing delete at the end of a field (which is technically the start of the next)
 	// - Doing the above, but where the "next" is NSNotFound (which is the case if we're pressing delete at the end of the last field)
@@ -425,12 +424,52 @@
 
 - (CGFloat) availableWidth{
 	NSLog(@"Getting avail width for flow field....-%d",[[self _renderedText] size].width);
-	
 	return [super availableWidth] - [[self _renderedText] size].width;
 }
 
 - (NSResponder *)principalResponder{
 	return _textView;
+}
+
+
+#pragma mark -
+
+- (void) _selectNextSubfieldOrRow{
+	if(activeField == ([fields count] - 1)){
+		NSLog(@"At last subfield, telling parent to get next row resp");
+		[parentEditor _selectNextRowResponder];
+		return;
+	}
+	
+	for(NSUInteger i = activeField + 1; i < [fields count]; i++){
+		WWFlowFieldSubfield *subfield = [fields objectAtIndex:i];
+		if(subfield.editable){
+			self.activeField = i;
+			return;
+		}
+	}
+	
+	// Must be no more editable fields if we're still running, go to the next one
+	[parentEditor _selectNextRowResponder];
+}
+
+
+- (void) _selectPreviousSubfieldOrRow{
+	if(activeField == 0){
+		[parentEditor _selectPreviousRowResponder];
+		return;
+	}
+	
+	for(NSUInteger i = activeField - 1; i >= 0; i--){
+		WWFlowFieldSubfield *subfield = [fields objectAtIndex:i];
+		if(subfield.editable){
+			self.activeField = i;
+			return;
+		}
+	}
+	
+	// If we can't find any subfield by this point that we can switch to, then have the parent go to the previous row
+	[parentEditor _selectPreviousRowResponder];
 }
 
 @end

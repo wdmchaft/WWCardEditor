@@ -113,7 +113,7 @@
 }
 
 #pragma mark -
-#pragma mark Layout
+#pragma mark Overrides
 
 - (void) _layoutIfNeeded{
 	if(needsLayout){
@@ -124,6 +124,9 @@
 	}
 }
 
+- (NSResponder *)principalResponder{
+	return [valueRowView principalResponder];
+}
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
 	if (!valueRowView) return [super requestedFocusRectArrayAndCount:count];

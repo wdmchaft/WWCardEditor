@@ -48,6 +48,7 @@ static BOOL debugMode;
 		NSRectFill(NSMakeRect(0, 0, textSize.width+2, textSize.height+2));
 		[className drawAtPoint:NSMakePoint(1,1) withAttributes:drawAttrs];
 	}
+	
 	[super drawRect:rect];
 }
 

@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WWCardEditor.h"
+@class WWFlowFieldRow;
 
 @interface WWCardEditorRow()
 
@@ -19,12 +20,18 @@
 - (CGFloat) neededHeight;
 - (CGFloat) availableWidth;
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count;
-- (NSResponder *)principalResponder;
 + (void) setDebugDrawMode:(BOOL)newVal;
+
+- (NSResponder *)principalResponder;
 @end
 
 
 
 @interface WWCardEditor()
 @property(assign) BOOL needsLayout;
+
+- (void) _selectNextRowResponder;
+- (WWFlowFieldRow *)_firstRowWithResponder;
+- (void) _selectPreviousRowResponder;
+- (WWFlowFieldRow *)currentlyActiveRow;
 @end

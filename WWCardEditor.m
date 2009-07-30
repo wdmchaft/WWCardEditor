@@ -190,6 +190,7 @@
 
 
 #pragma mark -
+#pragma mark Layout/Drawing
 
 - (void) layoutIfNeeded{
 	if(needsLayout){
@@ -278,6 +279,79 @@
 
 - (void) setNeedsDisplay{
 	[self setNeedsDisplay:YES];
+}
+
+
+#pragma mark -
+- (void) _selectNextRowResponder{
+	WWFlowFieldRow *activeRow = [self currentlyActiveRow];
+	if(activeRow){
+		for(NSUInteger i = [_rows indexOfObject:activeRow] + 1; i < [_rows count]; i++){
+
+			WWFlowFieldRow *row = [_rows objectAtIndex:i];
+			
+			if([row principalResponder]){
+				[[self window] makeFirstResponder:[row principalResponder]];
+				return;
+			}
+		}
+		
+		// If we've reached this point, there's no next row that can become a responder, so select our own next responder 
+		[[self nextResponder] becomeFirstResponder];
+		
+	}else{
+		// If there's no active row, just select the first row that we're able to
+		[[self _firstRowWithResponder] becomeFirstResponder];
+		
+		WWFlowFieldRow *firstRow = [self _firstRowWithResponder];
+		if(firstRow){
+			[[self window] makeFirstResponder:[firstRow principalResponder]];
+		}
+	}
+}
+
+- (void) _selectPreviousRowResponder{
+	WWFlowFieldRow *activeRow = [self currentlyActiveRow];
+	if(activeRow){
+		NSUInteger activeRowIndex = [_rows indexOfObject:activeRow];
+		if(activeRowIndex == 0){
+			[[self window] makeFirstResponder:[self previousKeyView]];
+			return;
+		}
+		
+		for(NSUInteger i = [_rows indexOfObject:activeRow] - 1; i >= 0; i--){
+			WWFlowFieldRow *row = [_rows objectAtIndex:i];
+			if([row principalResponder]){
+				[[self window] makeFirstResponder:[row principalResponder]];
+				return;
+			}
+		}
+		
+	}
+	
+}
+
+
+
+- (WWFlowFieldRow *)currentlyActiveRow{
+	for(WWFlowFieldRow *row in _rows){
+		if([row principalResponder] == [[self window] firstResponder]){
+			return row;
+		}
+	}
+	
+	return nil;
+}
+
+
+- (WWFlowFieldRow *)_firstRowWithResponder{
+	for(WWFlowFieldRow *row in _rows){
+		if([row principalResponder]){
+			return row;
+		}
+	}
+	
+	return nil;
 }
 
 @end
