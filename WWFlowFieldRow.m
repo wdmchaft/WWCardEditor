@@ -42,7 +42,8 @@
 
 - (void)setNeedsDisplay{
 	[self setNeedsDisplay:YES];
-	
+	[[self parentEditor] setNeedsDisplay:YES];
+	[_textView setNeedsDisplay:YES];
 }
 
 - (void) dealloc{
@@ -93,8 +94,6 @@
 			[_textView setSelectedRange:[self _rangeForFieldAtIndex:activeField]];
 		}
 	}
-	
-	[[self parentEditor] setNeedsDisplay:YES];
 }
 
 - (BOOL)editMode {
@@ -223,7 +222,7 @@
 #pragma mark Text View Delegate
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
-	[parentEditor setNeedsDisplay:YES];
+	[self setNeedsDisplay];
 	
 	if(isRendering){
 		return newSelectedCharRange;
@@ -286,7 +285,7 @@
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
 	NSLog(@"Changing text in range %@ (%@), new string = %@",NSStringFromRange(affectedCharRange), [[textView string] substringWithRange:affectedCharRange],  replacementString);
 	[parentEditor setNeedsLayout:YES];
-	[parentEditor setNeedsDisplay:YES];
+	[self setNeedsDisplay];
 	
 	if(!editMode || !inUse){
 		return NO;

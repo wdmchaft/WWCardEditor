@@ -1,15 +1,11 @@
 General Card Editor Stuff:
-- Flow field should know its own height @done
 - Non-active wwflowfields in edit mode should not show any highlighted text, and should not show insertion point
-- Need a way to select none (where active field changes to NSNotFound) @done
-- The focus rings seem to stop working after enough switching @done
 - Active field seems to be lost coming in and out of edit mode
-- 
+- Height calculations for flow fields still seem a little off
 Key handling:
 - Arrow keys should switch between editable fields (across entire card editor)
 - Enter key should switch to next field (but pastes should still strip returns and newlines)
 - Get tabbing and reverse-tabbing to work
-
 Whipped cream and cherries:
 - Animated insertion/deletion of rows
 - Should be KVO-compliant for the declared keys in the fields
@@ -25,6 +21,9 @@ Whipped cream and cherries:
 	- +/- buttons for deleting and adding stuff
 	- NSPopupMenu with arrows (possibly abstract the checkbox row type into a general nsbutton row type)
 Archive:
+- Flow field should know its own height @done @project(General Card Editor Stuff)
+- Need a way to select none (where active field changes to NSNotFound) @done @project(General Card Editor Stuff)
+- The focus rings seem to stop working after enough switching @done @project(General Card Editor Stuff)
 - Placeholder support @done @project(Flow field: drawing)
 - Need to test with multi-line fields @done @project(Flow field: drawing)
 

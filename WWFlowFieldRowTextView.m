@@ -116,14 +116,19 @@
 
 - (BOOL)resignFirstResponder{
 	//container.isRendering = YES;
-	//container.activeField = NSNotFound;
+	//[self setSelectedRange:NSMakeRange(NSNotFound, 0)];
 	//container.isRendering = NO;
+	
 	[self setEditable:NO];
 	container.inUse = NO;
 	return [super resignFirstResponder];
 }
 
 - (BOOL)becomeFirstResponder{
+	if(![[container parentEditor] editMode]){
+		return NO;
+	}
+	
 	[self setEditable:YES];
 	container.inUse = YES;
 	return [super becomeFirstResponder];
