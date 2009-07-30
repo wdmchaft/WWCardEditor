@@ -139,7 +139,6 @@
 	}
 	
 	[self setEditable:YES];
-	[container setActiveField:0];
 	container.inUse = YES;
 	return [super becomeFirstResponder];
 }

@@ -30,4 +30,6 @@
 - (BOOL) hasActiveField;
 - (void) _selectNextSubfieldOrRow;
 - (void) _selectPreviousSubfieldOrRow;
+- (void) _selectFirstEditableSubfield;
+- (void) _selectLastEditableSubfield;
 @end

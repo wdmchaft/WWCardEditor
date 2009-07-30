@@ -10,6 +10,8 @@
 #import "WWCardEditorRow.h"
 #import "WWCardEditor_Internals.h"
 #import "WWKeyValueRow.h"
+#import "WWFlowFieldRow.h"
+#import "WWFlowFieldRow_Internals.h"
 
 @interface WWCardEditor()
 @property(retain) NSMutableArray *_rows;
@@ -284,6 +286,9 @@
 
 #pragma mark -
 - (void) _selectNextRowResponder{
+	[self setNeedsDisplay:YES];
+	
+	
 	WWFlowFieldRow *activeRow = [self currentlyActiveRow];
 	if(activeRow){
 		for(NSUInteger i = [_rows indexOfObject:activeRow] + 1; i < [_rows count]; i++){
@@ -292,6 +297,11 @@
 			
 			if([row principalResponder]){
 				[[self window] makeFirstResponder:[row principalResponder]];
+				
+				if([row isMemberOfClass:[WWFlowFieldRow class]]){
+					[((WWFlowFieldRow *)row) _selectFirstEditableSubfield];
+				}
+				
 				return;
 			}
 		}
@@ -311,6 +321,8 @@
 }
 
 - (void) _selectPreviousRowResponder{
+	[self setNeedsDisplay:YES];
+	
 	WWFlowFieldRow *activeRow = [self currentlyActiveRow];
 	if(activeRow){
 		NSUInteger activeRowIndex = [_rows indexOfObject:activeRow];
@@ -323,6 +335,10 @@
 			WWFlowFieldRow *row = [_rows objectAtIndex:i];
 			if([row principalResponder]){
 				[[self window] makeFirstResponder:[row principalResponder]];
+				
+				if([row isMemberOfClass:[WWFlowFieldRow class]]){
+					[((WWFlowFieldRow *)row) _selectLastEditableSubfield];
+				}
 				return;
 			}
 		}

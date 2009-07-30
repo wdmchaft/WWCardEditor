@@ -472,4 +472,23 @@
 	[parentEditor _selectPreviousRowResponder];
 }
 
+- (void) _selectFirstEditableSubfield{
+	for(NSUInteger i = 0; i < [fields count]; i++){
+		if([[fields objectAtIndex:i] editable]){
+			[self setActiveField:i];
+			return;
+		}
+	}
+}
+
+- (void) _selectLastEditableSubfield{
+	for(NSUInteger i = ([fields count] - i); i >= 0; i--){
+		if([[fields objectAtIndex:i] editable]){
+			NSLog(@"Looking at %d / %d",i,[fields count]-1);
+			[self setActiveField:i];
+			return;
+		}
+	}
+}
+
 @end
