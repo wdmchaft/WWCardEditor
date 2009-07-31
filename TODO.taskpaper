@@ -3,10 +3,11 @@ General Card Editor Stuff:
 - Active field seems to be lost coming in and out of edit mode
 - Height calculations for flow fields still seem a little off
 - When switching to a specific subfield in a non-active flowfield, another subfield within it can briefly be seen as selected until mouseup, when the correct one is selected
+- Clearly still some bugs with deleting/placeholders
 Key handling:
 - Arrow keys should switch between editable fields (across entire card editor)
 - Enter key should switch to next field (but pastes should still strip returns and newlines)
-- Get tabbing and reverse-tabbing to work
+- Get tabbing and reverse-tabbing to work @done
 And a pony:
 - Animated insertion/deletion of rows
 - Key/Value rows should have an option for a menu

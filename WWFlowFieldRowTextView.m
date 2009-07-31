@@ -22,6 +22,7 @@
 
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity{
 	[[container parentEditor] setNeedsDisplay:YES];
+	NSLog(@"Proposed range");
 	
 	if(!container.editMode){
 		return proposedSelRange; // If we're not in edit mode, they can select anything they want
@@ -51,6 +52,7 @@
 			if((potentiallyLegalPreviousFieldIndex >= 0) && (potentiallyLegalPreviousFieldIndex < [container.fields count]) 
 			   && [[container.fields objectAtIndex:potentiallyLegalPreviousFieldIndex] editable])
 			{
+				NSLog(@"Allowing typing at end of field");
 				return proposedSelRange;
 			}
 		}
@@ -93,12 +95,7 @@
 	}
 	
 	
-	// If they're selecting inside a field, and that field is a placeholder, then forbid it and force them to select its entirety before typing
-	if((startFieldIndex == endFieldIndex) && [container _fieldShouldBeDisplayedAsPlaceholder:startField]){
-		NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select just part of a placeholder");
-		return [container _rangeForFieldAtIndex:startFieldIndex];
-	}
-	
+	NSLog(@"No objections");
 	return proposedSelRange;
 }
 
@@ -114,12 +111,10 @@
 }
 
 - (void)insertTab:(id)sender{
-	NSLog(@"Tab!");
 	[container _selectNextSubfieldOrRow];
 }
 
 - (void)insertBacktab:(id)sender{
-	NSLog(@"Backtab!");
 	[container _selectPreviousSubfieldOrRow];
 }
 

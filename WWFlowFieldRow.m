@@ -225,22 +225,20 @@
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
 	[self setNeedsDisplay];
-	
-	if(isRendering){
-		return newSelectedCharRange;
-	}
-	
 	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
 	
+	// If it's not the user triggering this, let it go.
+	if(isRendering) return newSelectedCharRange; 
 	
-	if(!editMode || !inUse){
-		return newSelectedCharRange; // If we're not in edit mode, they can select anything they want
-	}
+	// If we're not in edit mode, they can select anything they want
+	if(!editMode || !inUse) return newSelectedCharRange; 
 	
+	// It's fine to not select anything
 	if (newSelectedCharRange.location == NSNotFound){
 		NSLog(@"Allowing no selection");
 		return newSelectedCharRange; // no selection, that's cool.
 	}
+	
 	
 	NSUInteger fieldIndex = [self _indexOfFieldForCharOffset:newSelectedCharRange.location];
 	if(fieldIndex == NSNotFound){
@@ -259,10 +257,9 @@
 	// Check that we don't cross fields
 	NSUInteger fieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:fieldIndex];
 	NSUInteger fieldEndChar   = [self _charOffsetForEndOfFieldAtIndex:fieldIndex];
+	WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
 	
 	if(fieldIndex != activeField){
-		WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
-		
 		// Figure out if they're just trying to type at the end of this field or fuck with the next one
 		if((fieldIndex == (activeField + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
 			return newSelectedCharRange; // allow it. We interpret this scenario in -textView:shouldChangeTextInRange:replacementString:
@@ -280,6 +277,21 @@
 		}
 	}
 	
+	// Additional hack-ish checks concerning placeholders:
+	// If the subfield is a placeholder, make sure they select all of it.
+	
+	// Prevent left-arrowing to put the insertion point at the start of the subfield
+	if([self _fieldShouldBeDisplayedAsPlaceholder:[fields objectAtIndex:fieldIndex]]){
+		NSLog(@"MODIFIED AT CHANGE: Must select entirety of placeholder field");
+		return NSMakeRange(fieldStartChar, [[self _displayedStringForField:field] length]);
+	}
+	
+	// Prevent right-arrowing to put the insertion point at the end of the subfield
+	
+	
+	
+	
+	NSLog(@"No objections in field row");
 	return newSelectedCharRange;
 }
 
@@ -292,8 +304,6 @@
 	if(!editMode || !inUse){
 		return NO;
 	}
-	
-	
 	
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
@@ -365,14 +375,11 @@
 		isRendering = YES;
 		[[_textView textStorage] setAttributedString:[self _renderedText]];
 		
-		if(!fieldWasAPlaceholderBefore && fieldWasAPlaceholderAfterwards){
+		if(fieldWasAPlaceholderAfterwards){
 			newSelectedRange = [self _rangeForFieldAtIndex:[fields indexOfObject:relevantField]]; // TODO clean up
 		}
 		else{
-			
-			
 			if(!newlineScrubbedReplacementString.length){
-				NSLog(@"Delete key handling");
 				newSelectedRange.location -= 1;
 			}else{
 				newSelectedRange.location += newlineScrubbedReplacementString.length;
@@ -436,7 +443,6 @@
 
 - (void) _selectNextSubfieldOrRow{
 	if(activeField == ([fields count] - 1)){
-		NSLog(@"At last subfield, telling parent to get next row resp");
 		[parentEditor _selectNextRowResponder];
 		return;
 	}
@@ -484,7 +490,6 @@
 - (void) _selectLastEditableSubfield{
 	for(NSUInteger i = ([fields count] - i); i >= 0; i--){
 		if([[fields objectAtIndex:i] editable]){
-			NSLog(@"Looking at %d / %d",i,[fields count]-1);
 			[self setActiveField:i];
 			return;
 		}
