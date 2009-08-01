@@ -213,7 +213,7 @@
 }
 
 - (BOOL) _fieldShouldBeDisplayedAsPlaceholder:(WWFlowFieldSubfield *)field{
-	return (editMode && field.placeholder && (!field.value || [field.value isEqual:@""]));
+	return (editMode && field && field.placeholder && (!field.value || [field.value isEqual:@""]));
 }
 
 - (NSString *)_displayedStringForField:(WWFlowFieldSubfield *)field{
@@ -277,8 +277,7 @@
 		}
 	}
 	
-	// Additional hack-ish checks concerning placeholders:
-	// If the subfield is a placeholder, make sure they select all of it.
+	// Additional hack-ish checks concerning placeholders: if the subfield is a placeholder, make sure they select all of it.
 	
 	// Prevent left-arrowing to put the insertion point at the start of the subfield
 	if([self _fieldShouldBeDisplayedAsPlaceholder:[fields objectAtIndex:fieldIndex]]){

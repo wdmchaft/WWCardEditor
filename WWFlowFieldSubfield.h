@@ -27,7 +27,7 @@
 + (WWFlowFieldSubfield *) uneditableNewline;
 
 // Properties
-@property(retain) NSString *name;
+@property(retain) NSString *name; // TODO make readonly
 @property(retain) NSString *value;
 @property(retain) NSFont *font;
 @property(retain) NSString *placeholder;
