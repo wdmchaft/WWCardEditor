@@ -5,9 +5,13 @@ General Card Editor Stuff:
 - When switching to a specific subfield in a non-active flowfield, another subfield within it can briefly be seen as selected until mouseup, when the correct one is shown as selected
 - Can occasionally get into a state where we're getting errors like these: NSRunStorage, _NSBlockNumberForIndex(): index (19) beyond array bounds (19)
 - Pressing right-delete seems to fuck things up
+
+
 Key handling:
 - Enter key should switch to next field (but pastes should still strip returns and newlines)
 - Get tabbing and reverse-tabbing to work @done
+
+
 And a pony:
 - Animated insertion/deletion of rows
 - Key/Value rows should have an option for a menu
@@ -25,22 +29,5 @@ And a pony:
 	- +/- buttons for deleting and adding rows0
 	- NSPopupMenu with arrows (possibly abstract the checkbox row type into a general nsbutton row type)
 	- Star rating a la iTunes
-Archive:
-- Flow field should know its own height @done @project(General Card Editor Stuff)
-- Need a way to select none (where active field changes to NSNotFound) @done @project(General Card Editor Stuff)
-- The focus rings seem to stop working after enough switching @done @project(General Card Editor Stuff)
-- Placeholder support @done @project(Flow field: drawing)
-- Need to test with multi-line fields @done @project(Flow field: drawing)
 
-- Get flow field working inside of Key Value row type @done @project(General Card Editor Stuff)
-- Card editor as a whole should have edit mode @done @project(General Card Editor Stuff)
-- Fancy drop shadow boxes should be drawn in the card editor, not the flow field, and should also not look like ass @done @project(General Card Editor Stuff)
 
-- Edit mode refinements: @done @project(Flow field: selection behavior)
-	- When going INTO edit mode, set selected field to 0, UNLESS there are no fields, then set it to NSNotFound @done
-	- When coming OUT of edit mode, set the selection to none @done
-- Fix right-arrow-at-end-of-field bug @done @project(Flow field: selection behavior)
-- Placeholder text @done @project(Individual flow fields should support)
-- Shadow should only draw if containing window has focus @done @project(Flow field: drawing)
-- Should use floor/ceil + 0.5 to avoid drawing on pixel cracks @done @project(Flow field: drawing)
-- Active field should be externally changable @done @project(Flow field: selection behavior)
