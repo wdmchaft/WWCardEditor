@@ -104,8 +104,7 @@
 - (void)setEditMode:(BOOL)flag {
 	if(editMode != flag){
 		
-		[_textView setEditable:flag];
-		[[_textView textStorage] setAttributedString:[self _renderedText]];
+		
 		
 		if(editMode != flag){
 			if(editMode){ // coming out of edit mode
@@ -116,6 +115,9 @@
 		}
 		
 		editMode = flag;
+		
+		[_textView setEditable:flag];
+		[[_textView textStorage] setAttributedString:[self _renderedText]];
 		
 		
 		[self setNeedsDisplay];

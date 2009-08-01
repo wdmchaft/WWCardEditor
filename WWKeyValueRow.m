@@ -10,6 +10,8 @@
 #import "WWCardEditor.h"
 #import "WWCardEditor_Internals.h"
 
+#define WWKeyValueRow_HorizontalBuffer 10
+
 
 @interface WWKeyValueRow()
 - (void) _layoutIfNeeded;
@@ -146,7 +148,7 @@
 	
 	NSSize labelSize = [keyLabel sizeWithAttributes:[self _labelAttributes]];
 	
-    NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], NSMakeRect(splitPosition - 10 - labelSize.width,0,labelSize.width, labelSize.height));
+    NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], NSMakeRect(splitPosition - WWKeyValueRow_HorizontalBuffer - labelSize.width,0,labelSize.width, labelSize.height));
 
     if (!NSIsEmptyRect(clippedItemBounds)) {
 		[self addCursorRect:clippedItemBounds cursor:[NSCursor arrowCursor]];
@@ -160,7 +162,7 @@
 }
 
 - (CGFloat) availableWidth{
-	return [super availableWidth] - splitPosition;
+	return [super availableWidth] - splitPosition - WWKeyValueRow_HorizontalBuffer;
 }
 
 
@@ -189,7 +191,7 @@
 		
 		NSBezierPath *highlightPath = [NSBezierPath bezierPath];
 		[highlightPath appendBezierPathWithArcWithCenter: startPoint radius: capRadius startAngle: 90.0f endAngle: 270.f clockwise: NO];
-		[highlightPath appendBezierPathWithRect:NSMakeRect(splitPosition - labelRect.width - 4 - capRadius, 0, labelRect.width + 10, labelRect.height)];
+		[highlightPath appendBezierPathWithRect:NSMakeRect(splitPosition - labelRect.width - 4 - capRadius, 0, labelRect.width + WWKeyValueRow_HorizontalBuffer, labelRect.height)];
 		
 		[[NSColor colorWithCalibratedWhite:0 alpha:1-0.69] set];
 		[highlightPath fill];
@@ -199,7 +201,7 @@
 		highlightPath = [NSBezierPath bezierPath];
 		[[NSColor colorWithCalibratedWhite:0 alpha:1-0.89] set];
 	
-		CGFloat highlightWidth = [self availableWidth] - [valueRowView availableWidth] + 10;
+		CGFloat highlightWidth = [self availableWidth] - [valueRowView availableWidth] + WWKeyValueRow_HorizontalBuffer;
 		
 		if([self neededHeight] > (labelRect.height + 3)){
 			[highlightPath appendBezierPathWithRoundedRect:NSMakeRect(splitPosition + 1, 0, highlightWidth, [self neededHeight]) xRadius:capRadius yRadius:capRadius];
@@ -213,7 +215,7 @@
 	}
 	
 	// Draw key label
-	[keyLabel drawInRect:NSMakeRect(0, 0, splitPosition - 10, labelRect.height) withAttributes:attrs];
+	[keyLabel drawInRect:NSMakeRect(0, 0, splitPosition - WWKeyValueRow_HorizontalBuffer, labelRect.height) withAttributes:attrs];
 	[super drawRect:rect];
 }
 

@@ -279,7 +279,9 @@
 							<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 							<array>
 								<array>
-									<integer>21</integer>
+									<integer>15</integer>
+									<integer>13</integer>
+									<integer>3</integer>
 									<integer>2</integer>
 									<integer>1</integer>
 									<integer>0</integer>
@@ -305,7 +307,7 @@
 							<real>331</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>203 102 1440 790 0 0 1680 1028 </string>
+						<string>414 51 1440 790 0 0 1680 1028 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -323,7 +325,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CE0B20306471E060097A5F4</string>
 								<key>PBXProjectModuleLabel</key>
-								<string>WWCardEditor.h</string>
+								<string>WWFlowFieldRow.m</string>
 								<key>PBXSplitModuleInNavigatorKey</key>
 								<dict>
 									<key>Split0</key>
@@ -331,11 +333,11 @@
 										<key>PBXProjectModuleGUID</key>
 										<string>1CE0B20406471E060097A5F4</string>
 										<key>PBXProjectModuleLabel</key>
-										<string>WWCardEditor.h</string>
+										<string>WWFlowFieldRow.m</string>
 										<key>_historyCapacity</key>
 										<integer>0</integer>
 										<key>bookmark</key>
-										<string>CECA96131023DC6B007C7B22</string>
+										<string>CECA96241023E00D007C7B22</string>
 										<key>history</key>
 										<array>
 											<string>CEFE66930FE8470E0093A2E9</string>
@@ -389,13 +391,13 @@
 											<string>CEE690DD1022742900CA96A8</string>
 											<string>CEE690DE1022742900CA96A8</string>
 											<string>CEE690E01022742900CA96A8</string>
-											<string>CEE690F4102274A000CA96A8</string>
 											<string>CEE690F7102274A000CA96A8</string>
 											<string>CEE690F8102274A000CA96A8</string>
 											<string>CEE6910C1022771500CA96A8</string>
 											<string>CEE6910D1022771500CA96A8</string>
 											<string>CEE6910E1022771500CA96A8</string>
-											<string>CEE6927B1022BDCE00CA96A8</string>
+											<string>CECA96171023DFF9007C7B22</string>
+											<string>CECA96181023DFF9007C7B22</string>
 										</array>
 										<key>prevStack</key>
 										<array>
@@ -442,6 +444,7 @@
 											<string>CEE69045102245EB00CA96A8</string>
 											<string>CEE6909E1022683E00CA96A8</string>
 											<string>CEE690E71022742900CA96A8</string>
+											<string>CECA96191023DFF9007C7B22</string>
 										</array>
 									</dict>
 									<key>SplitCount</key>
@@ -455,7 +458,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1087, 744}}</string>
 								<key>RubberWindowFrame</key>
-								<string>203 102 1440 790 0 0 1680 1028 </string>
+								<string>414 51 1440 790 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -475,7 +478,7 @@
 								<key>Frame</key>
 								<string>{{0, 749}, {1087, 0}}</string>
 								<key>RubberWindowFrame</key>
-								<string>203 102 1440 790 0 0 1680 1028 </string>
+								<string>414 51 1440 790 0 0 1680 1028 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -635,10 +638,13 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
+		<string>1C78EAAD065D492600B07095</string>
+		<string>1CD10A99069EF8BA00B06720</string>
+		<string>CEFE668D0FE8470B0093A2E9</string>
 		<string>/Users/dangrover2/Documents/Projects/People/WWCardEditor/WWCardEditor.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>203 102 1440 790 0 0 1680 1028 </string>
+	<string>414 51 1440 790 0 0 1680 1028 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -715,7 +721,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>CEFE668D0FE8470B0093A2E9</string>
-				<string>CEE6927E1022BDCE00CA96A8</string>
+				<string>CECA961B1023DFF9007C7B22</string>
 				<string>1CD0528F0623707200166675</string>
 				<string>XCMainBuildResultsModuleGUID</string>
 			</array>
@@ -835,13 +841,13 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1CD10A99069EF8BA00B06720</string>
-				<string>CEE68FEB102240F800CA96A8</string>
+				<string>CECA961C1023DFF9007C7B22</string>
 				<string>1C162984064C10D400B95A72</string>
-				<string>CEE68FEC102240F800CA96A8</string>
-				<string>CEE68FED102240F800CA96A8</string>
-				<string>CEE68FEE102240F800CA96A8</string>
-				<string>CEE68FEF102240F800CA96A8</string>
-				<string>CEE68FF0102240F800CA96A8</string>
+				<string>CECA961D1023DFF9007C7B22</string>
+				<string>CECA961E1023DFF9007C7B22</string>
+				<string>CECA961F1023DFF9007C7B22</string>
+				<string>CECA96201023DFF9007C7B22</string>
+				<string>CECA96211023DFF9007C7B22</string>
 			</array>
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.debugV3</string>
@@ -960,8 +966,6 @@
 					<key>Dock</key>
 					<array>
 						<dict>
-							<key>BecomeActive</key>
-							<true/>
 							<key>ContentConfiguration</key>
 							<dict>
 								<key>PBXProjectModuleGUID</key>
@@ -997,7 +1001,7 @@
 			<key>TableOfContents</key>
 			<array>
 				<string>1C78EAAD065D492600B07095</string>
-				<string>CEE68FF1102240F800CA96A8</string>
+				<string>CECA96221023DFF9007C7B22</string>
 				<string>1C78EAAC065D492600B07095</string>
 			</array>
 			<key>ToolbarConfiguration</key>
@@ -1007,7 +1011,7 @@
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>
-			<true/>
+			<false/>
 		</dict>
 		<dict>
 			<key>Identifier</key>
