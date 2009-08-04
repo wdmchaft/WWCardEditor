@@ -10,7 +10,6 @@
 #import "WWCardEditor.h"
 #import "WWCardEditor_Internals.h"
 
-#define WWKeyValueRow_HorizontalBuffer 10
 
 
 @interface WWKeyValueRow()
@@ -24,7 +23,7 @@
 
 - (id)init{
     if (self = [super initWithFrame:NSZeroRect]){
-		splitPosition = 80;
+		splitPosition = WWKeyValueRow_DefaultSplitPosition;
 		[[self window] setAcceptsMouseMovedEvents:YES];
 		[[self window] setIgnoresMouseEvents:NO];
     }

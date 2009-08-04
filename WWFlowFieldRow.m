@@ -104,8 +104,6 @@
 - (void)setEditMode:(BOOL)flag {
 	if(editMode != flag){
 		
-		
-		
 		if(editMode != flag){
 			if(editMode){ // coming out of edit mode
 				//self.activeField = NSNotFound;

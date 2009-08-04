@@ -16,7 +16,6 @@
 		CEAEE23C0FEC0E7F00950781 /* WWCardEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23B0FEC0E7F00950781 /* WWCardEditor.m */; };
 		CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */; };
 		CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */; };
-		CEAEE5EC0FEC4D2200950781 /* NSString+GuidGeneration.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE5EB0FEC4D2200950781 /* NSString+GuidGeneration.m */; };
 		CEFE66820FE8434D0093A2E9 /* WWFlowFieldRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */; };
 		CEFE66860FE844100093A2E9 /* WWFlowFieldSubfield.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */; };
 		CEFE66C60FE848840093A2E9 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66C50FE848840093A2E9 /* TestController.m */; };
@@ -46,8 +45,6 @@
 		CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWCardEditorRow.m; sourceTree = "<group>"; };
 		CEAEE2430FEC0F1500950781 /* WWKeyValueRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWKeyValueRow.h; sourceTree = "<group>"; };
 		CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWKeyValueRow.m; sourceTree = "<group>"; };
-		CEAEE5EA0FEC4D2200950781 /* NSString+GuidGeneration.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+GuidGeneration.h"; sourceTree = "<group>"; };
-		CEAEE5EB0FEC4D2200950781 /* NSString+GuidGeneration.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+GuidGeneration.m"; sourceTree = "<group>"; };
 		CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldRow.h; sourceTree = "<group>"; };
 		CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFieldRow.m; sourceTree = "<group>"; };
 		CEFE66840FE844100093A2E9 /* WWFlowFieldSubfield.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldSubfield.h; sourceTree = "<group>"; };
@@ -79,8 +76,6 @@
 				CEAEE23D0FEC0E8B00950781 /* Card Editor */,
 				CEFE66C40FE848840093A2E9 /* TestController.h */,
 				CEFE66C50FE848840093A2E9 /* TestController.m */,
-				CEAEE5EA0FEC4D2200950781 /* NSString+GuidGeneration.h */,
-				CEAEE5EB0FEC4D2200950781 /* NSString+GuidGeneration.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -282,7 +277,6 @@
 				CEAEE23C0FEC0E7F00950781 /* WWCardEditor.m in Sources */,
 				CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */,
 				CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */,
-				CEAEE5EC0FEC4D2200950781 /* NSString+GuidGeneration.m in Sources */,
 				CE2066C41017EF2E0078A5ED /* WWCheckboxRow.m in Sources */,
 				CE73F236101BAD38008662F0 /* WWSpacerRow.m in Sources */,
 			);

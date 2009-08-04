@@ -21,3 +21,7 @@
 @property(retain) WWCardEditorRow *valueRowView;
 
 @end
+
+
+#define WWKeyValueRow_HorizontalBuffer 10
+#define WWKeyValueRow_DefaultSplitPosition 80

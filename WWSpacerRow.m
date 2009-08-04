@@ -7,7 +7,7 @@
 //
 
 #import "WWSpacerRow.h"
-
+#import "WWCardEditor_Internals.h"
 
 @implementation WWSpacerRow
 
@@ -17,6 +17,7 @@
 
 - (void)setHeight:(CGFloat)anHeight {
     height = anHeight;
+	[parentEditor setNeedsLayout:YES];
 }
 
 - (CGFloat) neededHeight{

@@ -1,9 +1,13 @@
-General Card Editor Stuff:
-- Should not be able to right-arrow to the end of a placeholder
+Flow field bugs:
 - Non-active wwflowfields in edit mode should not show any highlighted text
-- When switching to a specific subfield in a non-active flowfield, another subfield within it can briefly be seen as selected until mouseup, when the correct one is shown as selected
 - Can occasionally get into a state where we're getting errors like these: NSRunStorage, _NSBlockNumberForIndex(): index (19) beyond array bounds (19)
-- Pressing right-delete seems to fuck things up
+- Key handling bugs:
+	- Pressing right-delete seems to fuck things up
+	- Should not be able to right-arrow to the end of a placeholder
+- Drawing bugs: 
+	- When switching to a specific subfield in a non-active flowfield, another subfield within it can briefly be seen as selected until mouseup, when the correct one is shown as selected
+	- The first couple characters on a newly-wrapped line seem to not draw until more characters are typed
+	- When deleting a multi-line subfield's contents, the whole row becomes white until more typing is done
 
 
 Key handling:
