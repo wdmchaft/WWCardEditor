@@ -10,7 +10,8 @@
 #import "WWCardEditor.h"
 #import "WWCardEditor_Internals.h"
 
-
+#define WWKeyValueRow_HorizontalBuffer 10
+#define WWKeyValueRow_DefaultSplitPosition 80
 
 @interface WWKeyValueRow()
 - (void) _layoutIfNeeded;
@@ -40,12 +41,19 @@
 	return [NSString stringWithFormat:@"<WWKeyValueRow: keyLabel = %@, valueRow = %@>",keyLabel, valueRowView];
 }
 
++ (void) initialize{
+	[self exposeBinding:@"keyLabel"];
+	[self exposeBinding:@"valueRow"];
+}
+
+
 - (NSMutableDictionary *)_labelAttributes{
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
 	[attrs setObject:parentEditor.keyLabelFont forKey:NSFontAttributeName];
 	[attrs setObject:parentEditor.keyLabelColor forKey:NSForegroundColorAttributeName];
 	return attrs;
 }
+
 
 #pragma mark -
 

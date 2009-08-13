@@ -8,6 +8,10 @@
 
 #import "WWFlowFieldSubfield.h"
 
+@interface WWFlowFieldSubfield()
+@property(retain,readwrite) NSString *name; 
+@end
+
 @implementation WWFlowFieldSubfield 
 @synthesize name, value, font, editable, placeholder;
 
@@ -31,10 +35,18 @@
 	[super dealloc];
 }
 
+
+
 - (NSString *) description{
 	return [NSString stringWithFormat:@"<WWFlowField: name = %@, editable = %d, value = %@>", name, editable, value];
 }
 
++ (void) initialize{
+	[self exposeBinding:@"value"];
+	[self exposeBinding:@"editable"];
+	[self exposeBinding:@"font"];
+	[self exposeBinding:@"placeholder"];
+}
 
 + (WWFlowFieldSubfield *) editableSubfieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue{
 	WWFlowFieldSubfield *field = [[WWFlowFieldSubfield alloc] initWithName:fieldName];
@@ -53,13 +65,11 @@
 }
 
 + (WWFlowFieldSubfield *) uneditableSpace{
-	return [WWFlowFieldSubfield uneditableSubfieldWithName:@"" initialValue:@" "];
+	return [WWFlowFieldSubfield uneditableSubfieldWithName:nil initialValue:@" "];
 }
 
 + (WWFlowFieldSubfield *) uneditableNewline{
-	return [WWFlowFieldSubfield uneditableSubfieldWithName:@"" initialValue:@"\n"];
+	return [WWFlowFieldSubfield uneditableSubfieldWithName:nil initialValue:@"\n"];
 }
-
-
 
 @end

@@ -27,7 +27,7 @@
 - (NSDictionary *)_attributesForSubfield:(WWFlowFieldSubfield *)field;
 - (NSString *) _displayedStringForField:(WWFlowFieldSubfield *)field;
 
-- (BOOL) hasActiveField;
+//- (BOOL) hasActiveField;
 - (void) _selectNextSubfieldOrRow;
 - (void) _selectPreviousSubfieldOrRow;
 - (void) _selectFirstEditableSubfield;

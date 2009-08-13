@@ -42,15 +42,15 @@
 		return NSMakeRange(proposedSelRange.location, 0);
 	}
 	
-	WWFlowFieldSubfield *startField = [container.fields objectAtIndex:startFieldIndex];
-	WWFlowFieldSubfield *endField = (endFieldIndex < [container.fields count]) ? [container.fields objectAtIndex:endFieldIndex] : nil;
+	WWFlowFieldSubfield *startField = [container.subfields objectAtIndex:startFieldIndex];
+	WWFlowFieldSubfield *endField = (endFieldIndex < [container.subfields count]) ? [container.subfields objectAtIndex:endFieldIndex] : nil;
 	
 	if(![startField editable]){
 		// This is allowable if they're really trying to type at the end of a legal, mutable field
 		if (!proposedSelRange.length  && ([container _charOffsetForBeginningOfFieldAtIndex:startFieldIndex] == proposedSelRange.location)){
 			NSUInteger potentiallyLegalPreviousFieldIndex = startFieldIndex - 1;
-			if((potentiallyLegalPreviousFieldIndex >= 0) && (potentiallyLegalPreviousFieldIndex < [container.fields count]) 
-			   && [[container.fields objectAtIndex:potentiallyLegalPreviousFieldIndex] editable])
+			if((potentiallyLegalPreviousFieldIndex >= 0) && (potentiallyLegalPreviousFieldIndex < [container.subfields count]) 
+			   && [[container.subfields objectAtIndex:potentiallyLegalPreviousFieldIndex] editable])
 			{
 				NSLog(@"Allowing typing at end of field");
 				return proposedSelRange;
@@ -68,23 +68,23 @@
 		}
 	}
 	
-	// Check that we don't cross fields
+	// Check that we don't cross subfields
 	NSUInteger startFieldStartChar = [container _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
 	NSUInteger startFieldEndChar = [container _charOffsetForEndOfFieldAtIndex:startFieldIndex];
 	
 	if(startFieldIndex != endFieldIndex){
-		if((startFieldIndex == container.activeField) && (endFieldIndex > startFieldIndex)){
-			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select ahead across fields, only selecting until end of current field.");
+		if((startFieldIndex == container.activeSubfield) && (endFieldIndex > startFieldIndex)){
+			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select ahead across subfields, only selecting until end of current field.");
 			return NSMakeRange(proposedSelRange.location, [[container _displayedStringForField:startField] length] - (proposedSelRange.location - startFieldStartChar));
 		}
-		else if((startFieldIndex < container.activeField) && (endFieldIndex >= container.activeField)){
+		else if((startFieldIndex < container.activeSubfield) && (endFieldIndex >= container.activeSubfield)){
 			NSUInteger endFieldStartChar = [container _charOffsetForBeginningOfFieldAtIndex:endFieldIndex];
-			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select behind across fields, only selecting from beginning of end field to end of proposed selection");
+			NSLog(@"MODIFIED AT PROPOSED RANGE: Can't select behind across subfields, only selecting from beginning of end field to end of proposed selection");
 			return NSMakeRange(endFieldStartChar, proposedSelRange.location + proposedSelRange.length - endFieldStartChar);
 		}
 	}
 
-	if(startFieldIndex != container.activeField){
+	if(startFieldIndex != container.activeSubfield){
 		if(proposedSelRange.length == 0){
 			NSLog(@"MODIFIED AT PROPOSED RANGE: Changing active field, length = 0");
 			return NSMakeRange(startFieldStartChar,0);
@@ -104,8 +104,8 @@
 // Overrides
 
 - (void)selectAll:(id)sender{
-	if(container.activeField != NSNotFound){
-		[self setSelectedRange:[container _rangeForFieldAtIndex:container.activeField]];
+	if(container.activeSubfield != NSNotFound){
+		[self setSelectedRange:[container _rangeForFieldAtIndex:container.activeSubfield]];
 	}
 	
 }
@@ -168,7 +168,7 @@
 	
 	// Re-trace the text over the background
 	NSPoint containerOrigin	 = [self textContainerOrigin];
-	NSRange fieldGlyphRange = [[self layoutManager] glyphRangeForCharacterRange:[container _rangeForFieldAtIndex:container.activeField] actualCharacterRange:nil];
+	NSRange fieldGlyphRange = [[self layoutManager] glyphRangeForCharacterRange:[container _rangeForFieldAtIndex:container.activeSubfield] actualCharacterRange:nil];
 	[[self layoutManager] drawBackgroundForGlyphRange:fieldGlyphRange atPoint:containerOrigin];
 	[[self layoutManager] drawGlyphsForGlyphRange:fieldGlyphRange atPoint:containerOrigin];
 }

@@ -186,8 +186,6 @@
 		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add nil row" userInfo:nil];
 	}else if(![row name]){
 		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add row with no name" userInfo:nil];
-	}else if([_rowNameIndex objectForKey:[row name]]){
-		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add row with same name as existing row" userInfo:nil];
 	}
 	
 	[self willChangeValueForKey:@"rows"];
@@ -195,8 +193,8 @@
 	
 	row.parentEditor = self;
 	
-	[_rowNameIndex setObject:row forKey:[row name]];
 	[_rows insertObject:row atIndex:newRowIndex];
+	if([row name]) [_rowNameIndex setObject:row forKey:[row name]];
 	
 	[self addSubview:row];
 	
@@ -215,8 +213,9 @@
 	
 	theRow.parentEditor = nil;
 	
-	[_rowNameIndex removeObjectForKey:[theRow name]];
+	
 	[_rows removeObjectAtIndex:removeRowIndex];
+	if([theRow name]) [_rowNameIndex removeObjectForKey:[theRow name]];
 	
 	[theRow removeFromSuperview];
 	

@@ -29,7 +29,7 @@
 	lastName.font = nameSpace.font = firstName.font = bigFont;
 	
 	WWFlowFieldRow *nameRow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
-	nameRow.fields = [NSArray arrayWithObjects:firstName, nameSpace, lastName, nil];
+	nameRow.subfields = [NSArray arrayWithObjects:firstName, nameSpace, lastName, nil];
 	[cardEditor addRow:nameRow];
 	
 	WWSpacerRow *spacer = [[[WWSpacerRow alloc] init] autorelease];
@@ -44,7 +44,7 @@
 	WWFlowFieldSubfield *zip = [WWFlowFieldSubfield editableSubfieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
 
 	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
-	addressSubrow.fields = [NSArray arrayWithObjects:addyLine1,[WWFlowFieldSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
+	addressSubrow.subfields = [NSArray arrayWithObjects:addyLine1,[WWFlowFieldSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
 	
 	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] init] autorelease];
 	addressKeyValueRow.keyLabel = @"home";

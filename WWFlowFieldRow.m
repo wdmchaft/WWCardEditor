@@ -15,7 +15,7 @@
 #pragma mark -
 
 @implementation WWFlowFieldRow
-@synthesize _textView, activeField, isRendering, inUse;
+@synthesize _textView, activeSubfield, isRendering, inUse;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -48,25 +48,25 @@
 
 - (void) dealloc{
 	self._textView = nil;
-	self.fields = nil;
+	self.subfields = nil;
 	[super dealloc];
 }
 
 - (NSString *)description{
-	return [NSString stringWithFormat:@"<WWFlowFieldRow: fields = %@",fields];
+	return [NSString stringWithFormat:@"<WWFlowFieldRow: subfields = %@",subfields];
 }
 
 #pragma mark -
 #pragma mark Accessors
 
-- (NSArray *)fields {
-    return fields; 
+- (NSArray *)subfields {
+    return subfields; 
 }
 
-- (void)setFields:(NSArray *)aFields {
-    if (fields != aFields) {
-        [fields release];
-        fields = [aFields retain];
+- (void)setSubfields:(NSArray *)aFields {
+    if (subfields != aFields) {
+        [subfields release];
+        subfields = [aFields retain];
     }
 	
 //	[_textView resignFirstResponder];
@@ -74,25 +74,25 @@
 	//[self setActiveField:NSNotFound];
 }
 
-- (NSInteger)activeField {
-    return activeField;
+- (NSInteger)activeSubfield {
+    return activeSubfield;
 }
 
 - (void)setActiveField:(NSInteger)anActiveField {
-	if(anActiveField >= [fields count]){
+	if(anActiveField >= [subfields count]){
 		return;
 	}
 	
-	NSUInteger oldField = activeField;
-    activeField = anActiveField;
+	NSUInteger oldField = activeSubfield;
+    activeSubfield = anActiveField;
 	
-	if(activeField != oldField){
+	if(activeSubfield != oldField){
 		if(!inUse){ // If there's no field selected, then make no text selected
 			if([_textView selectedRange].location != NSNotFound){
 				[_textView setSelectedRange: NSMakeRange(0, 0)];
 			}
 		}else{ // Otherwise, select all text in the new active field
-			[_textView setSelectedRange:[self _rangeForFieldAtIndex:activeField]];
+			[_textView setSelectedRange:[self _rangeForFieldAtIndex:activeSubfield]];
 		}
 	}
 }
@@ -106,9 +106,9 @@
 		
 		if(editMode != flag){
 			if(editMode){ // coming out of edit mode
-				//self.activeField = NSNotFound;
+				//self.activeSubfield = NSNotFound;
 			}else{ // going into edit mode
-				//self.activeField = 0;
+				//self.activeSubfield = 0;
 			}
 		}
 		
@@ -130,7 +130,7 @@
 - (NSAttributedString *) _renderedText{
 	NSMutableAttributedString *soFar = [[[NSMutableAttributedString alloc] initWithString:@""] autorelease];
 	
-	for(WWFlowFieldSubfield *field in fields){
+	for(WWFlowFieldSubfield *field in subfields){
 		[soFar appendAttributedString:[[[NSAttributedString alloc] initWithString:[self _fieldShouldBeDisplayedAsPlaceholder:field] ? field.placeholder : field.value
 																	   attributes:[self _attributesForSubfield:field]] autorelease]];
 	}
@@ -154,8 +154,8 @@
 	
 	unsigned offsetReached = 0;
 	
-	for(NSUInteger i = 0; i < [fields count]; i++){
-		WWFlowFieldSubfield *field = [fields objectAtIndex:i];
+	for(NSUInteger i = 0; i < [subfields count]; i++){
+		WWFlowFieldSubfield *field = [subfields objectAtIndex:i];
 		unsigned len = [[self _displayedStringForField:field] length];
 		
 		if((offsetDesired >= offsetReached) && (offsetDesired < (offsetReached+len))){
@@ -169,7 +169,7 @@
 }
 
 - (NSUInteger) _charOffsetForBeginningOfFieldAtIndex:(NSUInteger)fieldIndex{
-	if(fieldIndex >= [fields count]){
+	if(fieldIndex >= [subfields count]){
 		return NSNotFound;
 	}
 	
@@ -179,7 +179,7 @@
 		if(i == fieldIndex){
 			return soFar;
 		}else{
-			WWFlowFieldSubfield *field = [fields objectAtIndex:i];
+			WWFlowFieldSubfield *field = [subfields objectAtIndex:i];
 			soFar += [[self _displayedStringForField:field] length];
 		}
 	}
@@ -188,7 +188,7 @@
 }
 
 - (NSUInteger) _charOffsetForEndOfFieldAtIndex:(NSUInteger)fieldIndex{
-	if(fieldIndex >= [fields count]){
+	if(fieldIndex >= [subfields count]){
 		return NSNotFound;
 	}
 	
@@ -197,17 +197,17 @@
 		return NSNotFound;
 	}
 	
-	WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
+	WWFlowFieldSubfield *field = [subfields objectAtIndex:fieldIndex];
 	return beginning + [[self _displayedStringForField:field] length];
 }
 
 
 - (NSRange) _rangeForFieldAtIndex:(NSUInteger)fieldIndex{
-	if(fieldIndex >= [fields count]){
+	if(fieldIndex >= [subfields count]){
 		return NSMakeRange(NSNotFound, 0);
 	}
 
-	WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
+	WWFlowFieldSubfield *field = [subfields objectAtIndex:fieldIndex];
 	
 	return NSMakeRange([self _charOffsetForBeginningOfFieldAtIndex:fieldIndex], [[self _displayedStringForField:field] length]);
 }
@@ -245,23 +245,23 @@
 		// This could mean that they're changing the insertion point to the very end of the text, and the very end of the last mutable field.
 		// Or it could mean they're trying to change the selection to none (by clicking on an invalid field), so we just set the field to Not Found and let them have no active field selected.
 		
-		if((newSelectedCharRange.location == [[_textView string] length]) && [[fields lastObject] editable]){
-			self.activeField = [fields count] - 1; // this is where it changes it
+		if((newSelectedCharRange.location == [[_textView string] length]) && [[subfields lastObject] editable]){
+			self.activeSubfield = [subfields count] - 1; // this is where it changes it
 		}else{
-			self.activeField = NSNotFound;
+			self.activeSubfield = NSNotFound;
 		}
 		
 		return newSelectedCharRange;
 	}
 	
-	// Check that we don't cross fields
+	// Check that we don't cross subfields
 	NSUInteger fieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:fieldIndex];
 	NSUInteger fieldEndChar   = [self _charOffsetForEndOfFieldAtIndex:fieldIndex];
-	WWFlowFieldSubfield *field = [fields objectAtIndex:fieldIndex];
+	WWFlowFieldSubfield *field = [subfields objectAtIndex:fieldIndex];
 	
-	if(fieldIndex != activeField){
+	if(fieldIndex != activeSubfield){
 		// Figure out if they're just trying to type at the end of this field or fuck with the next one
-		if((fieldIndex == (activeField + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
+		if((fieldIndex == (activeSubfield + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
 			return newSelectedCharRange; // allow it. We interpret this scenario in -textView:shouldChangeTextInRange:replacementString:
 		}
 
@@ -271,8 +271,8 @@
 			return oldSelectedCharRange;
 		}
 		else{
-			// Okay, that's cool, you can change fields, but we're gonna have to select the whole field
-			self.activeField = fieldIndex;
+			// Okay, that's cool, you can change subfields, but we're gonna have to select the whole field
+			self.activeSubfield = fieldIndex;
 			return NSMakeRange(fieldStartChar, [[self _displayedStringForField:field] length]);
 		}
 	}
@@ -280,7 +280,7 @@
 	// Additional hack-ish checks concerning placeholders: if the subfield is a placeholder, make sure they select all of it.
 	
 	// Prevent left-arrowing to put the insertion point at the start of the subfield
-	if([self _fieldShouldBeDisplayedAsPlaceholder:[fields objectAtIndex:fieldIndex]]){
+	if([self _fieldShouldBeDisplayedAsPlaceholder:[subfields objectAtIndex:fieldIndex]]){
 		NSLog(@"MODIFIED AT CHANGE: Must select entirety of placeholder field");
 		return NSMakeRange(fieldStartChar, [[self _displayedStringForField:field] length]);
 	}
@@ -309,7 +309,7 @@
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
 	NSUInteger endFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:endFieldIndex];
 	
-	// First things first: we want to block any edit that crosses subfields, that's a no-no.
+	// First things first: we want to block any edit that crosses subsubfields, that's a no-no.
 	// However, there are two cases where this is fine:
 	// - Pressing delete at the end of a field (which is technically the start of the next)
 	// - Doing the above, but where the "next" is NSNotFound (which is the case if we're pressing delete at the end of the last field)
@@ -325,7 +325,7 @@
 		}
 	}
 	
-	// Newlines are not allowed in these fields
+	// Newlines are not allowed in these subfields
 	// If someone enters or pastes one, we're going to strip it, and then handle the updating of the textView ourselves (by returning NO).
 	NSString *newlineScrubbedReplacementString = [[replacementString stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
 	
@@ -344,15 +344,15 @@
 	// If we are in the middle of an editable subfield, just replace the equivilent range in the subfield's .value property.
 	// If we're at the *end* of an editable subfield (but in reality just a 0-len selection at the start of the next), then append the text.
 	
-	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeField + 1)))){
-		relevantField = [fields objectAtIndex:activeField];
+	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeSubfield + 1)))){
+		relevantField = [subfields objectAtIndex:activeSubfield];
 		
 		fieldWasAPlaceholderBefore = [self _fieldShouldBeDisplayedAsPlaceholder:relevantField];
 		relevantField.value = [[self _displayedStringForField:relevantField] stringByAppendingString:newlineScrubbedReplacementString];
 
 	}else{
 		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length); // translate affectedCharRange to be in terms of this string only
-		relevantField = [fields objectAtIndex:startFieldIndex];
+		relevantField = [subfields objectAtIndex:startFieldIndex];
 		
 		fieldWasAPlaceholderBefore = [self _fieldShouldBeDisplayedAsPlaceholder:relevantField];
 		relevantField.value = [[self _displayedStringForField:relevantField] stringByReplacingCharactersInRange:localRange withString:newlineScrubbedReplacementString];
@@ -375,7 +375,7 @@
 		[[_textView textStorage] setAttributedString:[self _renderedText]];
 		
 		if(fieldWasAPlaceholderAfterwards){
-			newSelectedRange = [self _rangeForFieldAtIndex:[fields indexOfObject:relevantField]]; // TODO clean up
+			newSelectedRange = [self _rangeForFieldAtIndex:[subfields indexOfObject:relevantField]]; // TODO clean up
 		}
 		else{
 			if(!newlineScrubbedReplacementString.length){
@@ -417,9 +417,9 @@
 		return [super requestedFocusRectArrayAndCount:count];
 	}
 	
-	NSRange activeFieldRange = [self _rangeForFieldAtIndex:self.activeField];
+	NSRange activeSubfieldRange = [self _rangeForFieldAtIndex:self.activeSubfield];
 	NSUInteger rectCount = 0;
-	NSRectArray rects = [[_textView layoutManager] rectArrayForCharacterRange:activeFieldRange 
+	NSRectArray rects = [[_textView layoutManager] rectArrayForCharacterRange:activeSubfieldRange 
 												 withinSelectedCharacterRange:NSMakeRange(NSNotFound, 0) 
 															  inTextContainer:[_textView textContainer] 
 																	rectCount:&rectCount];
@@ -441,34 +441,34 @@
 #pragma mark -
 
 - (void) _selectNextSubfieldOrRow{
-	if(activeField == ([fields count] - 1)){
+	if(activeSubfield == ([subfields count] - 1)){
 		[parentEditor _selectNextRowResponder];
 		return;
 	}
 	
-	for(NSUInteger i = activeField + 1; i < [fields count]; i++){
-		WWFlowFieldSubfield *subfield = [fields objectAtIndex:i];
+	for(NSUInteger i = activeSubfield + 1; i < [subfields count]; i++){
+		WWFlowFieldSubfield *subfield = [subfields objectAtIndex:i];
 		if(subfield.editable){
-			self.activeField = i;
+			self.activeSubfield = i;
 			return;
 		}
 	}
 	
-	// Must be no more editable fields if we're still running, go to the next one
+	// Must be no more editable subfields if we're still running, go to the next one
 	[parentEditor _selectNextRowResponder];
 }
 
 
 - (void) _selectPreviousSubfieldOrRow{
-	if(activeField == 0){
+	if(activeSubfield == 0){
 		[parentEditor _selectPreviousRowResponder];
 		return;
 	}
 	
-	for(NSUInteger i = activeField - 1; i >= 0; i--){
-		WWFlowFieldSubfield *subfield = [fields objectAtIndex:i];
+	for(NSUInteger i = activeSubfield - 1; i >= 0; i--){
+		WWFlowFieldSubfield *subfield = [subfields objectAtIndex:i];
 		if(subfield.editable){
-			self.activeField = i;
+			self.activeSubfield = i;
 			return;
 		}
 	}
@@ -478,8 +478,8 @@
 }
 
 - (void) _selectFirstEditableSubfield{
-	for(NSUInteger i = 0; i < [fields count]; i++){
-		if([[fields objectAtIndex:i] editable]){
+	for(NSUInteger i = 0; i < [subfields count]; i++){
+		if([[subfields objectAtIndex:i] editable]){
 			[self setActiveField:i];
 			return;
 		}
@@ -487,8 +487,8 @@
 }
 
 - (void) _selectLastEditableSubfield{
-	for(NSUInteger i = ([fields count] - i); i >= 0; i--){
-		if([[fields objectAtIndex:i] editable]){
+	for(NSUInteger i = ([subfields count] - i); i >= 0; i--){
+		if([[subfields objectAtIndex:i] editable]){
 			[self setActiveField:i];
 			return;
 		}

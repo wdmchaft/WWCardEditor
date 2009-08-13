@@ -13,13 +13,13 @@
 
 @interface WWFlowFieldRow : WWCardEditorRow {
 	NSTextView *_textView;
-	NSInteger activeField;
+	NSInteger activeSubfield;
 	BOOL inUse;
-	NSArray *fields;
+	NSArray *subfields;
 	BOOL isRendering;
 }
 
-@property(retain) NSArray *fields;
-@property(assign) NSInteger activeField;
+@property(retain) NSArray *subfields;
+@property(assign) NSInteger activeSubfield;
 
 @end
