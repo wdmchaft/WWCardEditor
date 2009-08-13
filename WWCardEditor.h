@@ -14,6 +14,7 @@
 	BOOL needsLayout;
 	BOOL editMode;
 	NSMutableArray *_rows;
+	NSMutableDictionary *_rowNameIndex;
 	
 	NSColor *keyLabelColor;
 	NSFont *keyLabelFont;
@@ -24,6 +25,7 @@
 	
 	
 	NSColor *focusRingBorderColor;
+	
 }
 
 @property(assign) BOOL editMode;
@@ -34,6 +36,9 @@
 - (void) addRow:(WWCardEditorRow *)row;
 - (void) addRow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex;
 - (void) removeRowAtIndex:(NSUInteger)removeRowIndex;
+
+//
+- (NSDictionary *)rowsByName;
 
 // Appearance
 @property(retain) NSColor *keyLabelColor;

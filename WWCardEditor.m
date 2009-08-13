@@ -15,17 +15,19 @@
 
 @interface WWCardEditor()
 @property(retain) NSMutableArray *_rows;
+@property(retain) NSMutableDictionary *_rowNameIndex;
 @end
 
 #pragma mark -
 
 @implementation WWCardEditor
-@synthesize needsLayout, _rows;
+@synthesize needsLayout, _rows, _rowNameIndex;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
 		self._rows = [NSMutableArray array];
+		self._rowNameIndex = [NSMutableDictionary dictionary];
 		self.keyLabelColor = [NSColor darkGrayColor];
 		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:12];
 		
@@ -40,13 +42,16 @@
 }
 
 - (void) dealloc{
+	self._rows = nil;
+	self._rowNameIndex = nil;
+	
 	self.keyLabelColor = nil;
 	self.keyLabelFont = nil;
 	self.focusRingBorderColor = nil;
 	self.backgroundColor = nil;
 	
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
 }
@@ -54,9 +59,12 @@
 - (void)viewWillMoveToWindow:(NSWindow *)newWindow{
 	// Register for notifications when the window becomes or resigns key, so that we can redraw the control
 	NSNotificationCenter *nc = [NSNotificationCenter defaultCenter];
+	
+	// stop observing the old window
 	[nc removeObserver:self name:NSWindowDidBecomeKeyNotification object:[self window]];
 	[nc removeObserver:self name:NSWindowDidResignKeyNotification object:[self window]];
 	
+	// start observing the new one
 	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidBecomeKeyNotification object:newWindow];
 	[nc addObserver:self selector:@selector(setNeedsDisplay) name:NSWindowDidResignKeyNotification object:newWindow];
 }
@@ -66,7 +74,7 @@
 	[self exposeBinding:@"backgroundColor"];
 	[self exposeBinding:@"padding"];
 	[self exposeBinding:@"rowSpacing"];
-	
+	[self exposeBinding:@"rowsByName"];
 }
 
 #pragma mark -
@@ -174,16 +182,48 @@
 }
 
 - (void) addRow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex{
+	if(!row){
+		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add nil row" userInfo:nil];
+	}else if(![row name]){
+		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add row with no name" userInfo:nil];
+	}else if([_rowNameIndex objectForKey:[row name]]){
+		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add row with same name as existing row" userInfo:nil];
+	}
+	
+	[self willChangeValueForKey:@"rows"];
+	[self willChangeValueForKey:@"rowsByName"];
+	
 	row.parentEditor = self;
+	
+	[_rowNameIndex setObject:row forKey:[row name]];
 	[_rows insertObject:row atIndex:newRowIndex];
+	
 	[self addSubview:row];
+	
 	needsLayout = YES;
+	
+	[self didChangeValueForKey:@"rows"];
+	[self didChangeValueForKey:@"rowsByName"];
 }
 
 - (void) removeRowAtIndex:(NSUInteger)removeRowIndex{
-	[[_rows objectAtIndex:removeRowIndex] removeFromSuperview];
+	[self willChangeValueForKey:@"rows"];
+	[self willChangeValueForKey:@"rowsByName"];
+	
+	
+	WWCardEditorRow *theRow = [_rows objectAtIndex:removeRowIndex];
+	
+	theRow.parentEditor = nil;
+	
+	[_rowNameIndex removeObjectForKey:[theRow name]];
 	[_rows removeObjectAtIndex:removeRowIndex];
+	
+	[theRow removeFromSuperview];
+	
 	needsLayout = YES;
+	
+	[self didChangeValueForKey:@"rows"];
+	[self didChangeValueForKey:@"rowsByName"];
 }
 
 - (NSArray *)rows{
@@ -339,6 +379,7 @@
 				if([row isMemberOfClass:[WWFlowFieldRow class]]){
 					[((WWFlowFieldRow *)row) _selectLastEditableSubfield];
 				}
+				
 				return;
 			}
 		}
@@ -362,12 +403,17 @@
 
 - (WWFlowFieldRow *)_firstRowWithResponder{
 	for(WWFlowFieldRow *row in _rows){
-		if([row principalResponder]){
-			return row;
-		}
+		if([row principalResponder]) return row;
 	}
 	
 	return nil;
 }
+
+
+
+- (NSDictionary *)rowsByName {
+    return _rowNameIndex;
+}
+
 
 @end
