@@ -290,6 +290,7 @@
 		// Or it could mean they're trying to change the selection to none (by clicking on an invalid field), so we just set the field to Not Found and let them have no active field selected.
 		
 		if((newSelectedCharRange.location == [[_textView string] length]) && [[subfields lastObject] editable]){
+			NSLog(@"changing subfield from %d to %d",activeSubfield,[subfields count] - 1);
 			self.activeSubfield = [subfields count] - 1; // this is where it changes it
 		}else{
 			self.activeSubfield = NSNotFound;
@@ -306,7 +307,13 @@
 	if(fieldIndex != activeSubfield){
 		// Figure out if they're just trying to type at the end of this field or fuck with the next one
 		if((fieldIndex == (activeSubfield + 1)) && (newSelectedCharRange.length == 0) && (newSelectedCharRange.location == fieldStartChar)){
-			return newSelectedCharRange; // allow it. We interpret this scenario in -textView:shouldChangeTextInRange:replacementString:
+			// They're typing at the end of a field (even though it looks like the next one).
+			// This is fine UNLESS the field should be a placeholder, in which we must select the entirety of the field
+			if([self _fieldShouldBeDisplayedAsPlaceholder:[subfields objectAtIndex:activeSubfield]]){
+				return [self _rangeForFieldAtIndex:activeSubfield];
+			}else{
+				return newSelectedCharRange; // allow it. We interpret this scenario in -textView:shouldChangeTextInRange:replacementString:
+			}
 		}
 
 		// Allow them to change to the new field, but not if it's immutable or nonexistent 
@@ -328,17 +335,14 @@
 		NSLog(@"MODIFIED AT CHANGE: Must select entirety of placeholder field");
 		return NSMakeRange(fieldStartChar, [[self _displayedStringForField:field] length]);
 	}
-	
-	// Prevent right-arrowing to put the insertion point at the end of the subfield
-	
-	
+
 	
 	
 	NSLog(@"No objections in field row");
 	return newSelectedCharRange;
 }
 
-
+/*
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
 	
 	replacementString = replacementString ? replacementString : @"";
@@ -446,6 +450,7 @@
 		return YES;
 	}
 }
+*/
 
 #pragma mark -
 #pragma mark Overrides

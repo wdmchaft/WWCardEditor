@@ -30,6 +30,7 @@
 		self.name		 = theName;
 		self.placeholder = @"Empty";
 		self.editable	 = YES;
+		self.allowsNewlines = NO;
 	}
 	
 	return self;

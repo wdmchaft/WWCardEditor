@@ -12,13 +12,15 @@ Flow field bugs:
 
 
 Key handling:
-- Enter key should switch to next field
+- Enter key should switch to next field (if not allowed in current field)
 - Get tabbing and reverse-tabbing to work @done
 
 
 And a pony:
 - Animated insertion/deletion of rows
 - Key/Value rows should have an option for a menu
+	- contextual menu (outside of edit mode)
+	- alternate key (inside of edit mode)
 - API goodies:
 	- WWCardEditor and other rows should all be KVO-compliant and accessible programatically
 	- A flow field row should be able to be made from a format string and a dictionary of subfields/tokens @done

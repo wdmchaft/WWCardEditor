@@ -25,7 +25,7 @@
 		
 	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"first" placeholder:@"First" initialValue:@"Dan"];
 	WWFlowFieldSubfield *nameSpace = [WWFlowFieldSubfield uneditableSpace];
-	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableSubfieldWithName:@"last" placeholder:@"Last" initialValue:@"Grover"];
+	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableSubfieldWithName:@"last" placeholder:@"Last" initialValue:@""];
 	lastName.font = nameSpace.font = firstName.font = bigFont;
 	
 	WWFlowFieldRow *nameRow = [[[WWFlowFieldRow alloc] initWithName:@"name"] autorelease];
@@ -45,7 +45,7 @@
 	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"]
 					  forKey:@"<city>"];
 	
-	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"state" placeholder:@"State" initialValue:@"CA"]
+	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"state" placeholder:@"State" initialValue:@""]
 					  forKey:@"<state>"];
 	
 	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"] 
