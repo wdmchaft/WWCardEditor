@@ -103,7 +103,7 @@
     return activeSubfield;
 }
 
-- (void)setActiveField:(NSInteger)anActiveField {
+- (void)setActiveSubfield:(NSInteger)anActiveField {
 	if(anActiveField >= [subfields count]){
 		return;
 	}
@@ -454,7 +454,6 @@
 }
 
 - (CGFloat) availableWidth{
-	NSLog(@"Getting avail width for flow field....-%d",[[self _renderedText] size].width);
 	return [super availableWidth] - [[self _renderedText] size].width;
 }
 
@@ -464,6 +463,7 @@
 
 
 #pragma mark -
+#pragma Focus/Responder Chain Handling
 
 - (void) _selectNextSubfieldOrRow{
 	if(activeSubfield == ([subfields count] - 1)){

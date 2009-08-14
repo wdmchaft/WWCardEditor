@@ -15,6 +15,7 @@
 	NSFont *font;
 	NSString *placeholder;
 	BOOL editable;
+	BOOL allowsNewlines;
 }
 
 // Initializers
@@ -26,8 +27,8 @@
 + (WWFlowFieldSubfield *) uneditableSpace;
 + (WWFlowFieldSubfield *) uneditableNewline;
 
-/// Takes a format string and a (string -> wwflowfieldsubfield) dictionary and produces a series of WWFlowFieldSubfields, 
-/// such that:
+/// Takes a format string and a (string -> wwflowfieldsubfield) dictionary and produces 
+/// a series of WWFlowFieldSubfields, such that:
 ///   * the matching substrings in the format string are replaced with the fields in the dictionary
 ///   * the intervening non-matching substrings are replaced with uneditable fields with those substrings as their values
 + (NSArray *)subfieldsWithFormat:(NSString *)format tokensAndReplacements:(NSDictionary *)subs;
@@ -38,5 +39,6 @@
 @property(retain) NSFont *font;
 @property(retain) NSString *placeholder;
 @property(assign) BOOL editable;
+@property(assign) BOOL allowsNewlines;
 
 @end

@@ -1,5 +1,6 @@
 Flow field bugs:
 - Non-active wwflowfields in edit mode should not show any highlighted text
+- some wwflowfieldsubfields should be allowed to specify whether they allow newlines or not.
 - Can occasionally get into a state where we're getting errors like these: NSRunStorage, _NSBlockNumberForIndex(): index (19) beyond array bounds (19)
 - Key handling bugs:
 	- Pressing right-delete seems to fuck things up
@@ -11,7 +12,7 @@ Flow field bugs:
 
 
 Key handling:
-- Enter key should switch to next field (but pastes should still strip returns and newlines)
+- Enter key should switch to next field
 - Get tabbing and reverse-tabbing to work @done
 
 
@@ -20,7 +21,7 @@ And a pony:
 - Key/Value rows should have an option for a menu
 - API goodies:
 	- WWCardEditor and other rows should all be KVO-compliant and accessible programatically
-	- A flow field row should be able to be made from a format string and a dictionary of subfields/tokens
+	- A flow field row should be able to be made from a format string and a dictionary of subfields/tokens @done
 	- A flow field row should have a convenience constructor for taking a single subfield
 - Individual flowing subfields should support:
 	- Min/max length

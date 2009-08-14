@@ -111,6 +111,7 @@
 }
 
 - (void)insertTab:(id)sender{
+	NSLog(@"next subfield or row");
 	[container _selectNextSubfieldOrRow];
 }
 

@@ -13,7 +13,7 @@
 @end
 
 @implementation WWFlowFieldSubfield 
-@synthesize name, value, font, editable, placeholder;
+@synthesize name, value, font, editable, placeholder, allowsNewlines;
 
 - (id) init{
 	if(self = [self initWithName:nil]){
