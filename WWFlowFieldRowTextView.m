@@ -109,7 +109,6 @@
 	if(container.activeSubfield != NSNotFound){
 		[self setSelectedRange:[container _rangeForFieldAtIndex:container.activeSubfield]];
 	}
-	
 }
 
 - (void)insertTab:(id)sender{

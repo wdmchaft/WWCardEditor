@@ -373,7 +373,15 @@
 		}
 	}
 	
-	NSLog(@"Changing text in range %@ (%@), new string = %@",NSStringFromRange(affectedCharRange), [[textView string] substringWithRange:affectedCharRange],  replacementString);
+	NSRange oldMarkedRange = [textView markedRange];
+	NSRange oldSelectedCharRange = [textView selectedRange];
+	
+	NSLog(@"Changing text in range %@ (%@), new string = %@, marked range = %@, selected range = %@",
+		  NSStringFromRange(affectedCharRange), 
+		  [[textView string] substringWithRange:affectedCharRange],  
+		  replacementString,
+		NSStringFromRange([textView markedRange]),
+		  NSStringFromRange([textView selectedRange]));
 		
 	
 	// Override the textview's handling all the time for now
@@ -420,26 +428,34 @@
 		// If this is reached, we're going to put the new text there on behalf of the textfield since it would have put the return-carriage-laden
 		// text in its place (or for some other reason)
 		
-		NSRange oldSelectedRange = [_textView selectedRange]; // Remember the old selection range to give the appearance that the textField is handling this action, not us
-		NSRange newSelectedRange = oldSelectedRange;
+		NSRange newSelectedCharRange = oldSelectedCharRange;
 		
 		isRendering = YES;
 		[[_textView textStorage] setAttributedString:[self _renderedText]];
 		
 		if(fieldWasAPlaceholderAfterwards){
-			newSelectedRange = [self _rangeForFieldAtIndex:[subfields indexOfObject:relevantField]]; // TODO clean up
+			newSelectedCharRange = [self _rangeForFieldAtIndex:[subfields indexOfObject:relevantField]]; // TODO clean up
 		}
 		else{
-			if(!usedReplacementString.length){
-				newSelectedRange.location -= 1;
+			if(!usedReplacementString.length){ // They pressed the delete key
+				// But which delete key?
+				if(oldSelectedCharRange.location <= affectedCharRange.location){ // forward delete
+					NSLog(@"forward");
+				}else{ // backspace / backwards delete
+					NSLog(@"backward");
+					newSelectedCharRange.location -= 1;
+				}
+			
+				
+				
 			}else{
-				newSelectedRange.location += usedReplacementString.length;
+				newSelectedCharRange.location += usedReplacementString.length;
 			}
 			
-			newSelectedRange.length = 0;
+			newSelectedCharRange.length = 0;
 		}
 		
-		[_textView setSelectedRange:newSelectedRange];
+		[_textView setSelectedRange:newSelectedCharRange];
 		isRendering = NO;
 		
 		[self setNeedsDisplay];
