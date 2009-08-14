@@ -113,12 +113,20 @@
 }
 
 - (void)insertTab:(id)sender{
-	NSLog(@"next subfield or row");
 	[container _selectNextSubfieldOrRow];
 }
 
 - (void)insertBacktab:(id)sender{
 	[container _selectPreviousSubfieldOrRow];
+}
+
+- (void)insertNewline:(id)sender{
+	// If the field allows returns, then work with it, but otherwise, switch to the next field
+	if([[container.subfields objectAtIndex:container.activeSubfield] allowsNewlines]){
+		[super insertNewline:sender];
+	}else{
+		[container _selectNextSubfieldOrRow];
+	}
 }
 
 - (BOOL)resignFirstResponder{

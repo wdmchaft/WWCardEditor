@@ -3,7 +3,8 @@ Flow field bugs:
 - Can occasionally get into a state where we're getting errors like these: NSRunStorage, _NSBlockNumberForIndex(): index (19) beyond array bounds (19)
 - Key handling bugs:
 	- Pressing right-delete seems to fuck things up
-	- some wwflowfieldsubfields should be allowed to specify whether they allow newlines or not.
+	- some wwflowfieldsubfields should be allowed to specify whether they allow newlines or not. @done
+	- Bug: when entering a newline, the field doesn't expand until you enter a new character there (but Address Book does this too)
 - Drawing bugs: 
 	- When switching to a specific subfield in a non-active flowfield, another subfield within it can briefly be seen as selected until mouseup, when the correct one is shown as selected
 	- The first couple characters on a newly-wrapped line seem to not draw until more characters are typed
