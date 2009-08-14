@@ -109,7 +109,7 @@
 		if(matchRange.location != NSNotFound){
 			// 1) Put the non-matching left side (if any) as an uneditable subfield
 			if(matchRange.location > 0){
-				NSString *nonMatchingPortion = [currentTerm substringToIndex:matchRange.location - 1];
+				NSString *nonMatchingPortion = [currentTerm substringToIndex:matchRange.location];
 				[soFar addObject:[WWFlowFieldSubfield uneditableSubfieldWithName:nil initialValue:nonMatchingPortion]];
 			}
 			

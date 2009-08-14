@@ -52,7 +52,7 @@
 					  forKey:@"<zip>"];
 	
 	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
-	addressSubrow.subfields = [WWFlowFieldSubfield subfieldsWithFormat:@"<line1>\nlol<city>, <state> <zip>" tokensAndReplacements:addressFields];
+	addressSubrow.subfields = [WWFlowFieldSubfield subfieldsWithFormat:@"<line1>\n<city>, <state> <zip>" tokensAndReplacements:addressFields];
 	
 	
 
