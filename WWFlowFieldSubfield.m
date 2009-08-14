@@ -123,7 +123,12 @@
 		
 		// Keep scanning...
 	}
-		
+	
+	// If there's a non-matching part at the end, we need to catch this too
+	if([currentTerm length]){
+		[soFar addObject:[WWFlowFieldSubfield uneditableSubfieldWithName:nil initialValue:currentTerm]];
+	}
+	
 	return soFar;
 }
 

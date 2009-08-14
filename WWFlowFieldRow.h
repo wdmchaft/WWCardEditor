@@ -14,9 +14,11 @@
 @interface WWFlowFieldRow : WWCardEditorRow {
 	NSTextView *_textView;
 	NSInteger activeSubfield;
-	BOOL inUse;
+	
 	NSArray *subfields;
 	NSMutableDictionary *_subfieldsNameIndex;
+	
+	BOOL inUse;
 	BOOL isRendering;
 }
 
