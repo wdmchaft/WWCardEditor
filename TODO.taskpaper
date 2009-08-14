@@ -1,21 +1,17 @@
 Flow field bugs:
 - Non-active wwflowfields in edit mode should not show any highlighted text
-- some wwflowfieldsubfields should be allowed to specify whether they allow newlines or not.
 - Can occasionally get into a state where we're getting errors like these: NSRunStorage, _NSBlockNumberForIndex(): index (19) beyond array bounds (19)
 - Key handling bugs:
 	- Pressing right-delete seems to fuck things up
-	- Should not be able to right-arrow to the end of a placeholder
+	- some wwflowfieldsubfields should be allowed to specify whether they allow newlines or not.
 - Drawing bugs: 
 	- When switching to a specific subfield in a non-active flowfield, another subfield within it can briefly be seen as selected until mouseup, when the correct one is shown as selected
 	- The first couple characters on a newly-wrapped line seem to not draw until more characters are typed
-	- When deleting a multi-line subfield's contents, the whole row becomes white until more typing is done
+		- Related: When deleting a multi-line subfield's contents, the whole row becomes white until more typing is done
 
 
 Key handling:
 - Enter key should switch to next field (if not allowed in current field)
-- Get tabbing and reverse-tabbing to work @done
-
-
 And a pony:
 - Animated insertion/deletion of rows
 - Key/Value rows should have an option for a menu
@@ -23,7 +19,6 @@ And a pony:
 	- alternate key (inside of edit mode)
 - API goodies:
 	- WWCardEditor and other rows should all be KVO-compliant and accessible programatically
-	- A flow field row should be able to be made from a format string and a dictionary of subfields/tokens @done
 	- A flow field row should have a convenience constructor for taking a single subfield
 - Individual flowing subfields should support:
 	- Min/max length
@@ -37,3 +32,9 @@ And a pony:
 	- Star rating a la iTunes
 
 
+Archive:
+- Should not be able to right-arrow to the end of a placeholder @done @project(Flow field bugs)
+- Get tabbing and reverse-tabbing to work @done @project(Key handling)
+
+
+- A flow field row should be able to be made from a format string and a dictionary of subfields/tokens @done @project(And a pony)

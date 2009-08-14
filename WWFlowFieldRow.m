@@ -341,24 +341,17 @@
 		return NSMakeRange(fieldStartChar, [[self _displayedStringForField:field] length]);
 	}
 
-	
-	
 	NSLog(@"No objections in field row");
 	return newSelectedCharRange;
 }
 
+
+
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
-	
-	replacementString = replacementString ? replacementString : @"";
-	
-	NSLog(@"Changing text in range %@ (%@), new string = %@",NSStringFromRange(affectedCharRange), [[textView string] substringWithRange:affectedCharRange],  replacementString);
-	
 	[parentEditor setNeedsLayout:YES];
 	[self setNeedsDisplay];
 	
-	if(!editMode || !inUse){
-		return NO;
-	}
+	if(!editMode || !inUse) return NO; 
 	
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
@@ -373,7 +366,6 @@
 	if((startFieldIndex != endFieldIndex)){
 		NSLog(@"ATTEMPTING TO CHANGE TEXT CROSS-FIELDS...startField = %d, endField = %d",startFieldIndex,endFieldIndex);
 		if(((affectedCharRange.location + affectedCharRange.length) == endFieldStartChar) || (endFieldIndex == NSNotFound)){
-			
 			NSLog(@"But that's cool...startField = %d, endField = %d",startFieldIndex,endFieldIndex);
 		}else{
 			NSLog(@"NO NO");
@@ -381,9 +373,8 @@
 		}
 	}
 	
-	// Newlines are not allowed in these subfields
-	// If someone enters or pastes one, we're going to strip it, and then handle the updating of the textView ourselves (by returning NO).
-	NSString *newlineScrubbedReplacementString = [[replacementString stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+	NSLog(@"Changing text in range %@ (%@), new string = %@",NSStringFromRange(affectedCharRange), [[textView string] substringWithRange:affectedCharRange],  replacementString);
+		
 	
 	// Override the textview's handling all the time for now
 	BOOL overrideHandling = YES; //[newlineScrubbedReplacementString isEqual:replacementString]; 
@@ -400,18 +391,23 @@
 	// If we are in the middle of an editable subfield, just replace the equivilent range in the subfield's .value property.
 	// If we're at the *end* of an editable subfield (but in reality just a 0-len selection at the start of the next), then append the text.
 	
+	// Newlines are not allowed in some subfields...if someone enters or pastes one, we're going to strip it, and then handle the updating of the textView ourselves (by returning NO).
+	NSString *newlineScrubbedReplacementString = [[replacementString stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"\r" withString:@""];
+	NSString *usedReplacementString;
 	if((startFieldIndex == NSNotFound) || ((affectedCharRange.length == 0) && (affectedCharRange.location == startFieldStartChar) && (startFieldIndex == (activeSubfield + 1)))){
 		relevantField = [subfields objectAtIndex:activeSubfield];
+		usedReplacementString = [relevantField allowsNewlines] ? replacementString : newlineScrubbedReplacementString;
 		
 		fieldWasAPlaceholderBefore = [self _fieldShouldBeDisplayedAsPlaceholder:relevantField];
-		relevantField.value = [[self _displayedStringForField:relevantField] stringByAppendingString:newlineScrubbedReplacementString];
+		relevantField.value = [[self _displayedStringForField:relevantField] stringByAppendingString:usedReplacementString];
 
 	}else{
 		NSRange localRange = NSMakeRange(affectedCharRange.location - startFieldStartChar, affectedCharRange.length); // translate affectedCharRange to be in terms of this string only
 		relevantField = [subfields objectAtIndex:startFieldIndex];
+		usedReplacementString = [relevantField allowsNewlines] ? replacementString : newlineScrubbedReplacementString;
 		
 		fieldWasAPlaceholderBefore = [self _fieldShouldBeDisplayedAsPlaceholder:relevantField];
-		relevantField.value = [[self _displayedStringForField:relevantField] stringByReplacingCharactersInRange:localRange withString:newlineScrubbedReplacementString];
+		relevantField.value = [[self _displayedStringForField:relevantField] stringByReplacingCharactersInRange:localRange withString:usedReplacementString];
 	}
 
 	
@@ -434,10 +430,10 @@
 			newSelectedRange = [self _rangeForFieldAtIndex:[subfields indexOfObject:relevantField]]; // TODO clean up
 		}
 		else{
-			if(!newlineScrubbedReplacementString.length){
+			if(!usedReplacementString.length){
 				newSelectedRange.location -= 1;
 			}else{
-				newSelectedRange.location += newlineScrubbedReplacementString.length;
+				newSelectedRange.location += usedReplacementString.length;
 			}
 			
 			newSelectedRange.length = 0;
@@ -453,6 +449,7 @@
 		[self setNeedsDisplay];
 		return YES;
 	}
+	
 }
 
 

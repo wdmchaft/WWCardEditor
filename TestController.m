@@ -39,8 +39,9 @@
 
 	// Set up address flowfield example with a format string
 	NSMutableDictionary *addressFields = [NSMutableDictionary dictionary];
-	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"]
-					  forKey:@"<line1>"];
+	WWFlowFieldSubfield *line = [WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
+	line.allowsNewlines = YES;
+	[addressFields setObject:line forKey:@"<line1>"];
 	
 	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"]
 					  forKey:@"<city>"];
@@ -53,7 +54,6 @@
 	
 	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	addressSubrow.subfields = [WWFlowFieldSubfield subfieldsWithFormat:@"<line1>\n<city>, <state> <zip>" tokensAndReplacements:addressFields];
-	
 	
 
 	// Put the address field inside a key value row

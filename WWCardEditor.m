@@ -184,42 +184,43 @@
 	if(!row){
 		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add nil row" userInfo:nil];
 	}
+
 	
 	[self willChangeValueForKey:@"rows"];
-	[self willChangeValueForKey:@"rowsByName"];
+	[_rows insertObject:row atIndex:newRowIndex];
+	[self didChangeValueForKey:@"rows"];
+	
+	
+	if([row name]){
+		[self willChangeValueForKey:@"rowsByName"];
+		[_rowNameIndex setObject:row forKey:[row name]];
+		[self didChangeValueForKey:@"rowsByName"];
+	}
+	
 	
 	row.parentEditor = self;
-	
-	[_rows insertObject:row atIndex:newRowIndex];
-	if([row name]) [_rowNameIndex setObject:row forKey:[row name]];
-	NSLog(@"Added row with name %@ to index %@",[row name],_rowNameIndex);
-	
 	[self addSubview:row];
-	
 	needsLayout = YES;
-	
-	[self didChangeValueForKey:@"rows"];
-	[self didChangeValueForKey:@"rowsByName"];
 }
 
+
 - (void) removeRowAtIndex:(NSUInteger)removeRowIndex{
-	[self willChangeValueForKey:@"rows"];
-	[self willChangeValueForKey:@"rowsByName"];
-	
-	
 	WWCardEditorRow *theRow = [_rows objectAtIndex:removeRowIndex];
-	
 	theRow.parentEditor = nil;
 	
+	[self willChangeValueForKey:@"rows"];
 	[_rows removeObjectAtIndex:removeRowIndex];
-	if([theRow name]) [_rowNameIndex removeObjectForKey:[theRow name]];
+	[self didChangeValueForKey:@"rows"];
+	
+	if([theRow name]){
+		[self willChangeValueForKey:@"rowsByName"];
+		[_rowNameIndex removeObjectForKey:[theRow name]];
+		[self didChangeValueForKey:@"rowsByName"];
+	}
 	
 	[theRow removeFromSuperview];
 	
 	needsLayout = YES;
-	
-	[self didChangeValueForKey:@"rows"];
-	[self didChangeValueForKey:@"rowsByName"];
 }
 
 - (NSArray *)rows{

@@ -48,9 +48,11 @@
 	if(![startField editable]){
 		// This is allowable if they're really trying to type at the end of a legal, mutable field
 		if (!proposedSelRange.length  && ([container _charOffsetForBeginningOfFieldAtIndex:startFieldIndex] == proposedSelRange.location)){
-			NSUInteger potentiallyLegalPreviousFieldIndex = startFieldIndex - 1;
-			if((potentiallyLegalPreviousFieldIndex >= 0) && (potentiallyLegalPreviousFieldIndex < [container.subfields count]) 
-			   && [[container.subfields objectAtIndex:potentiallyLegalPreviousFieldIndex] editable])
+			
+			NSUInteger maybeLegalPrevField = startFieldIndex - 1;
+			
+			if((maybeLegalPrevField >= 0) && (maybeLegalPrevField < [container.subfields count]) 
+			   && [[container.subfields objectAtIndex:maybeLegalPrevField] editable])
 			{
 				NSLog(@"Allowing typing at end of field");
 				return proposedSelRange;

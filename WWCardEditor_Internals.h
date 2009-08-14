@@ -17,7 +17,7 @@
 
 @property(assign) WWCardEditor *parentEditor; // weak references to parents
 @property(assign) WWCardEditorRow *parentRow; 
-
+@property(assign) BOOL editMode;
 @property(retain,readwrite) NSString *name;
 
 - (CGFloat) neededHeight;
