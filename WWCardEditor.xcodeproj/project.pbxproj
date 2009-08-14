@@ -204,8 +204,8 @@
 			children = (
 				CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */,
 				CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */,
-				CEFE66840FE844100093A2E9 /* WWFlowFieldSubfield.h */,
 				CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */,
+				CEFE66840FE844100093A2E9 /* WWFlowFieldSubfield.h */,
 				CEFE67930FE858930093A2E9 /* WWFlowFieldRowTextView.h */,
 				CEFE67940FE858930093A2E9 /* WWFlowFieldRowTextView.m */,
 				CEFE69340FE8700D0093A2E9 /* WWFlowFieldRow_Internals.h */,

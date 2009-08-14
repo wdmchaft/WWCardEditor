@@ -11,6 +11,8 @@
 
 @interface WWFlowFieldRow()
 @property(retain) NSTextView *_textView;
+@property(retain) NSMutableDictionary *_subfieldsNameIndex;
+
 @property(assign) BOOL isRendering;
 @property(assign) BOOL inUse;
 
@@ -24,7 +26,7 @@
 
 - (BOOL) _fieldShouldBeDisplayedAsPlaceholder:(WWFlowFieldSubfield *)field;
 
-- (NSDictionary *)_attributesForSubfield:(WWFlowFieldSubfield *)field;
+- (NSDictionary *) _attributesForSubfield:(WWFlowFieldSubfield *)field;
 - (NSString *) _displayedStringForField:(WWFlowFieldSubfield *)field;
 
 //- (BOOL) hasActiveField;

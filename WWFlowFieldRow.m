@@ -14,13 +14,14 @@
 
 #pragma mark -
 
-@implementation WWFlowFieldRow
-@synthesize _textView, activeSubfield, isRendering, inUse;
 
-- (id)initWithFrame:(NSRect)frame {
-    self = [super initWithFrame:frame];
-    if (self) {
-		WWFlowFieldRowTextView *view = [[[WWFlowFieldRowTextView alloc] initWithFrame:NSMakeRect(0,0,frame.size.width,frame.size.height)] autorelease];
+
+@implementation WWFlowFieldRow
+@synthesize _textView, activeSubfield, isRendering, inUse, _subfieldsNameIndex;
+
+- (id)initWithName:(NSString *)theName {
+    if (self = [super initWithName:theName]){
+		WWFlowFieldRowTextView *view = [[[WWFlowFieldRowTextView alloc] initWithFrame:NSMakeRect(0,0,[self frame].size.width,[self frame].size.height)] autorelease];
 		view.container = self;
 		self._textView = view;
 		
@@ -32,6 +33,8 @@
 		[_textView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
 		[self setAutoresizesSubviews:YES];
 		[self addSubview:_textView];
+		
+		self._subfieldsNameIndex = [NSMutableDictionary dictionary];
 		
 		[self setEditMode:NO];
     }
@@ -48,12 +51,18 @@
 
 - (void) dealloc{
 	self._textView = nil;
+	self._subfieldsNameIndex = nil;
 	self.subfields = nil;
 	[super dealloc];
 }
 
 - (NSString *)description{
 	return [NSString stringWithFormat:@"<WWFlowFieldRow: subfields = %@",subfields];
+}
+
++ (void) initialize{
+	[self exposeBinding:@"subfields"];
+	[self exposeBinding:@"subfieldsByName"];
 }
 
 #pragma mark -
@@ -72,6 +81,22 @@
 //	[_textView resignFirstResponder];
 	[[_textView textStorage] setAttributedString:[self _renderedText]];
 	//[self setActiveField:NSNotFound];
+	
+	[self willChangeValueForKey:@"subfieldsByName"];
+	
+	self._subfieldsNameIndex = [NSMutableDictionary dictionary];
+	for(WWFlowFieldSubfield *subfield in subfields){
+		if([subfield name]) [_subfieldsNameIndex setObject:subfield forKey:[subfield name]];
+	}
+	
+	NSLog(@"setting subfields by name...%@",_subfieldsNameIndex);
+	
+	[self didChangeValueForKey:@"subfieldsByName"];
+}
+
+- (NSDictionary *) subfieldsByName{
+	NSLog(@"getting subfields by name...%@",_subfieldsNameIndex);
+	return _subfieldsNameIndex;
 }
 
 - (NSInteger)activeSubfield {

@@ -37,8 +37,7 @@
 - (void) addRow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex;
 - (void) removeRowAtIndex:(NSUInteger)removeRowIndex;
 
-//
-- (NSDictionary *)rowsByName;
+- (NSDictionary *)rowsByName; // mostly here for bindings support
 
 // Appearance
 @property(retain) NSColor *keyLabelColor;

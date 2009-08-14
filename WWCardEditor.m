@@ -184,8 +184,6 @@
 - (void) addRow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex{
 	if(!row){
 		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add nil row" userInfo:nil];
-	}else if(![row name]){
-		@throw [NSException exceptionWithName:@"WWCardEditor" reason:@"attempt to add row with no name" userInfo:nil];
 	}
 	
 	[self willChangeValueForKey:@"rows"];
@@ -195,6 +193,7 @@
 	
 	[_rows insertObject:row atIndex:newRowIndex];
 	if([row name]) [_rowNameIndex setObject:row forKey:[row name]];
+	NSLog(@"Added row with name %@ to index %@",[row name],_rowNameIndex);
 	
 	[self addSubview:row];
 	
@@ -212,7 +211,6 @@
 	WWCardEditorRow *theRow = [_rows objectAtIndex:removeRowIndex];
 	
 	theRow.parentEditor = nil;
-	
 	
 	[_rows removeObjectAtIndex:removeRowIndex];
 	if([theRow name]) [_rowNameIndex removeObjectForKey:[theRow name]];
@@ -411,6 +409,7 @@
 
 
 - (NSDictionary *)rowsByName {
+	NSLog(@"getting rows by name...%@",_rowNameIndex);
     return _rowNameIndex;
 }
 

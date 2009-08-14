@@ -17,9 +17,13 @@ static BOOL debugMode;
 
 - (id)initWithName:(NSString *)theName {
     if (self = [super initWithFrame:NSZeroRect]) {
-		
+		self.name = theName;
     }
     return self;
+}
+
+- (id)initWithFrame:(NSRect)someFrame{
+	return [self initWithName:nil];
 }
 
 + (void) setDebugDrawMode:(BOOL)newVal{

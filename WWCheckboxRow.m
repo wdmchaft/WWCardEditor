@@ -20,12 +20,13 @@
 @implementation WWCheckboxRow
 @synthesize _checkbox;
 
-- (id)init{
-    if (self = [super initWithFrame:NSZeroRect]){
+- (id)initWithName:(NSString *)theName{
+    if (self = [super initWithName:theName]){
 		self._checkbox = [[[NSButton alloc] initWithFrame:NSZeroRect] autorelease];
 		
 		[_checkbox setButtonType:NSSwitchButton];
 		[_checkbox setBezelStyle:NSRegularSquareBezelStyle];
+		[_checkbox setFont:[NSFont systemFontOfSize:12]];
 		[[_checkbox cell] setControlSize:NSSmallControlSize];
 		[self addSubview:_checkbox];
 		[self setEditMode:[super editMode]];
@@ -49,7 +50,8 @@
 }
 
 - (CGFloat) neededHeight{
-	return MAX(16, [[_checkbox title] sizeWithAttributes:[NSDictionary dictionaryWithObject:[_checkbox font] forKey:NSFontAttributeName]].height);
+	return MAX(16, [[_checkbox title] sizeWithAttributes:[NSDictionary dictionaryWithObject:[_checkbox font] ? [_checkbox font] :[NSFont systemFontOfSize:12] 
+																					 forKey:NSFontAttributeName]].height);
 }
 
 - (CGFloat) availableWidth{

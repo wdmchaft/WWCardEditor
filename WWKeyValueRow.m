@@ -22,8 +22,8 @@
 
 @implementation WWKeyValueRow
 
-- (id)init{
-    if (self = [super initWithFrame:NSZeroRect]){
+- (id)initWithName:(NSString *)theName{
+    if (self = [super initWithName:theName]){
 		splitPosition = WWKeyValueRow_DefaultSplitPosition;
 		[[self window] setAcceptsMouseMovedEvents:YES];
 		[[self window] setIgnoresMouseEvents:NO];

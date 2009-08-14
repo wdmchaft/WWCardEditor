@@ -16,10 +16,12 @@
 	NSInteger activeSubfield;
 	BOOL inUse;
 	NSArray *subfields;
+	NSMutableDictionary *_subfieldsNameIndex;
 	BOOL isRendering;
 }
 
 @property(retain) NSArray *subfields;
+- (NSDictionary *) subfieldsByName;
 @property(assign) NSInteger activeSubfield;
 
 @end

@@ -15,7 +15,15 @@
 @implementation WWFlowFieldSubfield 
 @synthesize name, value, font, editable, placeholder;
 
-- (id) initWithName:(NSString *)theName{
+- (id) init{
+	if(self = [self initWithName:nil]){
+		
+	}
+	
+	return self;
+}
+
+- (id) initWithName:(NSString *)theName{ // designated init
 	if(self = [super init]){
 		self.font		 = [NSFont fontWithName:@"Helvetica" size:12];
 		self.value		 = @"";
@@ -36,9 +44,8 @@
 }
 
 
-
 - (NSString *) description{
-	return [NSString stringWithFormat:@"<WWFlowField: name = %@, editable = %d, value = %@>", name, editable, value];
+	return [NSString stringWithFormat:@"<WWFlowFieldSubfield: name = %@, editable = %d, value = %@>", name, editable, value];
 }
 
 + (void) initialize{
@@ -47,6 +54,9 @@
 	[self exposeBinding:@"font"];
 	[self exposeBinding:@"placeholder"];
 }
+
+#pragma mark -
+#pragma mark Convenience Factory Methods
 
 + (WWFlowFieldSubfield *) editableSubfieldWithName:(NSString *)fieldName placeholder:(NSString *)placeholderString initialValue:(NSString *)initialValue{
 	WWFlowFieldSubfield *field = [[WWFlowFieldSubfield alloc] initWithName:fieldName];

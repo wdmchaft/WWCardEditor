@@ -23,12 +23,12 @@
 	// Set up card editor
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 		
-	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"firstName" placeholder:@"First" initialValue:@"Dan"];
+	WWFlowFieldSubfield *firstName = [WWFlowFieldSubfield editableSubfieldWithName:@"first" placeholder:@"First" initialValue:@"Dan"];
 	WWFlowFieldSubfield *nameSpace = [WWFlowFieldSubfield uneditableSpace];
-	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableSubfieldWithName:@"lastName" placeholder:@"Last" initialValue:@"Grover"];
+	WWFlowFieldSubfield *lastName = [WWFlowFieldSubfield editableSubfieldWithName:@"last" placeholder:@"Last" initialValue:@"Grover"];
 	lastName.font = nameSpace.font = firstName.font = bigFont;
 	
-	WWFlowFieldRow *nameRow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
+	WWFlowFieldRow *nameRow = [[[WWFlowFieldRow alloc] initWithName:@"name"] autorelease];
 	nameRow.subfields = [NSArray arrayWithObjects:firstName, nameSpace, lastName, nil];
 	[cardEditor addRow:nameRow];
 	
@@ -46,7 +46,7 @@
 	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	addressSubrow.subfields = [NSArray arrayWithObjects:addyLine1,[WWFlowFieldSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
 	
-	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] init] autorelease];
+	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] initWithName:@"homeAddress"] autorelease];
 	addressKeyValueRow.keyLabel = @"home";
 	addressKeyValueRow.valueRowView = addressSubrow;
 	[cardEditor addRow:addressKeyValueRow];
