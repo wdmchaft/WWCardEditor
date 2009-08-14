@@ -296,7 +296,12 @@
 			self.activeSubfield = NSNotFound;
 		}
 		
-		return newSelectedCharRange;
+		// Allow the selection unless this last field happens to be a placeholder (in which case, they still have to select all of it)
+		if([self _fieldShouldBeDisplayedAsPlaceholder:[subfields objectAtIndex:activeSubfield]]){
+			return [self _rangeForFieldAtIndex:activeSubfield];
+		}else{
+			return newSelectedCharRange;
+		}
 	}
 	
 	// Check that we don't cross subfields
@@ -342,7 +347,6 @@
 	return newSelectedCharRange;
 }
 
-/*
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
 	
 	replacementString = replacementString ? replacementString : @"";
@@ -450,7 +454,7 @@
 		return YES;
 	}
 }
-*/
+
 
 #pragma mark -
 #pragma mark Overrides
