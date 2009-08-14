@@ -36,21 +36,34 @@
 	spacer.height = 20;
 	[cardEditor addRow:spacer];
 	
-	WWFlowFieldSubfield *addyLine1 = [WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
-	WWFlowFieldSubfield *city = [WWFlowFieldSubfield editableSubfieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"];
-	WWFlowFieldSubfield *cityComma = [WWFlowFieldSubfield uneditableSubfieldWithName:@"cityComma" initialValue:@", "];
-	WWFlowFieldSubfield *state = [WWFlowFieldSubfield editableSubfieldWithName:@"state" placeholder:@"State" initialValue:@"CA"];
-	WWFlowFieldSubfield *zipSpace = [WWFlowFieldSubfield uneditableSpace];
-	WWFlowFieldSubfield *zip = [WWFlowFieldSubfield editableSubfieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"];
 
-	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
-	addressSubrow.subfields = [NSArray arrayWithObjects:addyLine1,[WWFlowFieldSubfield uneditableNewline],city,cityComma,state,zipSpace,zip,nil];
+	// Set up address flowfield example with a format string
+	NSMutableDictionary *addressFields = [NSMutableDictionary dictionary];
+	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"]
+					  forKey:@"<line1>"];
 	
+	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"city" placeholder:@"City" initialValue:@"San Francisco"]
+					  forKey:@"<city>"];
+	
+	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"state" placeholder:@"State" initialValue:@"CA"]
+					  forKey:@"<state>"];
+	
+	[addressFields setObject:[WWFlowFieldSubfield editableSubfieldWithName:@"zip" placeholder:@"ZIP" initialValue:@"94117"] 
+					  forKey:@"<zip>"];
+	
+	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
+	addressSubrow.subfields = [WWFlowFieldSubfield subfieldsWithFormat:@"<line1>\nlol<city>, <state> <zip>" tokensAndReplacements:addressFields];
+	
+	
+
+	// Put the address field inside a key value row
 	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] initWithName:@"homeAddress"] autorelease];
 	addressKeyValueRow.keyLabel = @"home";
 	addressKeyValueRow.valueRowView = addressSubrow;
 	[cardEditor addRow:addressKeyValueRow];
 		
+	
+	
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
 	checkboxRow.label = @"Beam Me Up";
 	checkboxRow.isChecked = YES;
@@ -65,6 +78,10 @@
 	[cardEditor setRowSpacing:4];
 	[cardEditor setNeedsDisplay:YES];
 	[self toggleEditMode:nil];
+	
+	
+	
+	
 }
 
 

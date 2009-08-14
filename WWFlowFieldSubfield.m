@@ -82,4 +82,50 @@
 	return [WWFlowFieldSubfield uneditableSubfieldWithName:nil initialValue:@"\n"];
 }
 
+// TODO: unit test this shiznit
+// TODO: maybe make this more efficient if it becomes a problem (it's at least O(n^2) now)
++ (NSArray *)subfieldsWithFormat:(NSString *)format tokensAndReplacements:(NSDictionary *)subs{
+	NSMutableArray *soFar = [NSMutableArray array];
+	
+	// Scan through the format string...
+	NSMutableString *currentTerm = [NSMutableString string];
+	
+	for(NSUInteger formatOffset = 0; formatOffset < [format length]; formatOffset++){
+		[currentTerm appendString:[format substringWithRange:NSMakeRange(formatOffset,1)]];
+		
+		// Check if any right-aligned substring of currentTerm matches any token
+		NSRange matchRange = NSMakeRange(NSNotFound, 0);
+		for(unsigned potentialTokenLength = 0; potentialTokenLength <= [currentTerm length]; potentialTokenLength++){
+			NSString *potentialToken = [currentTerm substringFromIndex:[currentTerm length] - potentialTokenLength];
+			
+			if([subs objectForKey:potentialToken]){ // We gots us a match
+				matchRange.location = [currentTerm length] - potentialTokenLength;
+				matchRange.length   = potentialTokenLength;
+				break;
+			}
+		}
+		
+		// If there was a match...
+		if(matchRange.location != NSNotFound){
+			// 1) Put the non-matching left side (if any) as an uneditable subfield
+			if(matchRange.location > 0){
+				NSString *nonMatchingPortion = [currentTerm substringToIndex:matchRange.location - 1];
+				[soFar addObject:[WWFlowFieldSubfield uneditableSubfieldWithName:nil initialValue:nonMatchingPortion]];
+			}
+			
+			// 2) Put the matching right side as an editable subfield
+			NSString *matchingPortion = [currentTerm substringFromIndex:matchRange.location];
+			[soFar addObject:[subs objectForKey:matchingPortion]];
+			
+			// 3) Reset currentTerm so we can match the next potential term/token
+			currentTerm = [NSMutableString string];
+		}
+		
+		// Keep scanning...
+	}
+		
+	return soFar;
+}
+
+
 @end

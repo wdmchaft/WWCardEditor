@@ -26,6 +26,8 @@
 + (WWFlowFieldSubfield *) uneditableSpace;
 + (WWFlowFieldSubfield *) uneditableNewline;
 
++ (NSArray *)subfieldsWithFormat:(NSString *)format tokensAndReplacements:(NSDictionary *)subs;
+
 // Properties
 @property(retain,readonly) NSString *name; 
 @property(retain) NSString *value;

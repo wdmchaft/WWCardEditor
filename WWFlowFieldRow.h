@@ -22,6 +22,7 @@
 
 @property(retain) NSArray *subfields;
 - (NSDictionary *) subfieldsByName;
+
 @property(assign) NSInteger activeSubfield;
 
 @end

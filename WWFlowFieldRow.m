@@ -238,7 +238,7 @@
 }
 
 - (BOOL) _fieldShouldBeDisplayedAsPlaceholder:(WWFlowFieldSubfield *)field{
-	return (editMode && field && field.placeholder && (!field.value || [field.value isEqual:@""]));
+	return (editMode && field && field.editable && field.placeholder && (!field.value || [field.value isEqual:@""]));
 }
 
 - (NSString *)_displayedStringForField:(WWFlowFieldSubfield *)field{
