@@ -270,7 +270,6 @@
 
 - (NSRange)textView:(NSTextView *)textView willChangeSelectionFromCharacterRange:(NSRange)oldSelectedCharRange toCharacterRange:(NSRange)newSelectedCharRange{
 	[self setNeedsDisplay];
-	NSLog(@"oldRange = %@, newRange = %@",NSStringFromRange(oldSelectedCharRange),NSStringFromRange(newSelectedCharRange));
 	
 	// If it's not the user triggering this, let it go.
 	if(isRendering) return newSelectedCharRange; 
@@ -341,7 +340,11 @@
 
 
 - (BOOL)textView:(NSTextView *)textView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString{
+	
+	replacementString = replacementString ? replacementString : @"";
+	
 	NSLog(@"Changing text in range %@ (%@), new string = %@",NSStringFromRange(affectedCharRange), [[textView string] substringWithRange:affectedCharRange],  replacementString);
+	
 	[parentEditor setNeedsLayout:YES];
 	[self setNeedsDisplay];
 	

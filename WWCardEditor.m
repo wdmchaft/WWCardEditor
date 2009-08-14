@@ -132,7 +132,6 @@
 }
 
 - (void)setRowSpacing:(CGFloat)aRowSpacing {
-	NSLog(@"Row spacing");
     rowSpacing = aRowSpacing;
 	needsLayout = YES;
 	[self setNeedsDisplay:YES];
@@ -408,8 +407,7 @@
 
 
 
-- (NSDictionary *)rowsByName {
-	NSLog(@"getting rows by name...%@",_rowNameIndex);
+- (NSDictionary *)rowsByName{
     return _rowNameIndex;
 }
 

@@ -13,7 +13,7 @@
 @end
 
 @implementation WWFlowFieldSubfield 
-@synthesize name, value, font, editable, placeholder, allowsNewlines;
+@synthesize name, font, editable, placeholder, allowsNewlines;
 
 - (id) init{
 	if(self = [self initWithName:nil]){
@@ -54,6 +54,19 @@
 	[self exposeBinding:@"font"];
 	[self exposeBinding:@"placeholder"];
 }
+
+- (NSString *)value {
+    return value; 
+}
+- (void)setValue:(NSString *)aValue {
+    if (value != aValue) {
+		if(!aValue || [aValue isEqual:[NSNull null]]) aValue = @"";
+        [value release];
+        value = [aValue retain];
+    }
+}
+
+
 
 #pragma mark -
 #pragma mark Convenience Factory Methods
