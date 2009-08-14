@@ -280,7 +280,7 @@
 	// It's fine to not select anything
 	if (newSelectedCharRange.location == NSNotFound){
 		NSLog(@"Allowing no selection");
-		return newSelectedCharRange; // no selection, that's cool.
+		return newSelectedCharRange; 
 	}
 	
 	
@@ -353,10 +353,23 @@
 	
 	if(!editMode || !inUse) return NO; 
 	
+	// Gather info we need
 	NSUInteger startFieldIndex = [self _indexOfFieldForCharOffset:affectedCharRange.location];
 	NSUInteger endFieldIndex   = [self _indexOfFieldForCharOffset:affectedCharRange.location + affectedCharRange.length];
 	NSUInteger startFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:startFieldIndex];
 	NSUInteger endFieldStartChar = [self _charOffsetForBeginningOfFieldAtIndex:endFieldIndex];
+	
+	NSRange oldMarkedRange = [textView markedRange];
+	NSRange oldSelectedCharRange = [textView selectedRange];
+	
+	
+	NSLog(@"Changing text in range %@ (%@), new string = %@, marked range = %@, selected range = %@",
+		  NSStringFromRange(affectedCharRange), 
+		  [[textView string] substringWithRange:affectedCharRange],  
+		  replacementString,
+		  NSStringFromRange(oldMarkedRange),
+		  NSStringFromRange(oldSelectedCharRange));
+	
 	
 	// First things first: we want to block any edit that crosses subsubfields, that's a no-no.
 	// However, there are two cases where this is fine:
@@ -366,24 +379,21 @@
 	if((startFieldIndex != endFieldIndex)){
 		NSLog(@"ATTEMPTING TO CHANGE TEXT CROSS-FIELDS...startField = %d, endField = %d",startFieldIndex,endFieldIndex);
 		if(((affectedCharRange.location + affectedCharRange.length) == endFieldStartChar) || (endFieldIndex == NSNotFound)){
-			NSLog(@"But that's cool...startField = %d, endField = %d",startFieldIndex,endFieldIndex);
+			NSLog(@"startField = %d endField = %d (starts at %d, char range is %@)",startFieldIndex,endFieldIndex,endFieldStartChar,NSStringFromRange(affectedCharRange));
+			if(![replacementString length] && (oldSelectedCharRange.location <= affectedCharRange.location)){ // If we're forward-deleting...
+				
+				return NO; // This is not cool because it affects the next field.
+			}
+			
+			NSLog(@"ok, that's fine");
+			
+			
 		}else{
-			NSLog(@"NO NO");
 			return NO;
 		}
 	}
 	
-	NSRange oldMarkedRange = [textView markedRange];
-	NSRange oldSelectedCharRange = [textView selectedRange];
-	
-	NSLog(@"Changing text in range %@ (%@), new string = %@, marked range = %@, selected range = %@",
-		  NSStringFromRange(affectedCharRange), 
-		  [[textView string] substringWithRange:affectedCharRange],  
-		  replacementString,
-		NSStringFromRange([textView markedRange]),
-		  NSStringFromRange([textView selectedRange]));
 		
-	
 	// Override the textview's handling all the time for now
 	BOOL overrideHandling = YES; //[newlineScrubbedReplacementString isEqual:replacementString]; 
 	
@@ -440,14 +450,11 @@
 			if(!usedReplacementString.length){ // They pressed the delete key
 				// But which delete key?
 				if(oldSelectedCharRange.location <= affectedCharRange.location){ // forward delete
-					NSLog(@"forward");
-				}else{ // backspace / backwards delete
-					NSLog(@"backward");
+
+				}else{ // backspace
 					newSelectedCharRange.location -= 1;
 				}
 			
-				
-				
 			}else{
 				newSelectedCharRange.location += usedReplacementString.length;
 			}
