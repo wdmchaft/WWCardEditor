@@ -73,6 +73,14 @@
 }
 
 - (void)setSubfields:(NSArray *)aFields {
+	
+	// Stop observing our old subfields
+	//for(WWFlowFieldSubfield *subfield in subfields){
+	//	[subfield removeObserver:self forKeyPath:@"value"];
+	//	[subfield removeObserver:self forKeyPath:@"placeholder"];
+	//}
+	
+	// Do the actual setting
     if (subfields != aFields) {
         [subfields release];
         subfields = [aFields retain];
@@ -86,16 +94,28 @@
 	
 	self._subfieldsNameIndex = [NSMutableDictionary dictionary];
 	for(WWFlowFieldSubfield *subfield in subfields){
-		if([subfield name]) [_subfieldsNameIndex setObject:subfield forKey:[subfield name]];
+		
+		if([subfield name]){ 
+			[_subfieldsNameIndex setObject:subfield forKey:[subfield name]];
+		}
+		
+		[subfield addObserver:self forKeyPath:@"value" options:0 context:nil];
+		[subfield addObserver:self forKeyPath:@"placeholder" options:0 context:nil];
 	}
-	
-	NSLog(@"setting subfields by name...%@",_subfieldsNameIndex);
 	
 	[self didChangeValueForKey:@"subfieldsByName"];
 }
 
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context{
+	//NSLog(@"Got change %@ for object %@ on key path %@",change,object,keyPath);
+	if(!inUse && [subfields containsObject:object]){
+		[[_textView textStorage] setAttributedString:[self _renderedText]];
+	}
+}
+
+
+
 - (NSDictionary *) subfieldsByName{
-	NSLog(@"getting subfields by name...%@",_subfieldsNameIndex);
 	return _subfieldsNameIndex;
 }
 

@@ -152,7 +152,7 @@
 		return;
 	}
 	
-	
+	// Draw some background color rectangles over the text
 	NSUInteger count = 0;
 	NSRectArray focusRingRects = [container requestedFocusRectArrayAndCount:&count];
 	
