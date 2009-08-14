@@ -505,7 +505,7 @@
 - (void) _selectFirstEditableSubfield{
 	for(NSUInteger i = 0; i < [subfields count]; i++){
 		if([[subfields objectAtIndex:i] editable]){
-			[self setActiveField:i];
+			[self setActiveSubfield:i];
 			return;
 		}
 	}
@@ -514,7 +514,7 @@
 - (void) _selectLastEditableSubfield{
 	for(NSUInteger i = ([subfields count] - i); i >= 0; i--){
 		if([[subfields objectAtIndex:i] editable]){
-			[self setActiveField:i];
+			[self setActiveSubfield:i];
 			return;
 		}
 	}
