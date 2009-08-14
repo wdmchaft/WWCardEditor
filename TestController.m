@@ -61,8 +61,6 @@
 	addressKeyValueRow.keyLabel = @"home";
 	addressKeyValueRow.valueRowView = addressSubrow;
 	[cardEditor addRow:addressKeyValueRow];
-		
-	
 	
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
 	checkboxRow.label = @"Beam Me Up";

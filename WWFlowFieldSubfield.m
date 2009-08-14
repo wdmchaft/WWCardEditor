@@ -107,17 +107,17 @@
 		
 		// If there was a match...
 		if(matchRange.location != NSNotFound){
-			// 1) Put the non-matching left side (if any) as an uneditable subfield
+			// Put the non-matching left side (if any) as an uneditable subfield
 			if(matchRange.location > 0){
 				NSString *nonMatchingPortion = [currentTerm substringToIndex:matchRange.location];
 				[soFar addObject:[WWFlowFieldSubfield uneditableSubfieldWithName:nil initialValue:nonMatchingPortion]];
 			}
 			
-			// 2) Put the matching right side as an editable subfield
+			// Put the matching right side as an editable subfield
 			NSString *matchingPortion = [currentTerm substringFromIndex:matchRange.location];
 			[soFar addObject:[subs objectForKey:matchingPortion]];
 			
-			// 3) Reset currentTerm so we can match the next potential term/token
+			// Reset currentTerm so we can match the next potential term/token
 			currentTerm = [NSMutableString string];
 		}
 		
