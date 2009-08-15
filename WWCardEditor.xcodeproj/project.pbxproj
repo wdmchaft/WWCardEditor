@@ -16,6 +16,7 @@
 		CEAEE23C0FEC0E7F00950781 /* WWCardEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23B0FEC0E7F00950781 /* WWCardEditor.m */; };
 		CEAEE2400FEC0EB300950781 /* WWCardEditorRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */; };
 		CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */; };
+		CED0ACF61037310400F2CDFC /* WWSectionRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CED0ACF51037310400F2CDFC /* WWSectionRow.m */; };
 		CEFE66820FE8434D0093A2E9 /* WWFlowFieldRow.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */; };
 		CEFE66860FE844100093A2E9 /* WWFlowFieldSubfield.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66850FE844100093A2E9 /* WWFlowFieldSubfield.m */; };
 		CEFE66C60FE848840093A2E9 /* TestController.m in Sources */ = {isa = PBXBuildFile; fileRef = CEFE66C50FE848840093A2E9 /* TestController.m */; };
@@ -45,6 +46,8 @@
 		CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWCardEditorRow.m; sourceTree = "<group>"; };
 		CEAEE2430FEC0F1500950781 /* WWKeyValueRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWKeyValueRow.h; sourceTree = "<group>"; };
 		CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWKeyValueRow.m; sourceTree = "<group>"; };
+		CED0ACF41037310400F2CDFC /* WWSectionRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWSectionRow.h; sourceTree = "<group>"; };
+		CED0ACF51037310400F2CDFC /* WWSectionRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWSectionRow.m; sourceTree = "<group>"; };
 		CEFE66800FE8434D0093A2E9 /* WWFlowFieldRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldRow.h; sourceTree = "<group>"; };
 		CEFE66810FE8434D0093A2E9 /* WWFlowFieldRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WWFlowFieldRow.m; sourceTree = "<group>"; };
 		CEFE66840FE844100093A2E9 /* WWFlowFieldSubfield.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WWFlowFieldSubfield.h; sourceTree = "<group>"; };
@@ -182,6 +185,7 @@
 		CEAEE2410FEC0EBA00950781 /* Row Views */ = {
 			isa = PBXGroup;
 			children = (
+				CED0ACF71037310800F2CDFC /* Section Row */,
 				CE73F233101BAD2D008662F0 /* Spacer Row */,
 				CE2066C11017EF1C0078A5ED /* Checkbox Row */,
 				CEAEE6390FEC50C800950781 /* Key-Value Row */,
@@ -197,6 +201,15 @@
 				CEAEE2440FEC0F1500950781 /* WWKeyValueRow.m */,
 			);
 			name = "Key-Value Row";
+			sourceTree = "<group>";
+		};
+		CED0ACF71037310800F2CDFC /* Section Row */ = {
+			isa = PBXGroup;
+			children = (
+				CED0ACF41037310400F2CDFC /* WWSectionRow.h */,
+				CED0ACF51037310400F2CDFC /* WWSectionRow.m */,
+			);
+			name = "Section Row";
 			sourceTree = "<group>";
 		};
 		CEFE66830FE843530093A2E9 /* Flow Field Row */ = {
@@ -279,6 +292,7 @@
 				CEAEE2450FEC0F1500950781 /* WWKeyValueRow.m in Sources */,
 				CE2066C41017EF2E0078A5ED /* WWCheckboxRow.m in Sources */,
 				CE73F236101BAD38008662F0 /* WWSpacerRow.m in Sources */,
+				CED0ACF61037310400F2CDFC /* WWSectionRow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

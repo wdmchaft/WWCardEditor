@@ -8,6 +8,7 @@
 
 #import "TestController.h"
 #import "WWSpacerRow.h"
+#import "WWSectionRow.h"
 
 @implementation TestController
 
@@ -70,12 +71,18 @@
 	checkboxKeyValue.keyLabel = @"awesome";
 	checkboxKeyValue.valueRowView = checkboxRow;
 	checkboxRow.font = [NSFont fontWithName:@"Helvetica" size:11];
-	[cardEditor addRow:checkboxKeyValue];
+	//[cardEditor addRow:checkboxKeyValue];
 	
+	
+	WWSectionRow *checkboxSection = [[[WWSectionRow alloc] initWithName:@"checkboxSection"] autorelease];
+	[checkboxSection addSubrow:checkboxKeyValue];
+	[cardEditor addRow:checkboxSection];
 	
 	[cardEditor setRowSpacing:4];
+	[cardEditor setNeedsLayout:YES];
 	[cardEditor setNeedsDisplay:YES];
 	[self toggleEditMode:nil];
+	
 	
 	
 	

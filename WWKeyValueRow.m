@@ -49,8 +49,10 @@
 
 - (NSMutableDictionary *)_labelAttributes{
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-	[attrs setObject:parentEditor.keyLabelFont forKey:NSFontAttributeName];
-	[attrs setObject:parentEditor.keyLabelColor forKey:NSForegroundColorAttributeName];
+	if(parentEditor){
+		[attrs setObject:parentEditor.keyLabelFont forKey:NSFontAttributeName];
+		[attrs setObject:parentEditor.keyLabelColor forKey:NSForegroundColorAttributeName];
+	}
 	return attrs;
 }
 

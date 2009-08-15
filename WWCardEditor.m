@@ -26,6 +26,9 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
+		NSLog(@"card editor init");
+		
+		
 		self._rows = [NSMutableArray array];
 		self._rowNameIndex = [NSMutableDictionary dictionary];
 		self.keyLabelColor = [NSColor darkGrayColor];
