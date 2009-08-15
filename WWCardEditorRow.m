@@ -74,8 +74,8 @@ static BOOL debugMode;
 	return YES;
 }
 
-- (NSResponder *)principalResponder{
-	return nil;
+- (NSArray *)principalResponders{
+	return [NSArray array];
 }
 
 @end

@@ -135,8 +135,8 @@
 	}
 }
 
-- (NSResponder *)principalResponder{
-	return [valueRowView principalResponder];
+- (NSArray *)principalResponders{
+	return [valueRowView principalResponders];
 }
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{

@@ -509,8 +509,8 @@
 	return [super availableWidth] - [[self _renderedText] size].width;
 }
 
-- (NSResponder *)principalResponder{
-	return _textView;
+- (NSArray *)principalResponders{
+	return [NSArray arrayWithObject:_textView];
 }
 
 

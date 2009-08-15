@@ -25,7 +25,7 @@
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count; // used for drawing those fancy drop shadow focus rings
 + (void) setDebugDrawMode:(BOOL)newVal;
 
-- (NSResponder *)principalResponder;
+- (NSArray *)principalResponders;
 @end
 
 

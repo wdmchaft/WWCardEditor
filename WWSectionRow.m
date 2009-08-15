@@ -162,13 +162,11 @@
 - (void) _disclosureChanged{
 	collapsed = ![_disclosureTriangle state];
 	_needsLayout = YES;
-	NSLog(@"collapsed = %d",collapsed);
 	[self _layoutIfNeeded];
 }
 
 - (void) _layoutIfNeeded{
 	if(_needsLayout){
-		NSLog(@"laying out");
 		CGFloat yCursor = [label sizeWithAttributes:[self _labelAttributes]].height + WWSectionRow_InitialTopPadding;
 		
 		if(collapsed){
@@ -182,7 +180,6 @@
 				[subrow setHidden:NO];
 				[subrow setFrame:NSMakeRect(0, yCursor, [self frame].size.width, [subrow neededHeight])];
 				yCursor += [subrow neededHeight] + [parentEditor rowSpacing];
-				NSLog(@"y = %f",yCursor);
 			}
 		}
 		
@@ -221,8 +218,6 @@
 		}
 	}
 	
-	NSLog(@"needed height? %f",soFar);
-	
 	return soFar;
 }
 
@@ -234,13 +229,31 @@
 	return [self frame].size.width;
 }
 
-
-
 - (void)setParentEditor:(WWCardEditor *)aParentEditor{
-	[super setParentEditor:aParentEditor];
+	
 	for(WWCardEditorRow *subrow in _subrows){
 		[subrow setParentEditor:aParentEditor];
 	}
+	
+	[super setParentEditor:aParentEditor];
+}
+
+- (void)setEditMode:(BOOL)flag {
+	for(WWCardEditorRow *subrow in _subrows){
+		[subrow setEditMode:flag];
+	}
+	
+	[super setEditMode:flag];
+}
+
+- (NSArray *) principalResponders{
+	NSMutableArray *responders = [NSMutableArray array];
+	
+	for(WWCardEditorRow *subrow in _subrows){
+		[responders addObjectsFromArray:[subrow principalResponders]];
+	}
+	
+	return responders;
 }
 
 @end

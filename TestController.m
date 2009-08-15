@@ -56,6 +56,7 @@
 	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	addressSubrow.subfields = [WWFlowFieldSubfield subfieldsWithFormat:@"<line1>\n<city>, <state> <zip> " tokensAndReplacements:addressFields];
 	
+	
 
 	// Put the address field inside a key value row
 	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] initWithName:@"homeAddress"] autorelease];

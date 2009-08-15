@@ -26,13 +26,11 @@
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-		NSLog(@"card editor init");
-		
 		
 		self._rows = [NSMutableArray array];
 		self._rowNameIndex = [NSMutableDictionary dictionary];
-		self.keyLabelColor = [NSColor darkGrayColor];
-		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:12];
+		self.keyLabelColor = [NSColor blackColor];
+		self.keyLabelFont = [NSFont fontWithName:@"Helvetica Bold" size:11];
 		
 		self.padding = CGSizeMake(10, 10);
 		self.rowSpacing = 0;
@@ -53,7 +51,6 @@
 	self.focusRingBorderColor = nil;
 	self.backgroundColor = nil;
 	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
 	[super dealloc];
@@ -335,8 +332,8 @@
 
 			WWFlowFieldRow *row = [_rows objectAtIndex:i];
 			
-			if([row principalResponder]){
-				[[self window] makeFirstResponder:[row principalResponder]];
+			if([[row principalResponders] count]){
+				[[self window] makeFirstResponder:[[row principalResponders] objectAtIndex:0]];
 				
 				if([row isMemberOfClass:[WWFlowFieldRow class]]){
 					[((WWFlowFieldRow *)row) _selectFirstEditableSubfield];
@@ -354,8 +351,8 @@
 		[[self _firstRowWithResponder] becomeFirstResponder];
 		
 		WWFlowFieldRow *firstRow = [self _firstRowWithResponder];
-		if(firstRow){
-			[[self window] makeFirstResponder:[firstRow principalResponder]];
+		if(firstRow && [[firstRow principalResponders] count]){
+			[[self window] makeFirstResponder:[[firstRow principalResponders] objectAtIndex:0]];
 		}
 	}
 }
@@ -373,8 +370,8 @@
 		
 		for(NSUInteger i = [_rows indexOfObject:activeRow] - 1; i >= 0; i--){
 			WWFlowFieldRow *row = [_rows objectAtIndex:i];
-			if([row principalResponder]){
-				[[self window] makeFirstResponder:[row principalResponder]];
+			if([[row principalResponders] count]){
+				[[self window] makeFirstResponder:[[row principalResponders] objectAtIndex:0]];
 				
 				if([row isMemberOfClass:[WWFlowFieldRow class]]){
 					[((WWFlowFieldRow *)row) _selectLastEditableSubfield];
@@ -389,10 +386,9 @@
 }
 
 
-
 - (WWFlowFieldRow *)currentlyActiveRow{
 	for(WWFlowFieldRow *row in _rows){
-		if([row principalResponder] == [[self window] firstResponder]){
+		if([[row principalResponders] containsObject:[[self window] firstResponder]]){
 			return row;
 		}
 	}
@@ -403,7 +399,7 @@
 
 - (WWFlowFieldRow *)_firstRowWithResponder{
 	for(WWFlowFieldRow *row in _rows){
-		if([row principalResponder]) return row;
+		if([[row principalResponders] count]) return row;
 	}
 	
 	return nil;

@@ -1225,7 +1225,7 @@
 							<bool key="NSIsBordered">YES</bool>
 							<object class="NSColor" key="NSColor">
 								<int key="NSColorSpace">1</int>
-								<bytes key="NSRGB">MCAwIDAgMC40MTk5OTk5OQA</bytes>
+								<bytes key="NSRGB">MCAwIDAAA</bytes>
 							</object>
 						</object>
 						<object class="NSTextField" id="17287457">
@@ -3728,8 +3728,8 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{290, 392}, {554, 361}}</string>
-					<string>{{290, 392}, {554, 361}}</string>
+					<string>{{469, 392}, {554, 361}}</string>
+					<string>{{469, 392}, {554, 361}}</string>
 					<reference ref="5"/>
 					<boolean value="NO"/>
 					<string>{542, 50000}</string>
