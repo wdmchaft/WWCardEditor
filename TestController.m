@@ -61,6 +61,7 @@
 	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] initWithName:@"homeAddress"] autorelease];
 	addressKeyValueRow.keyTypeIdentifiers = [NSArray arrayWithObjects:@"home", @"work", @"boat", @"spaceship", @"spaceboat", @"other",nil];
 	addressKeyValueRow.valueRowView = addressSubrow;
+	addressKeyValueRow.delegate = self;
 	
 	NSMenu *addressMenu = [[[NSMenu alloc] init] autorelease];
 	[addressMenu addItemWithTitle:@"Large Type" action:nil keyEquivalent:@""];
@@ -123,4 +124,10 @@
 	[cardEditor setNeedsDisplay:YES];
 }
 
+- (void) keyValueRow:(WWKeyValueRow *)theRow choseKeyType:(NSString *)keyTypeIdentifier{
+	NSLog(@"chose type: %@",keyTypeIdentifier);
+}
+
+
 @end
+

@@ -212,7 +212,13 @@
 }
 
 - (void) _menuAction:(id)sender{
+	NSLog(@"menu action: %@",sender);
+	[self resetCursorRects];
+	_needsLayout;
 	
+	if(delegate){
+		[delegate keyValueRow:self choseKeyType:[keyTypeIdentifiers objectAtIndex:[sender tag]]];
+	}
 }
 
 
