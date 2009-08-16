@@ -212,13 +212,9 @@
 }
 
 - (void) _menuAction:(id)sender{
-	NSLog(@"menu action: %@",sender);
-	[self resetCursorRects];
-	_needsLayout;
+	_needsLayout = YES;
 	
-	if(delegate){
-		[delegate keyValueRow:self choseKeyType:[keyTypeIdentifiers objectAtIndex:[sender tag]]];
-	}
+	if(delegate) [delegate keyValueRow:self choseKeyType:[keyTypeIdentifiers objectAtIndex:[sender tag]]];
 }
 
 
@@ -247,6 +243,7 @@
 		
 		[_keyButton setHidden:[self _menuShouldBeHidden]];
 		
+		[self resetCursorRects];
 		_needsLayout = NO;
 	}
 }
