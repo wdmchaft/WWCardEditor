@@ -370,8 +370,9 @@
 		
 		for(NSUInteger i = [_rows indexOfObject:activeRow] - 1; i >= 0; i--){
 			WWFlowFieldRow *row = [_rows objectAtIndex:i];
-			if([[row principalResponders] count]){
-				[[self window] makeFirstResponder:[[row principalResponders] objectAtIndex:0]];
+			NSArray *responders = [row principalResponders];
+			if([responders count]){
+				[[self window] makeFirstResponder:[responders lastObject]];
 				
 				if([row isMemberOfClass:[WWFlowFieldRow class]]){
 					[((WWFlowFieldRow *)row) _selectLastEditableSubfield];

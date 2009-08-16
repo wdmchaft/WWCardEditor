@@ -9,17 +9,32 @@
 #import <Cocoa/Cocoa.h>
 #import "WWCardEditorRow.h"
 
+@protocol WWKeyValueRowDelegate;
+
 @interface WWKeyValueRow : WWCardEditorRow {
-	NSString *keyLabel;
+	NSPopUpButton *_keyButton;
+	NSArray *keyTypeIdentifiers;
+	NSDictionary *keyTypeLabels;
+	
 	WWCardEditorRow *valueRowView;
+	
 	CGFloat splitPosition;
-	BOOL needsLayout;
+	BOOL _needsLayout;
 	BOOL hover;
+	NSObject<WWKeyValueRowDelegate> *delegate;
+	
 }
 
-@property(retain) NSString *keyLabel;
+@property(retain) NSString *activeKeyType;
+@property(retain) NSArray *keyTypeIdentifiers; 
+@property(retain) NSDictionary *keyTypeLabels; // key identifier -> localized key name
+
 @property(retain) WWCardEditorRow *valueRowView;
 
 @end
 
+#pragma mark -
 
+@protocol WWKeyValueRowDelegate
+- (void) keyValueRow:(WWKeyValueRow *)theRow choseKeyType:(NSString *)keyTypeIdentifier;
+@end

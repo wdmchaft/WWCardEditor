@@ -20,7 +20,6 @@
 	[cardEditor bind:@"keyLabelColor" toObject:keyColorWell withKeyPath:@"color" options:nil];
 	[cardEditor bind:@"rowSpacing" toObject:rowSpacingSlider withKeyPath:@"floatValue" options:nil];
 	
-	
 	// Set up card editor
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
 		
@@ -60,7 +59,8 @@
 
 	// Put the address field inside a key value row
 	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] initWithName:@"homeAddress"] autorelease];
-	addressKeyValueRow.keyLabel = @"home";
+	//addressKeyValueRow.keyLabel = @"home";
+	addressKeyValueRow.keyTypeIdentifiers = [NSArray arrayWithObjects:@"home", @"work", @"boat", @"spaceship", @"spaceboat", @"other",nil];
 	addressKeyValueRow.valueRowView = addressSubrow;
 	[cardEditor addRow:addressKeyValueRow];
 	
@@ -69,7 +69,7 @@
 	checkboxRow.isChecked = YES;
 	
 	WWKeyValueRow *checkboxKeyValue = [[[WWKeyValueRow alloc] init] autorelease];
-	checkboxKeyValue.keyLabel = @"awesome";
+	//checkboxKeyValue.keyLabel = @"awesome";
 	checkboxKeyValue.valueRowView = checkboxRow;
 	checkboxRow.font = [NSFont fontWithName:@"Helvetica" size:11];
 	//[cardEditor addRow:checkboxKeyValue];

@@ -175,8 +175,6 @@
 				CEAEE2410FEC0EBA00950781 /* Row Views */,
 				CEAEE23A0FEC0E7F00950781 /* WWCardEditor.h */,
 				CEAEE23B0FEC0E7F00950781 /* WWCardEditor.m */,
-				CEAEE23E0FEC0EB300950781 /* WWCardEditorRow.h */,
-				CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */,
 				CE2068FE1018EE600078A5ED /* WWCardEditor_Internals.h */,
 			);
 			name = "Card Editor";
@@ -185,6 +183,8 @@
 		CEAEE2410FEC0EBA00950781 /* Row Views */ = {
 			isa = PBXGroup;
 			children = (
+				CEAEE23E0FEC0EB300950781 /* WWCardEditorRow.h */,
+				CEAEE23F0FEC0EB300950781 /* WWCardEditorRow.m */,
 				CED0ACF71037310800F2CDFC /* Section Row */,
 				CE73F233101BAD2D008662F0 /* Spacer Row */,
 				CE2066C11017EF1C0078A5ED /* Checkbox Row */,

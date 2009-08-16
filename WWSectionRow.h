@@ -25,7 +25,6 @@
 @property(assign) BOOL collapsed;
 
 @property(retain,readonly) NSArray *subrows;
-
 - (void) addSubrow:(WWCardEditorRow *)row;
 - (void) insertSubrow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex;
 - (void) removeSubrowAtIndex:(NSUInteger)removeRowIndex;

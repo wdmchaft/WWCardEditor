@@ -110,6 +110,7 @@
 	//NSLog(@"Got change %@ for object %@ on key path %@",change,object,keyPath);
 	if(!inUse && [subfields containsObject:object]){
 		[[_textView textStorage] setAttributedString:[self _renderedText]];
+		[parentEditor setNeedsLayout:YES];
 	}
 }
 
@@ -381,7 +382,6 @@
 		if(((affectedCharRange.location + affectedCharRange.length) == endFieldStartChar) || (endFieldIndex == NSNotFound)){
 			NSLog(@"startField = %d endField = %d (starts at %d, char range is %@)",startFieldIndex,endFieldIndex,endFieldStartChar,NSStringFromRange(affectedCharRange));
 			if(![replacementString length] && (oldSelectedCharRange.location <= affectedCharRange.location)){ // If we're forward-deleting...
-				
 				return NO; // This is not cool because it affects the next field.
 			}
 			

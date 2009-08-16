@@ -46,21 +46,26 @@
 		[self addSubview:_disclosureTriangle];
 		
 		self.collapsed = NO;
-		
-		
     }
 	
     return self;
 }
 
 - (void) dealloc{
-	self.name = nil;
 	self._subrows = nil;
 	self._subrowsByName = nil;
 	self._disclosureTriangle = nil;
+	self.label = nil;
+	self.labelFont = nil;
 	[super dealloc];
 }
 
++ (void) initialize{
+	[self exposeBinding:@"subrows"];
+	[self exposeBinding:@"subrowsByName"];
+	[self exposeBinding:@"labelFont"];
+	[self exposeBinding:@"label"];
+}
 
 #pragma mark -
 #pragma mark Accessors
@@ -230,7 +235,6 @@
 }
 
 - (void)setParentEditor:(WWCardEditor *)aParentEditor{
-	
 	for(WWCardEditorRow *subrow in _subrows){
 		[subrow setParentEditor:aParentEditor];
 	}

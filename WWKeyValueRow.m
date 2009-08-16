@@ -15,16 +15,35 @@
 
 @interface WWKeyValueRow()
 - (void) _layoutIfNeeded;
+- (NSString *) _displayedKeyLabel;
 - (NSMutableDictionary *)_labelAttributes;
+- (void) _populateMenu;
+- (BOOL) _menuShouldBeHidden;
+
+@property(retain) NSPopUpButton *_keyButton;
 @end
 
 #pragma mark -
 
 @implementation WWKeyValueRow
+@synthesize _keyButton;
 
 - (id)initWithName:(NSString *)theName{
     if (self = [super initWithName:theName]){
 		splitPosition = WWKeyValueRow_DefaultSplitPosition;
+		
+		self._keyButton = [[[NSPopUpButton alloc] initWithFrame:NSZeroRect] autorelease];
+		[_keyButton setFont:[parentEditor keyLabelFont]];
+		[[_keyButton cell] setControlSize:NSMiniControlSize];
+		[_keyButton setTarget:self];
+		[_keyButton setAction:@selector(_choseNewKeyType)];
+		[_keyButton setBordered:NO];
+		[_keyButton setAlignment:NSRightTextAlignment];
+		
+		[self setKeyTypeIdentifiers:[NSArray arrayWithObject:@"label"]];
+		
+		[self addSubview:_keyButton];
+		
 		[[self window] setAcceptsMouseMovedEvents:YES];
 		[[self window] setIgnoresMouseEvents:NO];
     }
@@ -32,13 +51,13 @@
 }
 
 - (void)dealloc {
-    [self setKeyLabel:nil];
+	self._keyButton = nil;
 	[self setValueRowView:nil];
     [super dealloc];
 }
 
 - (NSString *)description{
-	return [NSString stringWithFormat:@"<WWKeyValueRow: keyLabel = %@, valueRow = %@>",keyLabel, valueRowView];
+	return [NSString stringWithFormat:@"<WWKeyValueRow: keyTypes = %@, valueRow = %@>",keyTypeIdentifiers, valueRowView];
 }
 
 + (void) initialize{
@@ -49,29 +68,18 @@
 
 - (NSMutableDictionary *)_labelAttributes{
 	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+	
 	if(parentEditor){
 		[attrs setObject:parentEditor.keyLabelFont forKey:NSFontAttributeName];
 		[attrs setObject:parentEditor.keyLabelColor forKey:NSForegroundColorAttributeName];
 	}
+	
 	return attrs;
 }
 
 
 #pragma mark -
 
-- (NSString *)keyLabel {
-    return keyLabel; 
-}
-
-
-- (void)setKeyLabel:(NSString *)aKeyLabel {
-    if (keyLabel != aKeyLabel) {
-        [keyLabel release];
-        keyLabel = [aKeyLabel retain];
-    }
-	
-	[self setNeedsDisplay:YES];
-}
 
 
 - (WWCardEditorRow *)valueRowView {
@@ -91,8 +99,81 @@
 		[self setAutoresizesSubviews:YES];
     }
 	
-	needsLayout = YES;
+	_needsLayout = YES;
 }
+
+
+- (NSDictionary *)keyTypeLabels {
+    return keyTypeLabels; 
+}
+
+- (void)setKeyTypeLabels:(NSDictionary *)aKeyTypeLabels {
+    if (keyTypeLabels != aKeyTypeLabels) {
+        [keyTypeLabels release];
+        keyTypeLabels = [aKeyTypeLabels retain];
+		
+		[self _populateMenu];
+    }
+}
+
+
+
+- (NSString *)activeKeyType {
+    return [keyTypeIdentifiers objectAtIndex:[_keyButton indexOfSelectedItem]];
+}
+
+
+- (void)setActiveKeyType:(NSString *)anActiveKeyType {
+    // TODO implement
+}
+
+
+- (NSArray *)keyTypeIdentifiers {
+    return keyTypeIdentifiers; 
+}
+
+- (void)setKeyTypeIdentifiers:(NSArray *)aKeyTypeIdentifiers {
+    if (keyTypeIdentifiers != aKeyTypeIdentifiers) {
+        [keyTypeIdentifiers release];
+        keyTypeIdentifiers = [aKeyTypeIdentifiers retain];
+		[self _populateMenu];
+		_needsLayout = YES;
+    }
+}
+
+- (void) _populateMenu{
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	
+	for(unsigned i = 0; i < [keyTypeIdentifiers count]; i++){
+		NSString *identifier = [keyTypeIdentifiers objectAtIndex:i];
+		
+		NSMenuItem *item = [[NSMenuItem alloc] init];
+		[item setTag:i];
+		
+		NSString *title = [keyTypeLabels objectForKey:identifier];
+		[item setTitle:title ? title : identifier];
+		[item setTarget:self];
+		[item setAction:@selector(_menuAction:)];
+		[item setEnabled:YES];
+		
+		[menu addItem:item];
+		[item release];
+	}
+	
+	[menu setAutoenablesItems:YES];
+
+	[_keyButton setMenu:menu];
+}
+
+- (void) _menuAction:(id)sender{
+	
+}
+
+
+- (BOOL) _menuShouldBeHidden{
+	return (!editMode || ([keyTypeIdentifiers count] <= 1));
+}
+
 
 - (CGFloat)splitPosition {
     return splitPosition;
@@ -100,8 +181,9 @@
 
 - (void)setSplitPosition:(CGFloat)aSplitPosition {
     splitPosition = aSplitPosition;
-	needsLayout = YES;
+	_needsLayout = YES;
 }
+
 
 - (void)setParentEditor:(WWCardEditor *)aParentEditor {
     if (parentEditor != aParentEditor) {
@@ -109,12 +191,16 @@
         parentEditor = [aParentEditor retain];
     }
 	
+	[_keyButton setFont:parentEditor.keyLabelFont];
+	
 	[valueRowView setParentEditor:aParentEditor];
 	[valueRowView setParentRow:self];
 }
 
+
 - (void)setEditMode:(BOOL)flag {
 	[valueRowView setEditMode:flag];
+	_needsLayout = YES;
 	[super setEditMode:flag];
 }
 
@@ -127,17 +213,29 @@
 #pragma mark Overrides
 
 - (void) _layoutIfNeeded{
-	if(needsLayout){
+	if(_needsLayout){
 		[valueRowView setFrame:NSMakeRect(splitPosition, 0, [self frame].size.width - splitPosition, [valueRowView neededHeight])];
 		
+		[_keyButton setFrame:NSMakeRect(0, 
+									    0, 
+										splitPosition + 4,
+								        [[self _displayedKeyLabel] sizeWithAttributes:[self _labelAttributes]].height)];
 		
-		needsLayout = NO;
+		[_keyButton setHidden:[self _menuShouldBeHidden]];
+		
+		_needsLayout = NO;
 	}
 }
 
 - (NSArray *)principalResponders{
-	return [valueRowView principalResponders];
+	NSMutableArray *responders = [NSMutableArray array];
+	
+	if([keyTypeIdentifiers count] > 1) [responders addObject:_keyButton];
+	[responders addObjectsFromArray:[valueRowView principalResponders]];
+	
+	return responders;
 }
+
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
 	if (!valueRowView) return [super requestedFocusRectArrayAndCount:count];
@@ -155,7 +253,7 @@
 -(void)resetCursorRects{
     [self discardCursorRects];
 	
-	NSSize labelSize = [keyLabel sizeWithAttributes:[self _labelAttributes]];
+	NSSize labelSize = [[[_keyButton selectedItem] title] sizeWithAttributes:[self _labelAttributes]];
 	
     NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], NSMakeRect(splitPosition - WWKeyValueRow_HorizontalBuffer - labelSize.width,0,labelSize.width, labelSize.height));
 
@@ -167,7 +265,7 @@
 
 
 - (CGFloat) neededHeight{
-	return MAX([valueRowView neededHeight], [keyLabel sizeWithAttributes:[self _labelAttributes]].height); 
+	return MAX([valueRowView neededHeight], [[[_keyButton selectedItem] title] sizeWithAttributes:[self _labelAttributes]].height); 
 }
 
 - (CGFloat) availableWidth{
@@ -187,7 +285,7 @@
 	[style setAlignment:NSRightTextAlignment];
 	[attrs setObject:[style autorelease] forKey:NSParagraphStyleAttributeName];
 	
-	NSAttributedString *styledLabel =  [[[NSAttributedString alloc] initWithString:keyLabel attributes:attrs] autorelease];
+	NSAttributedString *styledLabel =  [[[NSAttributedString alloc] initWithString:[[_keyButton selectedItem] title] attributes:attrs] autorelease];
 	NSSize labelRect = [styledLabel size];
 	
 	if(hover && !editMode){
@@ -224,7 +322,11 @@
 	}
 	
 	// Draw key label
-	[keyLabel drawInRect:NSMakeRect(0, 0, splitPosition - WWKeyValueRow_HorizontalBuffer, labelRect.height) withAttributes:attrs];
+	if([self _menuShouldBeHidden]){
+		[[self _displayedKeyLabel]  drawInRect:NSMakeRect(0, 0, splitPosition - WWKeyValueRow_HorizontalBuffer, labelRect.height) 
+								withAttributes:attrs];
+	}
+	
 	[super drawRect:rect];
 }
 
@@ -232,6 +334,12 @@
 	return YES;
 }
 
+
+- (NSString *) _displayedKeyLabel{
+	NSString *keyType = [self activeKeyType];
+	NSString *label = [keyTypeLabels objectForKey:keyType];
+	return label ? label : keyType;
+}
 
 #pragma mark -
 #pragma mark Event Handling
@@ -249,6 +357,5 @@
 - (void)mouseMoved:(NSEvent *)theEvent{
 	[self setNeedsDisplay:YES];
 }
-
 
 @end
