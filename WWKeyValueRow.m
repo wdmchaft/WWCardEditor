@@ -19,6 +19,7 @@
 - (NSMutableDictionary *)_labelAttributes;
 - (void) _populateMenu;
 - (BOOL) _menuShouldBeHidden;
+- (NSRect) _labelMouseRect;
 
 @property(retain) NSPopUpButton *_keyButton;
 @end
@@ -26,7 +27,7 @@
 #pragma mark -
 
 @implementation WWKeyValueRow
-@synthesize _keyButton;
+@synthesize _keyButton, delegate, actionMenu;
 
 - (id)initWithName:(NSString *)theName{
     if (self = [super initWithName:theName]){
@@ -52,7 +53,10 @@
 
 - (void)dealloc {
 	self._keyButton = nil;
-	[self setValueRowView:nil];
+	self.actionMenu = nil;
+	self.keyTypeLabels = nil;
+	self.keyTypeIdentifiers = nil;
+	self.valueRowView = nil;
     [super dealloc];
 }
 
@@ -124,7 +128,9 @@
 
 
 - (void)setActiveKeyType:(NSString *)anActiveKeyType {
-    // TODO implement
+	if([keyTypeIdentifiers containsObject:anActiveKeyType]){
+		[_keyButton selectItemAtIndex:[keyTypeIdentifiers indexOfObject:anActiveKeyType]];
+	}
 }
 
 
@@ -141,38 +147,6 @@
     }
 }
 
-- (void) _populateMenu{
-	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
-	
-	for(unsigned i = 0; i < [keyTypeIdentifiers count]; i++){
-		NSString *identifier = [keyTypeIdentifiers objectAtIndex:i];
-		
-		NSMenuItem *item = [[NSMenuItem alloc] init];
-		[item setTag:i];
-		
-		NSString *title = [keyTypeLabels objectForKey:identifier];
-		[item setTitle:title ? title : identifier];
-		[item setTarget:self];
-		[item setAction:@selector(_menuAction:)];
-		[item setEnabled:YES];
-		
-		[menu addItem:item];
-		[item release];
-	}
-	
-	[menu setAutoenablesItems:YES];
-
-	[_keyButton setMenu:menu];
-}
-
-- (void) _menuAction:(id)sender{
-	
-}
-
-
-- (BOOL) _menuShouldBeHidden{
-	return (!editMode || ([keyTypeIdentifiers count] <= 1));
-}
 
 
 - (CGFloat)splitPosition {
@@ -208,6 +182,50 @@
     [valueRowView setParentRow:aParentRow];
 	[super setParentRow:aParentRow];
 }
+
+#pragma mark -
+#pragma mark Helpers
+
+
+- (void) _populateMenu{
+	NSMenu *menu = [[[NSMenu alloc] init] autorelease];
+	
+	for(unsigned i = 0; i < [keyTypeIdentifiers count]; i++){
+		NSString *identifier = [keyTypeIdentifiers objectAtIndex:i];
+		
+		NSMenuItem *item = [[NSMenuItem alloc] init];
+		[item setTag:i];
+		
+		NSString *title = [keyTypeLabels objectForKey:identifier];
+		[item setTitle:title ? title : identifier];
+		[item setTarget:self];
+		[item setAction:@selector(_menuAction:)];
+		[item setEnabled:YES];
+		
+		[menu addItem:item];
+		[item release];
+	}
+	
+	[menu setAutoenablesItems:YES];
+	
+	[_keyButton setMenu:menu];
+}
+
+- (void) _menuAction:(id)sender{
+	
+}
+
+
+- (BOOL) _menuShouldBeHidden{
+	return (!editMode || ([keyTypeIdentifiers count] <= 1));
+}
+
+- (NSString *) _displayedKeyLabel{
+	NSString *keyType = [self activeKeyType];
+	NSString *label = [keyTypeLabels objectForKey:keyType];
+	return label ? label : keyType;
+}
+
 
 #pragma mark -
 #pragma mark Overrides
@@ -250,18 +268,6 @@
 	return valueRowRects;
 }
 
--(void)resetCursorRects{
-    [self discardCursorRects];
-	
-	NSSize labelSize = [[[_keyButton selectedItem] title] sizeWithAttributes:[self _labelAttributes]];
-	
-    NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], NSMakeRect(splitPosition - WWKeyValueRow_HorizontalBuffer - labelSize.width,0,labelSize.width, labelSize.height));
-
-    if (!NSIsEmptyRect(clippedItemBounds)) {
-		[self addCursorRect:clippedItemBounds cursor:[NSCursor arrowCursor]];
-		[self addTrackingRect:clippedItemBounds owner:self userData:nil assumeInside:NO];
-    }
-}
 
 
 - (CGFloat) neededHeight{
@@ -335,11 +341,6 @@
 }
 
 
-- (NSString *) _displayedKeyLabel{
-	NSString *keyType = [self activeKeyType];
-	NSString *label = [keyTypeLabels objectForKey:keyType];
-	return label ? label : keyType;
-}
 
 #pragma mark -
 #pragma mark Event Handling
@@ -358,4 +359,27 @@
 	[self setNeedsDisplay:YES];
 }
 
+- (void)mouseDown:(NSEvent *)theEvent{
+	NSPoint converted = [self convertPoint:[theEvent locationInWindow] fromView:[[self window] contentView]];
+	if(actionMenu && NSPointInRect(converted, [self _labelMouseRect])){
+		[NSMenu popUpContextMenu:actionMenu withEvent:theEvent forView:self];
+	}
+}
+
+-(void)resetCursorRects{
+    [self discardCursorRects];
+	
+    NSRect clippedItemBounds = [self _labelMouseRect]; 
+	
+    if (!NSIsEmptyRect(clippedItemBounds)) {
+		[self addCursorRect:clippedItemBounds cursor:[NSCursor arrowCursor]];
+		[self addTrackingRect:clippedItemBounds owner:self userData:nil assumeInside:NO];
+    }
+}
+
+- (NSRect) _labelMouseRect{
+	NSSize labelSize = [[self _displayedKeyLabel]sizeWithAttributes:[self _labelAttributes]];
+    NSRect clippedItemBounds = NSIntersectionRect([self visibleRect], NSMakeRect(splitPosition - WWKeyValueRow_HorizontalBuffer - labelSize.width,0,labelSize.width, labelSize.height));
+	return clippedItemBounds;
+}
 @end

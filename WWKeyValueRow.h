@@ -23,13 +23,24 @@
 	BOOL hover;
 	NSObject<WWKeyValueRowDelegate> *delegate;
 	
+	NSMenu *actionMenu;
+	
 }
 
+@property(retain) WWCardEditorRow *valueRowView;
+
+@property(assign) NSObject<WWKeyValueRowDelegate> *delegate;
+
+// Key chooser
 @property(retain) NSString *activeKeyType;
 @property(retain) NSArray *keyTypeIdentifiers; 
 @property(retain) NSDictionary *keyTypeLabels; // key identifier -> localized key name
 
-@property(retain) WWCardEditorRow *valueRowView;
+
+@property(retain) NSMenu *actionMenu;
+
+
+
 
 @end
 

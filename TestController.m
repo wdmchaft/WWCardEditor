@@ -36,7 +36,9 @@
 	spacer.height = 20;
 	[cardEditor addRow:spacer];
 	
-
+	
+	
+	
 	// Set up address flowfield example with a format string
 	NSMutableDictionary *addressFields = [NSMutableDictionary dictionary];
 	WWFlowFieldSubfield *line = [WWFlowFieldSubfield editableSubfieldWithName:@"addressLine1" placeholder:@"Address" initialValue:@"504 Page St"];
@@ -55,14 +57,23 @@
 	WWFlowFieldRow *addressSubrow = [[[WWFlowFieldRow alloc] initWithFrame:NSZeroRect] autorelease];
 	addressSubrow.subfields = [WWFlowFieldSubfield subfieldsWithFormat:@"<line1>\n<city>, <state> <zip> " tokensAndReplacements:addressFields];
 	
-	
-
 	// Put the address field inside a key value row
 	WWKeyValueRow *addressKeyValueRow = [[[WWKeyValueRow alloc] initWithName:@"homeAddress"] autorelease];
-	//addressKeyValueRow.keyLabel = @"home";
 	addressKeyValueRow.keyTypeIdentifiers = [NSArray arrayWithObjects:@"home", @"work", @"boat", @"spaceship", @"spaceboat", @"other",nil];
 	addressKeyValueRow.valueRowView = addressSubrow;
+	
+	NSMenu *addressMenu = [[[NSMenu alloc] init] autorelease];
+	[addressMenu addItemWithTitle:@"Large Type" action:nil keyEquivalent:@""];
+	[addressMenu addItemWithTitle:@"Show On Map" action:nil keyEquivalent:@""];
+	[addressMenu addItemWithTitle:@"Stalk" action:nil keyEquivalent:@""];
+	addressKeyValueRow.actionMenu = addressMenu;
+	
 	[cardEditor addRow:addressKeyValueRow];
+	
+	
+	
+	
+	
 	
 	WWCheckboxRow *checkboxRow = [[[WWCheckboxRow alloc] init] autorelease];
 	checkboxRow.label = @"Beam Me Up";
