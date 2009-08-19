@@ -11,7 +11,7 @@ Flow field bugs:
 	- When entering a newline, the field doesn't expand until you enter a new character there (but Address Book does this too)
 
 Required, before integration:
-- Ability to specify own color for focus ring rects
+- Ability to specify own color for focus ring rects @done
 - Good resizing
 
 

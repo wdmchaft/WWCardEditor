@@ -38,6 +38,8 @@
 		
 		self.focusRingBorderColor = [NSColor lightGrayColor];
 		self.focusRingPadding = CGSizeMake(3, 3);
+		
+		[self setAutoresizesSubviews:YES];
     }
     return self;
 }
@@ -265,6 +267,19 @@
 	[self layoutIfNeeded];
 }
 
+// We do our own resizing here because the autoresizing stuff seems to never stick to the absolute
+// amount of points in its margin, it seems to be relative/proportional. Grr.
+- (void) resizeSubviewsWithOldSize:(NSSize)size{
+	NSSize nowSize = [self frame].size;
+	
+	for(WWCardEditorRow *row in _rows){
+		NSRect oldFrame = [row frame];
+		oldFrame.size.width = nowSize.width - (padding.width*2);
+		oldFrame.origin.x = padding.width;
+		[row setFrame:oldFrame];
+	}
+}
+
 - (void)drawRect:(NSRect)rect {
 	
 	if(backgroundColor){
@@ -312,7 +327,7 @@
 		CGContextAddPath(myContext, glyphPath);
 		CGContextClosePath(myContext);
 	
-		CGContextSetShadowWithColor(myContext, CGSizeMake(3.5, -3.5), 5.0, [[NSColor colorWithDeviceWhite:0 alpha:0.9] asCGColor]);
+		CGContextSetShadowWithColor(myContext, CGSizeMake(0, -4.5), 6.0, [[NSColor colorWithDeviceWhite:0 alpha:0.8] asCGColor]);
 		CGContextFillPath(myContext);
 		CGContextSetShadowWithColor(myContext, CGSizeMake(0,0), 0, nil);
 	}

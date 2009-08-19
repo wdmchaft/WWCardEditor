@@ -246,6 +246,11 @@
 	}
 }
 
+- (void) resizeSubviewsWithOldSize:(NSSize)size{
+	[valueRowView setFrame:NSMakeRect(splitPosition, 0, [self frame].size.width - splitPosition, [valueRowView neededHeight])];
+}
+
+
 - (NSArray *)principalResponders{
 	NSMutableArray *responders = [NSMutableArray array];
 	

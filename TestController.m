@@ -14,11 +14,8 @@
 
 
 - (void) awakeFromNib{
-	// Set up bindings
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
-	//[cardEditor bind:@"backgroundColor" toObject:bgColorWell withKeyPath:@"color" options:nil];
-	//[cardEditor bind:@"keyLabelColor" toObject:keyColorWell withKeyPath:@"color" options:nil];
-	//[cardEditor bind:@"rowSpacing" toObject:rowSpacingSlider withKeyPath:@"floatValue" options:nil];
+	
 	
 	// Set up card editor
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
