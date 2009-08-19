@@ -84,8 +84,6 @@
 
 #pragma mark -
 
-
-
 - (WWCardEditorRow *)valueRowView {
     return valueRowView; 
 }

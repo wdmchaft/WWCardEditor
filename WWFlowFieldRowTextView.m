@@ -165,7 +165,7 @@
 	NSUInteger count = 0;
 	NSRectArray focusRingRects = [container requestedFocusRectArrayAndCount:&count];
 	
-	[[[container parentEditor] backgroundColor] set];
+	[[[container parentEditor] focusRingBackgroundColor] set];
 	CGSize focusRingPadding = container.parentEditor.focusRingPadding;
 
 	for(unsigned i = 0; i < count; i++){

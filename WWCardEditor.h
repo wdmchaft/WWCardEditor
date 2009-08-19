@@ -25,6 +25,7 @@
 	
 	
 	NSColor *focusRingBorderColor;
+	NSColor *focusRingBackgroundColor;
 	
 }
 
@@ -49,5 +50,6 @@
 // Appearance: Focus Ring
 @property(assign) CGSize focusRingPadding;
 @property(retain) NSColor *focusRingBorderColor;
+@property(retain) NSColor *focusRingBackgroundColor;
 
 @end

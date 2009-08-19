@@ -172,10 +172,10 @@
 		CEAEE23D0FEC0E8B00950781 /* Card Editor */ = {
 			isa = PBXGroup;
 			children = (
-				CEAEE2410FEC0EBA00950781 /* Row Views */,
 				CEAEE23A0FEC0E7F00950781 /* WWCardEditor.h */,
 				CEAEE23B0FEC0E7F00950781 /* WWCardEditor.m */,
 				CE2068FE1018EE600078A5ED /* WWCardEditor_Internals.h */,
+				CEAEE2410FEC0EBA00950781 /* Row Views */,
 			);
 			name = "Card Editor";
 			sourceTree = "<group>";

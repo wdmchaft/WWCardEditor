@@ -17,10 +17,6 @@
 	IBOutlet NSButton *editModeCheckbox;
 	IBOutlet WWCardEditor *cardEditor;
 	
-	IBOutlet NSColorWell *bgColorWell;
-	IBOutlet NSColorWell *keyColorWell;
-	IBOutlet NSSlider *rowSpacingSlider;
-	
 	IBOutlet NSButton *debugModeCheckbox;
 	
 }

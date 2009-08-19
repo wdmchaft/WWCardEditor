@@ -16,9 +16,9 @@
 - (void) awakeFromNib{
 	// Set up bindings
 	[[NSColorPanel sharedColorPanel] setShowsAlpha:YES];
-	[cardEditor bind:@"backgroundColor" toObject:bgColorWell withKeyPath:@"color" options:nil];
-	[cardEditor bind:@"keyLabelColor" toObject:keyColorWell withKeyPath:@"color" options:nil];
-	[cardEditor bind:@"rowSpacing" toObject:rowSpacingSlider withKeyPath:@"floatValue" options:nil];
+	//[cardEditor bind:@"backgroundColor" toObject:bgColorWell withKeyPath:@"color" options:nil];
+	//[cardEditor bind:@"keyLabelColor" toObject:keyColorWell withKeyPath:@"color" options:nil];
+	//[cardEditor bind:@"rowSpacing" toObject:rowSpacingSlider withKeyPath:@"floatValue" options:nil];
 	
 	// Set up card editor
 	NSFont *bigFont = [NSFont fontWithName:@"Helvetica Bold" size:18];
@@ -35,9 +35,7 @@
 	WWSpacerRow *spacer = [[[WWSpacerRow alloc] init] autorelease];
 	spacer.height = 20;
 	[cardEditor addRow:spacer];
-	
-	
-	
+		
 	
 	// Set up address flowfield example with a format string
 	NSMutableDictionary *addressFields = [NSMutableDictionary dictionary];

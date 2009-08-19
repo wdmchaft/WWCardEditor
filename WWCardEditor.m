@@ -21,7 +21,7 @@
 #pragma mark -
 
 @implementation WWCardEditor
-@synthesize needsLayout, _rows, _rowNameIndex;
+@synthesize needsLayout, _rows, _rowNameIndex, focusRingBackgroundColor;
 
 - (id)initWithFrame:(NSRect)frame {
     self = [super initWithFrame:frame];
@@ -50,6 +50,7 @@
 	self.keyLabelFont = nil;
 	self.focusRingBorderColor = nil;
 	self.backgroundColor = nil;
+	self.focusRingBackgroundColor = nil;
 	
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
@@ -72,6 +73,7 @@
 + (void) initialize{
 	[self exposeBinding:@"keyLabelColor"];
 	[self exposeBinding:@"backgroundColor"];
+	[self exposeBinding:@"focusRingBackgroundColor"];
 	[self exposeBinding:@"padding"];
 	[self exposeBinding:@"rowSpacing"];
 	[self exposeBinding:@"rowsByName"];
@@ -114,6 +116,7 @@
         [backgroundColor release];
         backgroundColor = [aBackgroundColor retain];
 		[self setNeedsDisplay:YES];
+		if(!focusRingBackgroundColor) self.focusRingBackgroundColor = aBackgroundColor;
     }
 }
 
@@ -167,6 +170,19 @@
     if (focusRingBorderColor != aFocusRingBorderColor) {
         [focusRingBorderColor release];
         focusRingBorderColor = [aFocusRingBorderColor retain];
+    }
+	
+	[self setNeedsDisplay:YES];
+}
+
+- (NSColor *)focusRingBackgroundColor {
+    return focusRingBackgroundColor; 
+}
+
+- (void)setFocusRingBackgroundColor:(NSColor *)theFocusRingBackgroundColor {
+    if (focusRingBackgroundColor != theFocusRingBackgroundColor) {
+        [focusRingBackgroundColor release];
+        focusRingBackgroundColor = [theFocusRingBackgroundColor retain];
     }
 	
 	[self setNeedsDisplay:YES];
@@ -287,7 +303,7 @@
 	CGContextBeginPath(myContext);
 	CGContextAddPath(myContext, glyphPath);
 	CGContextClosePath(myContext);
-	[backgroundColor set];
+	[focusRingBackgroundColor set];
 	CGContextFillPath(myContext);
 	
 	//Draw a fancy drop shadow if our window has focus
