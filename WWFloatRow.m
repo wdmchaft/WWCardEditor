@@ -72,6 +72,9 @@
 
 
 
+
+
+
 #pragma mark -
 
 - (void) _layoutIfNeeded{
@@ -99,7 +102,6 @@
 }
 
 - (void)drawRect:(NSRect)rect{
-	NSLog(@"float row drawing");
 	[self _layoutIfNeeded];
 }
 

@@ -267,7 +267,7 @@
 	NSUInteger valueRowRectCount = 0;
 	NSRectArray valueRowRects = [valueRowView requestedFocusRectArrayAndCount:&valueRowRectCount];
 	for(NSUInteger i = 0; i < valueRowRectCount; i++){
-		valueRowRects[i].origin.x += splitPosition;// = [self convertRect:valueRowRects[i] fromView:valueRowView];
+		valueRowRects[i].origin.x += splitPosition;
 	}
 	
 	*count = valueRowRectCount;
