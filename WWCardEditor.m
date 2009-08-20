@@ -241,6 +241,24 @@
 	needsLayout = YES;
 }
 
+
+- (void) removeAllRows{
+	[self willChangeValueForKey:@"rows"];
+	for(WWCardEditorRow *row in _rows){
+		[row removeFromSuperview];
+	}
+	
+	self._rows = [NSMutableArray array];
+	[self didChangeValueForKey:@"rows"];
+	
+	
+	[self willChangeValueForKey:@"rowsByName"];
+	self._rowNameIndex = [NSMutableDictionary dictionary];
+	[self didChangeValueForKey:@"rowsByName"];
+	
+	needsLayout = YES;
+}
+
 - (NSArray *)rows{
 	return _rows;
 }

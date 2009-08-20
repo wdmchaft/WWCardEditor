@@ -10,14 +10,15 @@ Flow field bugs:
 		- Related: When deleting a multi-line subfield's contents, the whole row becomes white until more typing is done
 	- When entering a newline, the field doesn't expand until you enter a new character there (but Address Book does this too)
 
-Required, before integration:
-- Ability to specify own color for focus ring rects @done
-- Good resizing
 
-
+Before integration:
+- Test with scroll view
+- Test with adding/deleting
 Required after integration:
 - Tweak section drawing
 - +/- buttons
+- Date fields
+- Phone number formatting
 And a pony:
 - Animated insertion/deletion of rows
 - API goodies:

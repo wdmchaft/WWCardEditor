@@ -8,15 +8,12 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WWCardEditorRow.h"
+#import "WWAbstractContainerRow.h"
 
-@interface WWSectionRow : WWCardEditorRow {
-	NSMutableArray *_subrows;
-	NSMutableDictionary *_subrowsByName;
+@interface WWSectionRow : WWAbstractContainerRow {
 	NSButton *_disclosureTriangle;
-	
 	NSString *label;
 	NSFont *labelFont;
-	BOOL _needsLayout;
 	BOOL collapsed;
 }
 
@@ -24,9 +21,5 @@
 @property(retain) NSFont *labelFont;
 @property(assign) BOOL collapsed;
 
-@property(retain,readonly) NSArray *subrows;
-- (void) addSubrow:(WWCardEditorRow *)row;
-- (void) insertSubrow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex;
-- (void) removeSubrowAtIndex:(NSUInteger)removeRowIndex;
 
 @end

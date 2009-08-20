@@ -15,8 +15,6 @@
 #pragma mark -
 
 @interface WWSectionRow()
-@property(retain) NSMutableArray *_subrows;
-@property(retain) NSMutableDictionary *_subrowsByName;
 @property(retain) NSButton *_disclosureTriangle;
 - (NSDictionary *) _labelAttributes;
 - (void) _layoutIfNeeded;
@@ -25,7 +23,7 @@
 #pragma mark -
 
 @implementation WWSectionRow
-@synthesize _disclosureTriangle, _subrowsByName, _subrows;
+@synthesize _disclosureTriangle;
 
 - (id)initWithName:(NSString *)theName{
     if (self = [super initWithName:theName]){
@@ -52,8 +50,6 @@
 }
 
 - (void) dealloc{
-	self._subrows = nil;
-	self._subrowsByName = nil;
 	self._disclosureTriangle = nil;
 	self.label = nil;
 	self.labelFont = nil;
@@ -97,53 +93,6 @@
 		[self setNeedsDisplay:YES];
 		_needsLayout = YES;
     }
-}
-
-
-- (NSArray *)subrows{
-	return _subrows;
-}
-
-- (void) addSubrow:(WWCardEditorRow *)row{
-	[self insertSubrow:row atIndex:[_subrows count]];
-}
-
-
-- (void) insertSubrow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex{
-	[self willChangeValueForKey:@"subrowsByName"];
-	[self willChangeValueForKey:@"subrows"];
-	
-	[_subrows insertObject:row atIndex:newRowIndex];
-	if([row name]) [_subrowsByName setObject:row forKey:[row name]];
-	
-	row.parentEditor = parentEditor;
-	row.parentRow = self;
-	
-	[self addSubview:row];
-	
-	[self didChangeValueForKey:@"subrowsByName"];
-	[self didChangeValueForKey:@"subrows"];
-	
-	_needsLayout = YES;
-}
-
-
-- (void) removeSubrowAtIndex:(NSUInteger)removeRowIndex{
-	[self willChangeValueForKey:@"subrowsByName"];
-	[self willChangeValueForKey:@"subrows"];
-	
-	WWCardEditorRow *subrow = [_subrows objectAtIndex:removeRowIndex];
-	if ([subrow name]) [_subrowsByName removeObjectForKey:[subrow name]];
-	
-	[subrow removeFromSuperview];
-	
-	subrow.parentRow = nil;
-	subrow.parentEditor = nil;
-	
-	[self didChangeValueForKey:@"subrowsByName"];
-	[self didChangeValueForKey:@"subrows"];
-	
-	_needsLayout = YES;
 }
 
 - (BOOL)collapsed {
@@ -230,34 +179,13 @@
 
 // principal responders
 
-- (CGFloat) availableWidth{
-	return [self frame].size.width;
+- (CGFloat) neededWidth{
+	CGFloat needed = 0;
+	for(WWCardEditorRow *row in _subrows){
+		needed = MAX(needed,[row neededWidth]);
+	}
+	return needed;
 }
 
-- (void)setParentEditor:(WWCardEditor *)aParentEditor{
-	for(WWCardEditorRow *subrow in _subrows){
-		[subrow setParentEditor:aParentEditor];
-	}
-	
-	[super setParentEditor:aParentEditor];
-}
-
-- (void)setEditMode:(BOOL)flag {
-	for(WWCardEditorRow *subrow in _subrows){
-		[subrow setEditMode:flag];
-	}
-	
-	[super setEditMode:flag];
-}
-
-- (NSArray *) principalResponders{
-	NSMutableArray *responders = [NSMutableArray array];
-	
-	for(WWCardEditorRow *subrow in _subrows){
-		[responders addObjectsFromArray:[subrow principalResponders]];
-	}
-	
-	return responders;
-}
 
 @end

@@ -11,8 +11,10 @@
 
 @interface WWSpacerRow : WWCardEditorRow {
 	CGFloat height;
+	CGFloat width;
 }
 
 @property(assign) CGFloat height;
+@property(assign) CGFloat width;
 
 @end

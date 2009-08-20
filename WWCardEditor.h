@@ -37,6 +37,7 @@
 - (void) addRow:(WWCardEditorRow *)row;
 - (void) addRow:(WWCardEditorRow *)row atIndex:(NSUInteger)newRowIndex;
 - (void) removeRowAtIndex:(NSUInteger)removeRowIndex;
+- (void) removeAllRows;
 
 - (NSDictionary *)rowsByName; // mostly here for bindings support
 

@@ -55,8 +55,8 @@
 																					 forKey:NSFontAttributeName]].height);
 }
 
-- (CGFloat) availableWidth{
-	return [super availableWidth] - 16 - [[_checkbox title] sizeWithAttributes:[NSDictionary dictionaryWithObject:[_checkbox font] forKey:NSFontAttributeName]].width;
+- (CGFloat )neededWidth{
+	return  16 + [[_checkbox title] sizeWithAttributes:[NSDictionary dictionaryWithObject:[_checkbox font] forKey:NSFontAttributeName]].width;
 }
 
 - (NSArray *)principalResponders{

@@ -280,8 +280,8 @@
 	return MAX([valueRowView neededHeight], [[[_keyButton selectedItem] title] sizeWithAttributes:[self _labelAttributes]].height); 
 }
 
-- (CGFloat) availableWidth{
-	return [super availableWidth] - splitPosition - WWKeyValueRow_HorizontalBuffer;
+- (CGFloat) neededWidth{
+	return splitPosition + WWKeyValueRow_HorizontalBuffer + [valueRowView neededWidth];
 }
 
 

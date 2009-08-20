@@ -20,8 +20,23 @@
 	[parentEditor setNeedsLayout:YES];
 }
 
+- (CGFloat)width {
+    return width;
+}
+
+- (void)setWidth:(CGFloat)theWidth {
+    width = theWidth;
+	[parentEditor setNeedsLayout:YES];
+}
+
+#pragma mark -
+
 - (CGFloat) neededHeight{
 	return height;
+}
+
+- (CGFloat) neededWidth{
+	return width;
 }
 
 @end

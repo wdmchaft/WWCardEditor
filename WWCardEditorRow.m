@@ -33,7 +33,10 @@ static BOOL debugMode;
 
 - (CGFloat) neededHeight{
 	return 0;
-	//@throw [NSException exceptionWithName:@"WWCardEditorRow" reason:@"WWCardEditorRow had neededHeight called on it -- this should not be used directly" userInfo:nil];
+}
+
+- (CGFloat) neededWidth{
+	return 0;
 }
 
 - (void)drawRect:(NSRect)rect{
@@ -59,11 +62,13 @@ static BOOL debugMode;
 
 - (CGFloat) availableWidth{
 	if(parentRow){
-		return [parentRow availableWidth];
+		return [parentRow availableWidth] - [self neededWidth];
 	}else{
 		return [parentEditor frame].size.width - [parentEditor padding].width*2;
 	}
 }
+
+
 
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
 	*count = 0;

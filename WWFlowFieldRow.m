@@ -75,10 +75,10 @@
 - (void)setSubfields:(NSArray *)aFields {
 	
 	// Stop observing our old subfields
-	//for(WWFlowFieldSubfield *subfield in subfields){
-	//	[subfield removeObserver:self forKeyPath:@"value"];
-	//	[subfield removeObserver:self forKeyPath:@"placeholder"];
-	//}
+	for(WWFlowFieldSubfield *subfield in subfields){
+		[subfield removeObserver:self forKeyPath:@"value"];
+		[subfield removeObserver:self forKeyPath:@"placeholder"];
+	}
 	
 	// Do the actual setting
     if (subfields != aFields) {
@@ -505,8 +505,8 @@
 	return rects;
 }
 
-- (CGFloat) availableWidth{
-	return [super availableWidth] - [[self _renderedText] size].width;
+- (CGFloat) neededWidth{
+	return [[self _renderedText] size].width;
 }
 
 - (NSArray *)principalResponders{

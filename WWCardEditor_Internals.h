@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import "WWCardEditor.h"
+#import "WWAbstractContainerRow.h"
+
 @class WWFlowFieldRow;
 
 // The row view responds to a number of methods that are used by the card editor
@@ -21,14 +23,17 @@
 @property(retain,readwrite) NSString *name;
 
 - (CGFloat) neededHeight;
+- (CGFloat) neededWidth;
 - (CGFloat) availableWidth;
+
+
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count; // used for drawing those fancy drop shadow focus rings
 + (void) setDebugDrawMode:(BOOL)newVal;
 
 - (NSArray *)principalResponders;
 @end
 
-
+#pragma mark -
 
 @interface WWCardEditor()
 @property(assign) BOOL needsLayout;
@@ -37,4 +42,11 @@
 - (WWFlowFieldRow *)_firstRowWithResponder;
 - (void) _selectPreviousRowResponder;
 - (WWFlowFieldRow *)currentlyActiveRow;
+@end
+
+#pragma mark -
+
+@interface WWAbstractContainerRow()
+@property(retain) NSMutableArray *_subrows;
+@property(retain) NSMutableDictionary *_subrowsByName;
 @end
