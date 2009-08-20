@@ -27,13 +27,10 @@
 
 - (id)initWithName:(NSString *)theName{
     if (self = [super initWithName:theName]){
-		_needsLayout = YES;
+
 		
 		self.labelFont = [NSFont fontWithName:@"Helvetica Bold" size:11];
 		self.label = @"Section";
-		
-		self._subrowsByName = [NSMutableDictionary dictionary];
-		self._subrows = [NSMutableArray array];
 		
 		self._disclosureTriangle = [[[NSButton alloc] initWithFrame:NSZeroRect] autorelease];
 		[_disclosureTriangle setButtonType:NSPushOnPushOffButton];

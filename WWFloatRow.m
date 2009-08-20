@@ -21,8 +21,6 @@
 - (id)initWithName:(NSString *)theName{
     if (self = [super initWithName:theName]){
 		
-		
-		_needsLayout = YES;
     }
 	
     return self;
@@ -44,14 +42,42 @@
 }
 
 
+- (CGFloat) neededHeight{
+	CGFloat soFar = 0;
+	
+	for(unsigned i = 1; i < [_subrows count]; i++){
+		WWCardEditorRow *row = [_subrows objectAtIndex:i];
+		soFar += [row neededHeight] + [parentEditor rowSpacing];
+	}
+
+	soFar = MAX(soFar,[[_subrows objectAtIndex:0] neededHeight]);
+	
+	return soFar;
+}
+
+- (CGFloat) neededWidth{
+	CGFloat widestRow = 0;
+
+	for(unsigned i = 1; i < [_subrows count]; i++){
+		widestRow = MAX(widestRow,[[_subrows objectAtIndex:i] neededWidth]);
+	}
+	
+	if([_subrows count]){
+		widestRow += [[_subrows objectAtIndex:0] neededWidth];
+	}
+	
+	
+	return widestRow;
+}
+
+
 
 #pragma mark -
 
 - (void) _layoutIfNeeded{
-	
 	if(_needsLayout){
 		if(![_subrows count]) return;
-	
+		
 		WWCardEditorRow *floatedRow = [_subrows objectAtIndex:0];
 		[floatedRow setFrame:NSMakeRect(0,0,[floatedRow neededWidth],[floatedRow neededHeight])];
 		
@@ -63,6 +89,8 @@
 			[row setFrame:NSMakeRect(xCursor, yCursor, [self availableWidth] - xCursor, [row neededHeight])];
 			yCursor += [row neededHeight];
 		}
+		
+		parentEditor.needsLayout = YES;
 	}
 }
 			
@@ -71,7 +99,8 @@
 }
 
 - (void)drawRect:(NSRect)rect{
-	
+	NSLog(@"float row drawing");
+	[self _layoutIfNeeded];
 }
 
 @end

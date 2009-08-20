@@ -14,7 +14,9 @@
 
 - (id)initWithName:(NSString *)theName{
     if (self = [super initWithName:theName]){
-        // Initialization code here.
+        self._subrows = [NSMutableArray array];
+		self._subrowsByName = [NSMutableDictionary dictionary];
+		_needsLayout = YES;
     }
     return self;
 }
@@ -30,8 +32,6 @@
 - (void)drawRect:(NSRect)rect {
     
 }
-
-
 
 - (NSArray *)subrows{
 	return _subrows;

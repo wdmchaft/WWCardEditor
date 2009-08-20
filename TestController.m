@@ -89,12 +89,7 @@
 	[cardEditor setRowSpacing:4];
 	[cardEditor setNeedsLayout:YES];
 	[cardEditor setNeedsDisplay:YES];
-	[self toggleEditMode:nil];
-	
-	
-	
-	
-	
+	[self toggleEditMode:nil];	
 }
 
 
