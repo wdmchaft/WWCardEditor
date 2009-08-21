@@ -91,7 +91,10 @@
 			WWCardEditorRow *row = [_subrows objectAtIndex:i];
 			[row setFrame:NSMakeRect(xCursor, yCursor, [self availableWidth] - xCursor, [row neededHeight])];
 			yCursor += [row neededHeight];
+			NSLog(@"row frame for %d is %@",i,NSStringFromRect([row frame]));
 		}
+		
+		
 		
 		parentEditor.needsLayout = YES;
 	}

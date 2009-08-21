@@ -132,6 +132,11 @@
 	NSUInteger oldField = activeSubfield;
     activeSubfield = anActiveField;
 	
+	isRendering = YES;
+	[[_textView textStorage] setAttributedString:[self _renderedText]];
+	
+	
+	
 	if(activeSubfield != oldField){
 		if(!inUse){ // If there's no field selected, then make no text selected
 			if([_textView selectedRange].location != NSNotFound){
@@ -141,6 +146,8 @@
 			[_textView setSelectedRange:[self _rangeForFieldAtIndex:activeSubfield]];
 		}
 	}
+	
+	isRendering = NO;
 }
 
 - (BOOL)editMode {
@@ -186,14 +193,23 @@
 
 
 - (NSDictionary *)_attributesForSubfield:(WWFlowFieldSubfield *)field{
-	if([self _fieldShouldBeDisplayedAsPlaceholder:field]){
-		NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-		[attrs setObject:field.font forKey:NSFontAttributeName];
-		[attrs setObject:[NSColor lightGrayColor] forKey:NSForegroundColorAttributeName];
-		return attrs;
-	}else{
-		return [NSDictionary dictionaryWithObject:field.font forKey:NSFontAttributeName];
+	NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+	[attrs setObject:field.font forKey:NSFontAttributeName];
+	
+	BOOL isPlaceholder = [self _fieldShouldBeDisplayedAsPlaceholder:field];
+	
+	[attrs setObject:isPlaceholder ? field.placeholderColor : field.regularColor forKey:NSForegroundColorAttributeName];
+	
+	if(!editMode || !inUse || ![[subfields objectAtIndex:activeSubfield] isEqual:field]){
+		if(isPlaceholder && field.placeholderShadow){
+			[attrs setObject:field.placeholderShadow forKey:NSShadowAttributeName];
+		}
+		else if(field.regularShadow){
+			[attrs setObject:field.regularShadow forKey:NSShadowAttributeName];
+		}
 	}
+	
+	return attrs;
 }
 
 - (NSUInteger) _indexOfFieldForCharOffset:(NSUInteger)offsetDesired{
@@ -480,7 +496,7 @@
 #pragma mark Overrides
 
 - (CGFloat) neededHeight{
-	CGFloat available = parentRow ? [parentRow availableWidth] : ([parentEditor frame].size.width - [parentEditor padding].width*2);
+	CGFloat available = [self availableWidth];
 	
 	NSRect boundingRect = [[self _renderedText] boundingRectWithSize:NSMakeSize(available,INT_MAX) 
 															 options:NSStringDrawingUsesLineFragmentOrigin];

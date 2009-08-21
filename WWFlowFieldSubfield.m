@@ -13,7 +13,7 @@
 @end
 
 @implementation WWFlowFieldSubfield 
-@synthesize name, font, editable, placeholder, allowsNewlines;
+@synthesize name, font, editable, placeholder, allowsNewlines, regularColor, regularShadow, placeholderColor, placeholderShadow;
 
 - (id) init{
 	if(self = [self initWithName:nil]){
@@ -31,6 +31,8 @@
 		self.placeholder = @"Empty";
 		self.editable	 = YES;
 		self.allowsNewlines = NO;
+		self.regularColor = [NSColor blackColor];
+		self.placeholderColor = [NSColor lightGrayColor];
 	}
 	
 	return self;
@@ -41,6 +43,13 @@
 	self.value = nil;
 	self.font = nil;
 	self.placeholder = nil;
+	
+	self.regularColor = nil;
+	self.regularShadow = nil;
+	
+	self.placeholderColor = nil;
+	self.placeholderShadow = nil;
+	
 	[super dealloc];
 }
 

@@ -19,7 +19,4 @@
 	return CGColorCreate(CGColorSpaceCreateDeviceRGB(), components);
 }
 
-
-
-
 @end

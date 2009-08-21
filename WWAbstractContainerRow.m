@@ -109,7 +109,14 @@
 - (NSRectArray) requestedFocusRectArrayAndCount:(NSUInteger *)count{
 	if (![_subrows count]) return [super requestedFocusRectArrayAndCount:count];
 	
-	NSRectArray allRects = calloc(100, sizeof(NSRect));
+	unsigned totalRects = 0;
+	for(WWCardEditorRow *subrow in _subrows){
+		NSUInteger subrowRectCount = 0;
+		[subrow requestedFocusRectArrayAndCount:&subrowRectCount];
+		totalRects += subrowRectCount;
+	}
+	
+	NSRectArray allRects = calloc(totalRects, sizeof(NSRect));
 	
 	unsigned rectsSoFar = 0;
 	
@@ -117,18 +124,16 @@
 		NSUInteger subrowRectCount = 0;
 		NSRectArray subrowRects = [subrow requestedFocusRectArrayAndCount:&subrowRectCount];
 		for(unsigned i = 0; i < subrowRectCount; i++){
-			if(rectsSoFar >= 100) break;
-			
 			NSRect rect = subrowRects[i];
 			rect.origin.x += [subrow frame].origin.x;
 			rect.origin.y += [subrow frame].origin.y;
 			
-			allRects[rectsSoFar++] = rect;
+			allRects[rectsSoFar] = rect;
+			rectsSoFar++;
 		}
 	}
 	
-	*count = rectsSoFar;
-	
+	*count = totalRects;
 	return allRects;
 }
 

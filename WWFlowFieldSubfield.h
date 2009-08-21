@@ -16,6 +16,11 @@
 	NSString *placeholder;
 	BOOL editable;
 	BOOL allowsNewlines;
+	
+	NSColor *regularColor;
+	NSColor *placeholderColor;
+	NSShadow *placeholderShadow;
+	NSShadow *regularShadow;
 }
 
 // Initializers
@@ -41,4 +46,8 @@
 @property(assign) BOOL editable;
 @property(assign) BOOL allowsNewlines;
 
+@property(retain) NSColor *regularColor;
+@property(retain) NSShadow *regularShadow;
+@property(retain) NSColor *placeholderColor;
+@property(retain) NSShadow *placeholderShadow;
 @end

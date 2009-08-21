@@ -26,7 +26,6 @@
 	
 	NSColor *focusRingBorderColor;
 	NSColor *focusRingBackgroundColor;
-	
 }
 
 @property(assign) BOOL editMode;

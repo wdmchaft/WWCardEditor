@@ -37,7 +37,7 @@
 		self.backgroundColor = [NSColor whiteColor];
 		
 		self.focusRingBorderColor = [NSColor lightGrayColor];
-		self.focusRingPadding = CGSizeMake(3, 3);
+		self.focusRingPadding = CGSizeMake(2, 1);
 		
 		[self setAutoresizesSubviews:YES];
     }
@@ -345,7 +345,7 @@
 		CGContextAddPath(myContext, glyphPath);
 		CGContextClosePath(myContext);
 	
-		CGContextSetShadowWithColor(myContext, CGSizeMake(0, -4.5), 6.0, [[NSColor colorWithDeviceWhite:0 alpha:0.8] asCGColor]);
+		CGContextSetShadowWithColor(myContext, CGSizeMake(0, -4.5), 6.0, [[NSColor colorWithDeviceWhite:0 alpha:0.7] asCGColor]);
 		CGContextFillPath(myContext);
 		CGContextSetShadowWithColor(myContext, CGSizeMake(0,0), 0, nil);
 	}
